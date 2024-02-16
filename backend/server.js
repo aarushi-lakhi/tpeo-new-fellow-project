@@ -19,6 +19,18 @@ app.get("/tasks", async (req, res) => {
 });
 })
 
+app.post("/post", async (req, res) => {
+  console.log("WE are in post"); 
+  const result = await tasksCollection.add({
+    "Image": 2, 
+    "Monetary_Value": 1000000,
+    "Product": "Whiteboard", 
+    "User": "Shiv"
+  });
+  const returnJSON = {result}; 
+  res.send(returnJSON); 
+})
+
 app.listen(4000, () => {
   console.log("Server running on port 4000");
 });
