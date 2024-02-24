@@ -1,14 +1,18 @@
 import logo from './logo.svg';
 import './App.css';
+import {GoogleAuthProvider, signInWithPopup} from 'firebase/auth'; 
+import {auth} from './firebaseConfig'; 
 
 function App() {
+  const handleGoogle = async(e) => {
+    const provider = await new GoogleAuthProvider();
+    return signInWithPopup(auth, provider); 
+  }
+
   return (
     <div className="App">
-      <h1>Login Page</h1>
-      <h1>A page to upload your items</h1>
-      <h1>Page to view items</h1>
-      <h1>Account/Profile Page</h1>
-      <h1>Objects in our database: User Profile, Item Profile - image of the item, monetary value, name of item</h1>
+      <h1>HELLO</h1>
+      <button onClick={handleGoogle}>Hello this is a button</button>
     </div>
   );
 }
