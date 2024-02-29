@@ -1,8 +1,8 @@
-import { initializeApp } from "firebase/app";
+import {initializeApp} from "firebase/app";
 import {getAuth} from "firebase/auth"; 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCCjggorCpuYOYMkS27zvE2ruBpzwDd3YU", // USE env in the future 
+  apiKey: "AIzaSyCCjggorCpuYOYMkS27zvE2ruBpzwDd3YU",  
   authDomain: "tpeo-new-fellow-project.firebaseapp.com",
   projectId: "tpeo-new-fellow-project",
   storageBucket: "tpeo-new-fellow-project.appspot.com",

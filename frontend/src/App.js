@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import {GoogleAuthProvider, signInWithPopup, signOut} from 'firebase/auth'; 
 import {auth} from './firebaseConfig'; 

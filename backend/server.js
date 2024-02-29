@@ -3,12 +3,14 @@ require("dotenv").config();
 
 const app = express();
 
-const firebase = require("./firebase");
 const db = require('./firebase')
 const admin = require('firebase-admin');
+const cors = require('cors'); 
 
 
 const tasksCollection = db.collection('Product');
+
+app.use(cors()); 
 
 // Authenticaton middelware
 app.use((req, res, next) => {
