@@ -5,10 +5,29 @@ const app = express();
 
 const firebase = require("./firebase");
 const db = require('./firebase')
+const admin = require('firebase-admin');
 
 
 const tasksCollection = db.collection('Product');
 
+// Authenticaton middelware
+app.use((req, res, next) => {
+  const fullToken = req.headers.authorization; 
+  const splitToken = fullToken.split(' '); 
+  console.log("LOGGGED"); 
+  if(fullToken && splitToken[0] === 'Bearer') {
+      admin.auth()
+      .verifyIdToken(splitToken[1])
+      .then(() => {
+        console.log("Verification Successful"); 
+        next();
+      })
+      .catch(() => {
+        console.log("There was an error"); 
+        res.status(403).send({ msg: "Could not authorize" });
+      });
+  }
+})
 
 app.get("/tasks", async (req, res) => {
   console.log("Endpoint was called"); 
