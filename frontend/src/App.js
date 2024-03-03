@@ -1,8 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { AuthProvider } from './AuthContext';
+import { AuthProvider, useAuth } from './AuthContext';
 import LoginPage from './LoginPage';
 import HomePage from './HomePage';
+import Profile from './Profile';
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <Routes> {/* Wrap Routes around Route components */}
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/profile" element={<Profile/>} />
         </Routes>
       </AuthProvider>
     </Router>

@@ -1,8 +1,12 @@
 import React from 'react';
 import { useAuth } from './AuthContext';
+import { useNavigate } from 'react-router-dom';
+
 
 function LoginPage() {
   const { handleGoogleSignIn } = useAuth();
+  const navigate = useNavigate(); //Hook for navigating to different routes
+
 
   const handleGoogleLogin = async () => {
     try {

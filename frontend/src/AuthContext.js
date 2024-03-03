@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }) => {
           if(domainName === "utexas.edu") {
             console.log("Good Sign-In"); 
             setCurrentUser(result.user); //Set current user
-            navigate('/'); //Navigate to home page
+            navigate('/profile'); //Navigate to home page
           } else {
             handleSignOut(); //Sign out user if not utexas.edu domain
             throw new Error("Invalid email domain. Please sign in with a @utexas.edu email."); //Throw error for invalid domain
