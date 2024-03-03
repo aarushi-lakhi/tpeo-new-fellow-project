@@ -1,10 +1,7 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-
 const HomePage = () => {
-
-  const navigate = useNavigate(); //Hook for navigating to different routes
+  const navigate = useNavigate(); //Hook for snavigating to different routes
 
   const handleLogin = () => {
     console.log("Handle Login"); 

@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true); //State to indicate loading state
 
     //Function to handle Google sign-in
-    const handleGoogleSignIn = async (e) => {
+    const handleGoogleSignIn = async (setError, e) => {
       try {
         //Create Google authentication provider
         const provider = await new GoogleAuthProvider();
@@ -40,12 +40,15 @@ export const AuthProvider = ({ children }) => {
             navigate('/profile'); //Navigate to home page
           } else {
             handleSignOut(); //Sign out user if not utexas.edu domain
-            throw new Error("Invalid email domain. Please sign in with a @utexas.edu email."); //Throw error for invalid domain
+            setError({errorHeader: "Invalid Domain Name", errorMessage: "Please sign in with a @utexas.edu email."})
+            // setError("Please sign in with a @utexas.edu email.")
+            // throw new Error("Invalid email domain. Please sign in with a @utexas.edu email."); //Throw error for invalid domain
           }
         })
       } catch (error) {
-        console.log("Error signing in with Google:", error);
-        throw error;
+        setError({errorHeader: "Google Error", errorMessage: "Error signing in with Google"})
+        // console.log("Error signing in with Google:");
+        // throw error;
       }
     };
     
