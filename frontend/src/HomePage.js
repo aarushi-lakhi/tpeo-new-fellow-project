@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
+import { Button, Box, TextField } from '@mui/material'; // Import Box and TextField
 
 const HomePage = () => {
   const navigate = useNavigate(); //Hook for snavigating to different routes
@@ -11,12 +12,25 @@ const HomePage = () => {
 
   return (
     <div>
-      <div>
-        <Typography variant="h3" component="h2">
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        component="form"
+        flexDirection="column"
+        sx={{
+          '& > :not(style)': { m: 1, width: '50ch' },
+        }}
+        noValidate
+        autoComplete="off"
+      >
+        <div>
+        <Typography align="center" variant="h3" component="h2">
             Home Page
         </Typography>
-      </div>
-      <button onClick={handleLogin}>Sign-Up Button</button>
+        </div>
+        <Button onClick={handleLogin} variant="outlined">Sign-Up Button</Button>
+      </Box>
     </div>
 
   );

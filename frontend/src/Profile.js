@@ -4,9 +4,11 @@ import {storage} from './firebaseConfig';
 import {ref, uploadBytes, listAll, getDownloadURL} from 'firebase/storage';
 import {v4} from 'uuid';
 import { useNavigate } from 'react-router-dom';
-import { Box, TextField } from '@mui/material'; // Import Box and TextField
+import { InputLabel, Button, Box, TextField } from '@mui/material'; // Import Box and TextField
 import Typography from '@mui/material/Typography';
 import {useAuth} from './AuthContext';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 
 
 const Profile = () => {
@@ -26,7 +28,7 @@ const Profile = () => {
 
     const imageRef = ref(storage, `images/${imageUpload.name + v4()}`);
     uploadBytes(imageRef, imageUpload).then((snapshot) => {
-      //alert("Image Uploaded");
+      alert("Image Uploaded");
       getDownloadURL(snapshot.ref).then((url) => {
         setImageList((prev) => [...prev, url])
       })
@@ -76,13 +78,29 @@ const Profile = () => {
         <TextField id="outlined-basic" label="Instagram (Optional)" variant="outlined" />
         <TextField id="outlined-basic" label="Phone-Number (Optional)" variant="outlined" />
 
-        <input
-          type="file"
-          onChange={(event) => {
-            setImageUpload(event.target.files[0]);
-          }}
-        />
-        <button onClick={uploadImage}>Upload Image</button>
+        {/* <input
+            type="file"
+            onChange={(event) => {
+                setImageUpload(event.target.files[0]);
+            }}
+        /> */}
+        <Button variant="outlined">Update Profile</Button>
+        <Button
+        variant="contained"
+        component="label"
+        >
+            Upload Profile Picture
+            <input
+                type="file"
+                onChange={(event) => {
+                    setImageUpload(event.target.files[0]);
+                    alert("Successfully chose image - Click upload image")
+                }}
+                hidden
+            />
+        </Button>
+        
+        <Button onClick={uploadImage} variant="outlined">Upload Image</Button>
 
         {imageList.map((url) => {
           return <img key={url} src={url} alt="Uploaded" />;
