@@ -37,7 +37,7 @@ function LoginPage() {
       >
         <div>
         <Typography align="center" variant="h3" component="h2">
-            Home Page
+            Login Page
         </Typography>
         </div>
         <GoogleButton onClick={handleGoogleLogin}/>
