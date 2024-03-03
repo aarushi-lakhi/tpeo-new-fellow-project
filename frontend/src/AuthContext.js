@@ -39,6 +39,7 @@ export const AuthProvider = ({ children }) => {
             setCurrentUser(result.user); //Set current user
             console.log("TEST - GET RID OF THIS in AUTHContext"); 
             console.log(currentUser); 
+            localStorage.setItem('currentUser', JSON.stringify(result.user));
             navigate('/profile'); //Navigate to home page
           } else {
             handleSignOut(); //Sign out user if not utexas.edu domain
@@ -59,6 +60,7 @@ export const AuthProvider = ({ children }) => {
       try {
         await signOut(auth); //Sign out from Firebase authentication
         setCurrentUser(null); //Reset current user
+        localStorage.removeItem('currentUser');
       } catch (error) {
         console.log("Error signing out:", error);
         throw error;
@@ -67,8 +69,18 @@ export const AuthProvider = ({ children }) => {
     
     //Effect hook to handle authentication state changes
     useEffect(() => {
+      const storedUser = localStorage.getItem('currentUser');
+
+      if (storedUser) {
+        setCurrentUser(JSON.parse(storedUser));
+      }
       const unsubscribe = auth.onAuthStateChanged(user => {
         setCurrentUser(user); //Update current user based on authentication state
+        if (user) {
+          localStorage.setItem('currentUser', JSON.stringify(user));
+        } else {
+          localStorage.removeItem('currentUser');
+        }
         setLoading(false); //Set loading state to false
       });
   

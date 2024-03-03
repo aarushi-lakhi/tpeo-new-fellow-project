@@ -10,10 +10,14 @@ import {useAuth} from './AuthContext';
 
 
 const Profile = () => {
-  const {handleGoogleSignIn} = useAuth();
+  const {currentUser} = useAuth();
   const [imageUpload, setImageUpload] =  useState(null);
   const [imageList, setImageList] = useState([]);
   const imageListRef = ref(storage, "images/");
+
+  const [name,setName] = useState("default"); 
+  const [email,setEmail] = useState("default"); 
+
 
   const uploadImage = () => {
     if (imageUpload == null) {
@@ -39,8 +43,16 @@ const Profile = () => {
       })
     })
   }, [])
+
+  useEffect(() => {
+    if(currentUser) {
+        setName(currentUser.displayName); 
+        setEmail(currentUser.email); 
+    }
+  }, [currentUser]);
   
   return (
+    <div> 
       <Box
         display="flex"
         justifyContent="center"
@@ -58,12 +70,12 @@ const Profile = () => {
             Profile Picture
         </Typography>
         </div>
-        <TextField id="outlined-basic" label="Name" variant="outlined" disabled />
-        {/* <TextField id="outlined-basic" label="Email" variant={currentUser} disabled /> */}
+        <TextField id="outlined-basic" label="Name" variant="outlined" value={name} disabled />
+        <TextField id="outlined-basic" label="Email" variant="outlined" value={email} disabled />
         <TextField id="outlined-basic" label="Snapchat (Optional)" variant="outlined" />
         <TextField id="outlined-basic" label="Instagram (Optional)" variant="outlined" />
         <TextField id="outlined-basic" label="Phone-Number (Optional)" variant="outlined" />
-        
+
         <input
           type="file"
           onChange={(event) => {
@@ -76,6 +88,7 @@ const Profile = () => {
           return <img key={url} src={url} alt="Uploaded" />;
         })}
       </Box>
+    </div>
   );
 };
 

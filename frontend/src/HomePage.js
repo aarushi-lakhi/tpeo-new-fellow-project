@@ -13,7 +13,7 @@ const HomePage = () => {
     <div>
       <div>
         <Typography variant="h3" component="h2">
-            Login Page
+            Home Page
         </Typography>
       </div>
       <button onClick={handleLogin}>Sign-Up Button</button>
