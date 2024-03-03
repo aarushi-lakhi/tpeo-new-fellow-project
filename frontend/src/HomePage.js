@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import Typography from '@mui/material/Typography';
 
 const HomePage = () => {
   const navigate = useNavigate(); //Hook for snavigating to different routes
@@ -10,7 +11,11 @@ const HomePage = () => {
 
   return (
     <div>
-      <h1>Welcome to the Home Page</h1>
+      <div>
+        <Typography variant="h3" component="h2">
+            Login Page
+        </Typography>
+      </div>
       <button onClick={handleLogin}>Sign-Up Button</button>
     </div>
 

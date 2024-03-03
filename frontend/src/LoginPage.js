@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import GoogleButton from 'react-google-button';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
+import Typography from '@mui/material/Typography';
 
 function LoginPage() {
   const { handleGoogleSignIn } = useAuth();
@@ -21,7 +22,11 @@ function LoginPage() {
 
   return (
     <div>
-      <h1>Login Page</h1>
+      <div>
+        <Typography variant="h3" component="h2">
+            Login Page
+        </Typography>
+      </div>
       <GoogleButton onClick={handleGoogleLogin}/>
       {error !== null && (
         <Alert severity="error">

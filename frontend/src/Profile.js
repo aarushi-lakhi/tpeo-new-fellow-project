@@ -4,9 +4,13 @@ import {storage} from './firebaseConfig';
 import {ref, uploadBytes, listAll, getDownloadURL} from 'firebase/storage';
 import {v4} from 'uuid';
 import { useNavigate } from 'react-router-dom';
+import { Box, TextField } from '@mui/material'; // Import Box and TextField
+import Typography from '@mui/material/Typography';
+import {useAuth} from './AuthContext';
 
 
 const Profile = () => {
+  const {handleGoogleSignIn} = useAuth();
   const [imageUpload, setImageUpload] =  useState(null);
   const [imageList, setImageList] = useState([]);
   const imageListRef = ref(storage, "images/");
@@ -37,11 +41,31 @@ const Profile = () => {
   }, [])
   
   return (
-    <div>
-      <h1>Profile Page</h1>
-      <div className="fileUpload"> 
-        <input 
-          type="file" 
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        component="form"
+        flexDirection="column"
+        sx={{
+          '& > :not(style)': { m: 1, width: '50ch' },
+        }}
+        noValidate
+        autoComplete="off"
+      >
+        <div>
+        <Typography variant="h3" component="h2">
+            Profile Picture
+        </Typography>
+        </div>
+        <TextField id="outlined-basic" label="Name" variant="outlined" disabled />
+        {/* <TextField id="outlined-basic" label="Email" variant={currentUser} disabled /> */}
+        <TextField id="outlined-basic" label="Snapchat (Optional)" variant="outlined" />
+        <TextField id="outlined-basic" label="Instagram (Optional)" variant="outlined" />
+        <TextField id="outlined-basic" label="Phone-Number (Optional)" variant="outlined" />
+        
+        <input
+          type="file"
           onChange={(event) => {
             setImageUpload(event.target.files[0]);
           }}
@@ -49,10 +73,9 @@ const Profile = () => {
         <button onClick={uploadImage}>Upload Image</button>
 
         {imageList.map((url) => {
-          return <img src={url}/> 
+          return <img key={url} src={url} alt="Uploaded" />;
         })}
-      </div>
-    </div>
+      </Box>
   );
 };
 

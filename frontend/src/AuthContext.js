@@ -37,6 +37,8 @@ export const AuthProvider = ({ children }) => {
           if(domainName === "utexas.edu") {
             console.log("Good Sign-In"); 
             setCurrentUser(result.user); //Set current user
+            console.log("TEST - GET RID OF THIS in AUTHContext"); 
+            console.log(currentUser); 
             navigate('/profile'); //Navigate to home page
           } else {
             handleSignOut(); //Sign out user if not utexas.edu domain
