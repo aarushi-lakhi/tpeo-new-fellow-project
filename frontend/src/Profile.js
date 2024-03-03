@@ -4,7 +4,7 @@ import {storage} from './firebaseConfig';
 import {ref, uploadBytes, listAll, getDownloadURL} from 'firebase/storage';
 import {v4} from 'uuid';
 import { useNavigate } from 'react-router-dom';
-import { InputLabel, Button, Box, TextField } from '@mui/material'; // Import Box and TextField
+import { InputLabel, Button, Box, TextField, Grid, Item} from '@mui/material'; // Import Box and TextField
 import Typography from '@mui/material/Typography';
 import {useAuth} from './AuthContext';
 import Alert from '@mui/material/Alert';
@@ -68,9 +68,16 @@ const Profile = () => {
         autoComplete="off"
       >
         <div>
-        <Typography variant="h3" component="h2">
-            Profile Picture
-        </Typography>
+        <Grid container spacing={2}>
+          <Grid item xs={8}>
+            <Typography variant="h3" component="h2">
+                Profile Page
+            </Typography>
+          </Grid>
+          <Grid item xs={2}>
+            <Button variant="outlined">Update Profile</Button>
+          </Grid>
+        </Grid>
         </div>
         <TextField id="outlined-basic" label="Name" variant="outlined" value={name} disabled />
         <TextField id="outlined-basic" label="Email" variant="outlined" value={email} disabled />
@@ -84,7 +91,6 @@ const Profile = () => {
                 setImageUpload(event.target.files[0]);
             }}
         /> */}
-        <Button variant="outlined">Update Profile</Button>
         <Button
         variant="contained"
         component="label"
