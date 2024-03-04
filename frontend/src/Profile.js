@@ -1,5 +1,5 @@
 import React from 'react';
-import {useState, useEffect} from 'react';
+import {useState, useEffect, ChangeEvent} from 'react';
 import {storage} from './firebaseConfig';
 import {ref, uploadBytes, listAll, getDownloadURL} from 'firebase/storage';
 import {v4} from 'uuid';
@@ -17,8 +17,65 @@ const Profile = () => {
   const [imageList, setImageList] = useState([]);
   const imageListRef = ref(storage, "images/");
 
-  const [name,setName] = useState("default"); 
-  const [email,setEmail] = useState("default"); 
+  const [name,setName] = useState(""); 
+  const [email,setEmail] = useState(""); 
+  const [snap, setSnap] = useState(""); 
+  const [instagram, setInstagram] = useState(""); 
+  const [phoneNumber, setPhoneNumber] = useState("")
+
+  const fetchProfileInformation = async () => {
+    try {
+      const myHeaders = new Headers();
+
+      const idToken = await currentUser.getIdToken(); 
+      myHeaders.append("Authorization", `Bearer ${idToken}`);
+
+      const requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow"
+      };
+
+      const fetchUrl = `http://localhost:4000/profile_information/${currentUser.email}`; 
+      const response = await fetch(fetchUrl, requestOptions); 
+      const data = await response.json(); 
+      setSnap(data.Snapchat); 
+      setInstagram(data.Instagram); 
+      setPhoneNumber(data.PhoneNumber)
+    } catch(e) {
+      console.log(e); 
+    }
+  }
+
+  const updateProfileInformation = async () => {
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const idToken = await currentUser.getIdToken(); 
+    // console.log(idToken); 
+    myHeaders.append("Authorization", `Bearer ${idToken}`);
+
+    const raw = JSON.stringify({
+      "Email": email,
+      "Snapchat": snap,
+      "Instagram": instagram,
+      "PhoneNumber": phoneNumber
+    });
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow"
+    };
+
+    // console.log("Gonna fetch"); 
+
+    fetch("http://localhost:4000/update_profile_information", requestOptions)
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.error(error));
+  }
 
 
   const uploadImage = () => {
@@ -26,7 +83,7 @@ const Profile = () => {
       return;
     }
 
-    const imageRef = ref(storage, `images/${imageUpload.name + v4()}`);
+  const imageRef = ref(storage, `images/${imageUpload.name + v4()}`);
     uploadBytes(imageRef, imageUpload).then((snapshot) => {
       alert("Image Uploaded");
       getDownloadURL(snapshot.ref).then((url) => {
@@ -49,7 +106,8 @@ const Profile = () => {
   useEffect(() => {
     if(currentUser) {
         setName(currentUser.displayName); 
-        setEmail(currentUser.email); 
+        setEmail(currentUser.email);
+        fetchProfileInformation();
     }
   }, [currentUser]);
   
@@ -75,15 +133,30 @@ const Profile = () => {
             </Typography>
           </Grid>
           <Grid item xs={2}>
-            <Button variant="outlined">Update Profile</Button>
+            <Button onClick={updateProfileInformation} variant="outlined">Update Profile</Button>
           </Grid>
         </Grid>
         </div>
         <TextField id="outlined-basic" label="Name" variant="outlined" value={name} disabled />
         <TextField id="outlined-basic" label="Email" variant="outlined" value={email} disabled />
-        <TextField id="outlined-basic" label="Snapchat (Optional)" variant="outlined" />
-        <TextField id="outlined-basic" label="Instagram (Optional)" variant="outlined" />
-        <TextField id="outlined-basic" label="Phone-Number (Optional)" variant="outlined" />
+        <TextField id="outlined-controlled" label="Snapchat (optional)" variant="outlined" value={snap}
+          onChange={(event) => {
+            setSnap(event.target.value); 
+          }}
+        />
+        <TextField id="outlined-controlled" label="Instagram (optional)" variant="outlined" value={instagram}
+          onChange={(event) => {
+            setInstagram(event.target.value); 
+          }}
+        />
+        <TextField id="outlined-controlled" label="Phone-Number (optional)" variant="outlined" value={phoneNumber}
+          onChange={(event) => {
+            setPhoneNumber(event.target.value); 
+          }}
+        />
+        {/* <TextField id="outlined-basic" label="Snapchat (Optional)" variant="outlined" inputProps={{ defaultValue: {snap}}}/>
+        <TextField id="outlined-basic" label="Instagram (Optional)" variant="outlined" defaultValue={userInfo ? userInfo.Instagram : "King"} />
+        <TextField id="outlined-basic" label="Phone-Number (Optional)" variant="outlined" defaultValue={userInfo ? userInfo.PhoneNumber : "King"} /> */}
 
         {/* <input
             type="file"
