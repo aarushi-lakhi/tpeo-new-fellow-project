@@ -77,6 +77,39 @@ app.get("/profile_information/:id", async (req, res) => {
   }
 })
 
+// POST endpoint to upload an item
+app.post("/upload_item", async (req, res) => {
+  try {
+    const { description, size, clothingArticle, estimatedMonetaryValue, images } = req.body;
+
+    // Upload images to storage and get their URLs
+    const imageUrls = [];
+    for (const image of images) {
+      const imageRef = storage.ref().child(`images/${image.name}`);
+      await imageRef.put(image);
+      const imageUrl = await imageRef.getDownloadURL();
+      imageUrls.push(imageUrl);
+    }
+
+    // Create a new item document in the database
+    await productCollection.add({
+      description,
+      size,
+      clothingArticle,
+      estimatedMonetaryValue,
+      images: imageUrls, // Store image URLs in the database
+      visibilityStatus: 1,
+      offering: [],
+      offered: []
+    });
+
+    res.status(200).send({ success: "Item uploaded successfully." });
+  } catch (error) {
+    console.error("Error uploading item:", error);
+    res.status(500).send({ error: "Failed to upload item." });
+  }
+});
+
 app.listen(4000, () => {
   console.log("Server running on port 4000");
 });
