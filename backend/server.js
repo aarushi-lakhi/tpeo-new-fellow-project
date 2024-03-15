@@ -13,39 +13,38 @@ const userCollection = db.collection('Users');
 app.use(cors()); 
 app.use(express.json());
 
-
-
-// Authenticaton middelware
+// Authenticaton middleware
 app.use((req, res, next) => {
   const fullToken = req.headers.authorization; 
-  const splitToken = fullToken.split(' '); 
-  // console.log("LOGGGED"); 
-  if(fullToken && splitToken[0] === 'Bearer') {
+  if (fullToken) {
+    const splitToken = fullToken.split(' '); 
+    if (splitToken[0] === 'Bearer') {
       admin.auth()
-      .verifyIdToken(splitToken[1])
-      .then(() => {
-        // console.log("Verification Successful"); 
-        next();
-      })
-      .catch(() => {
-        // console.log("There was an error"); 
-        res.status(403).send({ msg: "Could not authorize" });
-      });
+        .verifyIdToken(splitToken[1])
+        .then(() => {
+          next();
+        })
+        .catch(() => {
+          res.status(403).send({ msg: "Could not authorize" });
+        });
+    } else {
+      res.status(403).send({ msg: "Invalid token format" });
+    }
+  } else {
+    res.status(403).send({ msg: "Authorization token missing" });
   }
-})
+});
 
 app.get("/tasks", async (req, res) => {
-  // console.log("Endpoint was called"); 
   const snapshot = await productCollection.get();
   snapshot.forEach(doc => {
     const data = doc.data(); 
     console.log(data); 
   });
   res.send({success: "Success"}); 
-})
+});
 
 app.post("/post", async (req, res) => {
-  // console.log("WE are in post"); 
   const result = await productCollection.add({
     "Image": 2, 
     "Monetary_Value": 1000000,
@@ -54,28 +53,28 @@ app.post("/post", async (req, res) => {
   });
   const returnJSON = {result}; 
   res.send(returnJSON); 
-})
+});
 
 app.post("/update_profile_information", async(req, res) => {
   try {
     const reqBody = req.body; 
-    // console.log(reqBody.Email); 
     const docRef = userCollection.doc(reqBody.Email); 
     const res = await docRef.update({Snapchat: reqBody.Snapchat, Instagram: reqBody.Instagram, PhoneNumber: reqBody.PhoneNumber}); 
   } catch(error) {
-    // console.log(error.errorMessage);
+    console.error(error);
+    res.status(500).send({ errorMessage: "Internal server error" });
   }
-})
+});
 
 app.get("/profile_information/:id", async (req, res) => {
   const documentRef = userCollection.doc(req.params.id);
   const doc = await documentRef.get();
   if (!doc.exists) {
-    res.status(403).send({errorMessage: "Invalid ID"});
+    res.status(404).send({ errorMessage: "User not found" });
   } else {
     res.status(200).send(doc.data());
   }
-})
+});
 
 // POST endpoint to upload an item
 app.post("/upload_item", async (req, res) => {
