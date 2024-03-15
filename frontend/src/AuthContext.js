@@ -14,6 +14,7 @@ export const useAuth = () => {
 //Authentication provider component
 export const AuthProvider = ({ children }) => {
     const navigate = useNavigate(); //Hook for navigating to different routes
+    const [error, setError] = useState(null); //TODO: remove if not needed for sign up
     const [currentUser, setCurrentUser] = useState(null); //State to hold current user
     const [loading, setLoading] = useState(true); //State to indicate loading state
 
@@ -66,6 +67,24 @@ export const AuthProvider = ({ children }) => {
         throw error;
       }
     };
+
+    //Function to handle Google signup
+    const handleGoogleSignup = async (setError) => {
+      try {
+          const provider = await new GoogleAuthProvider();
+          const result = await signInWithPopup(auth, provider);
+          const userEmail = result.user.email;
+          const domainName = userEmail.split("@")[1];
+          if (domainName === "utexas.edu") {
+              navigate('/profile');
+          } else {
+              await signOut(auth);
+              setError({ errorHeader: "Invalid Domain Name", errorMessage: "Please sign up with a @utexas.edu email." });
+          }
+      } catch (error) {
+          setError({ errorHeader: "Google Error", errorMessage: "Error signing up with Google" });
+      }
+    };
     
     //Effect hook to handle authentication state changes
     useEffect(() => {
@@ -92,7 +111,8 @@ export const AuthProvider = ({ children }) => {
       currentUser,
       loading,
       handleGoogleSignIn,
-      handleSignOut
+      handleSignOut,
+      handleGoogleSignup
     };
   
     //Provide authentication context to child components

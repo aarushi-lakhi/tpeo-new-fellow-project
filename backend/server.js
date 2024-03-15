@@ -35,6 +35,26 @@ app.use((req, res, next) => {
   }
 });
 
+
+// Endpoint to handle user signup requests
+app.post("/signup", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    // Use Firebase Authentication to create a new user account
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    // Store additional user information in Firestore
+    await userCollection.doc(email).set({
+      email: email,
+      // Add additional fields as needed (e.g., Snapchat, Instagram, phone number)
+    });
+    res.status(200).send({ success: "User signed up successfully." });
+  } catch (error) {
+    console.error("Error signing up user:", error);
+    res.status(500).send({ error: "Failed to sign up user." });
+  }
+});
+
+
 app.get("/tasks", async (req, res) => {
   const snapshot = await productCollection.get();
   snapshot.forEach(doc => {

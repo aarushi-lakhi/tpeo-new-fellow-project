@@ -10,6 +10,11 @@ const HomePage = () => {
     navigate('/login'); 
   }
 
+  const handleSignup = () => {
+    console.log("Handle Signup"); 
+    navigate('/signup'); 
+  }
+
   return (
     <div>
       <Box
@@ -29,7 +34,8 @@ const HomePage = () => {
             Home Page
         </Typography>
         </div>
-        <Button onClick={handleLogin} variant="outlined">Sign-Up Button</Button>
+        <Button onClick={handleSignup} variant="outlined">Sign-Up Button</Button>
+        <Button onClick={handleLogin} variant="outlined">Sign-In Button</Button>
       </Box>
     </div>
 
