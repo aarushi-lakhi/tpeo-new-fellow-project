@@ -48,34 +48,36 @@ const Profile = () => {
   }
 
   const updateProfileInformation = async () => {
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-
-    const idToken = await currentUser.getIdToken(); 
-    // console.log(idToken); 
-    myHeaders.append("Authorization", `Bearer ${idToken}`);
-
-    const raw = JSON.stringify({
-      "Email": email,
-      "Snapchat": snap,
-      "Instagram": instagram,
-      "PhoneNumber": phoneNumber
-    });
-
-    const requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-      redirect: "follow"
-    };
-
-    // console.log("Gonna fetch"); 
-
-    fetch("http://localhost:4000/update_profile_information", requestOptions)
-      .then((response) => response.text())
-      .then((result) => console.log(result))
-      .catch((error) => console.error(error));
-  }
+    try {
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+  
+      const idToken = await currentUser.getIdToken(); 
+      myHeaders.append("Authorization", `Bearer ${idToken}`);
+  
+      const raw = JSON.stringify({
+        "userEmail": email, // Pass the user's email
+        "userSnapchat": snap,
+        "userInstagram": instagram,
+        "userPhoneNumber": phoneNumber,
+        // Add other fields as needed
+      });
+  
+      const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow"
+      };
+  
+      const fetchUrl = "http://localhost:4000/update_user_information";
+      const response = await fetch(fetchUrl, requestOptions);
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };  
 
 
   const uploadImage = () => {

@@ -75,17 +75,6 @@ app.post("/post", async (req, res) => {
   res.send(returnJSON); 
 });
 
-app.post("/update_profile_information", async(req, res) => {
-  try {
-    const reqBody = req.body; 
-    const docRef = userCollection.doc(reqBody.Email); 
-    const res = await docRef.update({Snapchat: reqBody.Snapchat, Instagram: reqBody.Instagram, PhoneNumber: reqBody.PhoneNumber}); 
-  } catch(error) {
-    console.error(error);
-    res.status(500).send({ errorMessage: "Internal server error" });
-  }
-});
-
 app.get("/profile_information/:id", async (req, res) => {
   const documentRef = userCollection.doc(req.params.id);
   const doc = await documentRef.get();
@@ -95,6 +84,30 @@ app.get("/profile_information/:id", async (req, res) => {
     res.status(200).send(doc.data());
   }
 });
+
+// POST endpoint to update user information in profile
+app.post("/update_user_information", async (req, res) => {
+  try {
+    const { userEmail, userInstagram, userPhoneNumber, userSnapchat, userProfilePicture } = req.body;
+    
+    // TODO: make sure userEmail is the identifier for the user document
+    const docRef = userCollection.doc(userEmail);
+
+    // Update the user document with the provided information
+    await docRef.update({
+      Snapchat: userSnapchat,
+      Instagram: userInstagram,
+      PhoneNumber: userPhoneNumber,
+      // UserProfilePicture: userProfilePicture
+    });
+
+    res.status(200).send({ success: "User information updated successfully." });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ errorMessage: "Internal server error" });
+  }
+});
+
 
 // POST endpoint to upload an item
 app.post("/upload_item", async (req, res) => {
