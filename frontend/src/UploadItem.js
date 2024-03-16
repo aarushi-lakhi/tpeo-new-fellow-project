@@ -1,4 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import {storage} from './firebaseConfig';
+import {ref, uploadBytes, listAll, getDownloadURL} from 'firebase/storage';
+import {v4} from 'uuid';
+import {useAuth} from './AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { Button, TextField, Box, MenuItem, Select, FormControl, InputLabel } from '@mui/material'; 
 
@@ -8,6 +12,11 @@ const NewItemPage = () => {
   const [clothingArticle, setClothingArticle] = useState('');
   const [estimatedMonetaryValue, setEstimatedMonetaryValue] = useState(0);
   const [images, setImages] = useState([]);
+  
+  const {currentUser} = useAuth();
+  const [imageUpload, setImageUpload] =  useState(null);
+  const [imageList, setImageList] = useState([]);
+  const imageListRef = ref(storage, "images/");
 
   const navigate = useNavigate();
 
@@ -33,7 +42,6 @@ const NewItemPage = () => {
 
       if (response.ok) {
         alert('Item uploaded successfully!');
-        navigate('/profile'); // Redirect to profile page after successful upload
       } else {
         alert('Failed to upload item.');
       }
@@ -42,6 +50,33 @@ const NewItemPage = () => {
       alert('An error occurred while uploading the item.');
     }
   };
+
+
+  //Upload Images of Item
+  const uploadImage = () => {
+    if (imageUpload == null) {
+      return;
+    }
+
+  const imageRef = ref(storage, `images/${imageUpload.name + v4()}`);
+    uploadBytes(imageRef, imageUpload).then((snapshot) => {
+      alert("Image Uploaded");
+      getDownloadURL(snapshot.ref).then((url) => {
+        setImageList((prev) => [...prev, url])
+      })
+    })
+  };
+
+  useEffect(() => {
+    listAll(imageListRef).then((response) => {
+      console.log(response);
+      response.items.forEach((item) => {
+        getDownloadURL(item).then((url) => {
+          setImageList((prev) => [...prev, url]);
+        })
+      })
+    })
+  }, [])
 
   return (
     <Box
@@ -106,12 +141,29 @@ const NewItemPage = () => {
         value={estimatedMonetaryValue}
         onChange={(e) => setEstimatedMonetaryValue(e.target.value)}
       />
-      <input
+      {/* <input
         type="file"
         multiple
         onChange={(e) => setImages([...images, ...Array.from(e.target.files)])}
-      />
-      <Button onClick={handleSubmit} variant="outlined">Upload Item</Button>
+      /> */}
+      <Button
+        variant="contained"
+        component="label"
+        >
+            Select Item Image
+            <input
+                type="file"
+                onChange={(event) => {
+                    setImageUpload(event.target.files[0]);
+                    alert("Successfully chose image - Click upload image")
+                }}
+                hidden
+            />
+        </Button>
+
+      <Button onClick={uploadImage} variant="outlined">Upload Item Image</Button>
+      
+      <Button onClick={handleSubmit} variant="outlined">Update Item information</Button>
     </Box>
   );
 };
