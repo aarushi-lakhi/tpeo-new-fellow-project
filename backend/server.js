@@ -130,7 +130,7 @@ app.post("/upload_item", async (req, res) => {
       clothingArticle,
       estimatedMonetaryValue,
       images: imageUrls, // Store image URLs in the database
-      visibilityStatus: 1,
+      visibilityStatus: true,
       offering: [],
       offered: []
     });
@@ -141,6 +141,83 @@ app.post("/upload_item", async (req, res) => {
     res.status(500).send({ error: "Failed to upload item." });
   }
 });
+
+// Placing an offer/bid and Accepting an offer/bid
+
+// TODO: remove sample datas and call product documents associated with a user
+// Sample data to simulate database
+// Sample userOneProductDocument
+let userOneProductDocument = {
+  id: 1,
+  offering: []
+};
+// Sample userTwoProductDocument
+let userTwoProductDocument = {
+  id: 2,
+  offered: []
+};
+
+// POST endpoint to place an offer/bid endpoint
+app.post('/place_offer', async (req, res) => {
+  try {
+    // Extract data from request body
+    const { userOneProductDocument, userTwoProductDocument } = req.body;
+
+    // Update userOneProductDocument's "offering" array
+    //userOneProductDocument.offering.push(userTwoProductDocument.id);
+    await firestore.doc(userOneProductDocument).update({
+      offering: Firestore.FieldValue.arrayUnion(userTwoProductDocument)
+    });
+
+    // Update userTwoProductDocument's "offered" array
+    // userTwoProductDocument.offered.push(userOneProductDocument.id);
+    await firestore.doc(userTwoProductDocument).update({
+      offered: Firestore.FieldValue.arrayUnion(userOneProductDocument)
+    });
+
+    // Create a transaction document
+    const transactionRef = await firestore.collection('transactions').add({
+      date: new Date(),
+      user1Ref: firestore.doc(userOneProductDocument),
+      user2Ref: firestore.doc(userTwoProductDocument),
+      product1Ref: firestore.doc(userOneProductDocument),
+      product2Ref: firestore.doc(userTwoProductDocument),
+    });
+
+    // Sample response
+    res.status(200).json({ message: 'Offer placed successfully' });
+  } catch (error) {
+    console.error('Error placing offer:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// POST endpoint to accept an offer
+app.post('/accept_offer', async (req, res) => {
+  try {
+    const { userOneEmail, userTwoEmail, userOneProductDocument, userTwoProductDocument } = req.body;
+
+    // Set both documents' visibility status to false
+    userOneProductDocument.visibilityStatus = false;
+    userTwoProductDocument.visibilityStatus = false;
+
+    // Create a transaction document
+    const transactionRef = await firestore.collection('transactions').add({
+      date: new Date(),
+      user1Ref: firestore.collection('Users').doc(userOneEmail),
+      user2Ref: firestore.collection('Users').doc(userTwoEmail),
+      product1Ref: firestore.collection('Products').doc(userOneProductDocument),
+      product2Ref: firestore.collection('Products').doc(userTwoProductDocument),
+    });
+
+    // Respond with the ID of the created transaction document
+    res.status(200).json({ transactionId: transactionRef.id });
+  } catch (error) {
+    console.error('Error accepting offer:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 
 app.listen(4000, () => {
   console.log("Server running on port 4000");

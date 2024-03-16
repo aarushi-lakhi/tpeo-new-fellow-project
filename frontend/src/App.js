@@ -6,6 +6,7 @@ import SignupPage from './SignupPage';
 import HomePage from './HomePage';
 import Profile from './Profile';
 import UploadItem from './UploadItem';
+import OfferManagement from './OfferManagement';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/profile" element={<Profile/>} />
           <Route path="/upload-item" element={<UploadItem/>} />
+          <Route path="/offer-management" element={<OfferManagement/>} />
         </Routes>
       </AuthProvider>
     </Router>
