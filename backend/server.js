@@ -90,20 +90,41 @@ app.get("/profile_information/:id", async (req, res) => {
   }
 });
 
+// POST endpoint to create a new user
+app.post("/create_user", async (req, res) => {
+  try {
+    const { userEmail, userName } = req.body;
+
+    // Create a new user document in the Users collection
+    await userCollection.doc(userEmail).set({
+      email: userEmail,
+      name: userName,
+      instagram: "",
+      snapchat: "",
+      phoneNumber: "",
+      clothingItems: [],
+      successfulTransactions: [],
+      profilePicture: ""
+    });
+
+    res.status(200).send({ success: "User created successfully." });
+  } catch (error) {
+    console.error("Error creating user:", error);
+    res.status(500).send({ error: "Failed to create user." });
+  }
+});
+
 // POST endpoint to update user information in profile
 app.post("/update_user_information", async (req, res) => {
   try {
     const { userEmail, userInstagram, userPhoneNumber, userSnapchat, userProfilePicture } = req.body;
     
-    // TODO: make sure userEmail is the identifier for the user document
-    const docRef = userCollection.doc(userEmail);
-
     // Update the user document with the provided information
-    await docRef.update({
-      Snapchat: userSnapchat,
-      Instagram: userInstagram,
-      PhoneNumber: userPhoneNumber,
-      // UserProfilePicture: userProfilePicture
+    await userCollection.doc(userEmail).update({
+      instagram: userInstagram,
+      snapchat: userSnapchat,
+      phoneNumber: userPhoneNumber,
+      profilePicture: userProfilePicture
     });
 
     res.status(200).send({ success: "User information updated successfully." });
