@@ -1,4 +1,5 @@
 const express = require("express");
+const router = require("./filter"); 
 require("dotenv").config();
 
 const app = express();
@@ -12,6 +13,8 @@ const userCollection = db.collection('Users');
 
 app.use(cors()); 
 app.use(express.json());
+app.use("/", router)
+
 
 // Authenticaton middleware
 app.use((req, res, next) => {
