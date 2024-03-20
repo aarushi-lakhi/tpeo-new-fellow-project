@@ -35,7 +35,7 @@ router.post("/upload_item_test", async (req, res) => {
 
     // In the userDocument, add the reference of the newly created product document to the clothingImages array 
     userEmailDoc.update({
-        clothingImages: admin.firestore.FieldValue.arrayUnion(newItemRef)
+        clothingItems: admin.firestore.FieldValue.arrayUnion(newItemRef)
     })
     res.status(200).send({success: "User signed up successfully."});
 })

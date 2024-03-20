@@ -42,56 +42,6 @@ app.use("/", upload_item_test_router);
 //   }
 // });
 
-
-// Endpoint to handle user signup requests
-app.post("/signup", async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    // Use Firebase Authentication to create a new user account
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    // Store additional user information in Firestore
-    await userCollection.doc(email).set({
-      email: email,
-      // Add additional fields as needed (e.g., Snapchat, Instagram, phone number)
-    });
-    res.status(200).send({ success: "User signed up successfully." });
-  } catch (error) {
-    console.error("Error signing up user:", error);
-    res.status(500).send({ error: "Failed to sign up user." });
-  }
-});
-
-
-app.get("/tasks", async (req, res) => {
-  const snapshot = await productCollection.get();
-  snapshot.forEach(doc => {
-    const data = doc.data(); 
-    console.log(data); 
-  });
-  res.send({success: "Success"}); 
-});
-
-app.post("/post", async (req, res) => {
-  const result = await productCollection.add({
-    "Image": 2, 
-    "Monetary_Value": 1000000,
-    "Product": "Whiteboard", 
-    "User": "Shiv"
-  });
-  const returnJSON = {result}; 
-  res.send(returnJSON); 
-});
-
-app.get("/profile_information/:id", async (req, res) => {
-  const documentRef = userCollection.doc(req.params.id);
-  const doc = await documentRef.get();
-  if (!doc.exists) {
-    res.status(404).send({ errorMessage: "User not found" });
-  } else {
-    res.status(200).send(doc.data());
-  }
-});
-
 // POST endpoint to create a new user
 app.post("/create_user", async (req, res) => {
   try {
@@ -195,13 +145,13 @@ app.post('/place_offer', async (req, res) => {
     });
 
     // Create a transaction document
-    const transactionRef = await firestore.collection('transactions').add({
-      date: new Date(),
-      user1Ref: firestore.doc(userOneProductDocument),
-      user2Ref: firestore.doc(userTwoProductDocument),
-      product1Ref: firestore.doc(userOneProductDocument),
-      product2Ref: firestore.doc(userTwoProductDocument),
-    });
+    // const transactionRef = await firestore.collection('transactions').add({
+    //   date: new Date(),
+    //   user1Ref: firestore.doc(userOneProductDocument),
+    //   user2Ref: firestore.doc(userTwoProductDocument),
+    //   product1Ref: firestore.doc(userOneProductDocument),
+    //   product2Ref: firestore.doc(userTwoProductDocument),
+    // });
 
     // Sample response
     res.status(200).json({ message: 'Offer placed successfully' });
@@ -221,12 +171,22 @@ app.post('/accept_offer', async (req, res) => {
     userTwoProductDocument.visibilityStatus = false;
 
     // Create a transaction document
-    const transactionRef = await firestore.collection('transactions').add({
+    const transactionRef = await firestore.collection('Transactions').doc(); 
+
+    await transactionRef.set({
       date: new Date(),
       user1Ref: firestore.collection('Users').doc(userOneEmail),
       user2Ref: firestore.collection('Users').doc(userTwoEmail),
       product1Ref: firestore.collection('Products').doc(userOneProductDocument),
       product2Ref: firestore.collection('Products').doc(userTwoProductDocument),
+    });
+
+    await firestore.doc(userOneProductDocument).update({
+      successfulTransactions: Firestore.FieldValue.arrayUnion(transactionRef)
+    });
+
+    await firestore.doc(userOneProductDocument).update({
+      successfulTransactions: Firestore.FieldValue.arrayUnion(transactionRef)
     });
 
     // Respond with the ID of the created transaction document
@@ -241,3 +201,62 @@ app.post('/accept_offer', async (req, res) => {
 app.listen(4000, () => {
   console.log("Server running on port 4000");
 });
+
+
+
+
+/* 
+
+app.get("/tasks", async (req, res) => {
+  const snapshot = await productCollection.get();
+  snapshot.forEach(doc => {
+    const data = doc.data(); 
+    console.log(data); 
+  });
+  res.send({success: "Success"}); 
+});
+
+app.post("/post", async (req, res) => {
+  const result = await productCollection.add({
+    "Image": 2, 
+    "Monetary_Value": 1000000,
+    "Product": "Whiteboard", 
+    "User": "Shiv"
+  });
+  const returnJSON = {result}; 
+  res.send(returnJSON); 
+});
+
+app.get("/profile_information/:id", async (req, res) => {
+  const documentRef = userCollection.doc(req.params.id);
+  const doc = await documentRef.get();
+  if (!doc.exists) {
+    res.status(404).send({ errorMessage: "User not found" });
+  } else {
+    res.status(200).send(doc.data());
+  }
+});
+*/ 
+
+
+/*
+// Endpoint to handle user signup requests
+app.post("/signup", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    // Use Firebase Authentication to create a new user account
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    // Store additional user information in Firestore
+    await userCollection.doc(email).set({
+      email: email,
+      // Add additional fields as needed (e.g., Snapchat, Instagram, phone number)
+    });
+    res.status(200).send({ success: "User signed up successfully." });
+  } catch (error) {
+    console.error("Error signing up user:", error);
+    res.status(500).send({ error: "Failed to sign up user." });
+  }
+});
+
+
+*/
