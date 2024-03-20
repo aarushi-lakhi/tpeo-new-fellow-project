@@ -1,6 +1,7 @@
 const express = require("express");
 const router = require("./filter"); 
 const inventoryRouter = require("./inventory")
+const upload_item_test_router = require("./upload_item_test")
 require("dotenv").config();
 
 const app = express();
@@ -16,6 +17,7 @@ app.use(cors());
 app.use(express.json());
 app.use("/", router);
 app.use("/", inventoryRouter); 
+app.use("/", upload_item_test_router); 
 
 // TODO: uncomment this!
 // Authenticaton middleware
