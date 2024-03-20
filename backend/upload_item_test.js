@@ -7,11 +7,19 @@ const productCollection = db.collection('Product');
 const userCollection = db.collection('Users'); 
 
 router.post("/upload_item_test", async (req, res) => {
+    // Extract Request Body 
     const {userEmail, description, size, clothingArticle, estimatedMonetaryValue, images} = req.body; 
+
+    // Create a blank document in the product collection
     const newItemRef = productCollection.doc(); 
+
+    // Get the id of the newly created document 
     const newItemId = newItemRef.id;
 
+    // Get the reference to the userDoc with the corresponding email
     const userEmailDoc = userCollection.doc(userEmail); 
+
+    // Set the fields of the newly created product document 
     await newItemRef.set({
         userDocumentReference: userEmailDoc,
         description: description,
@@ -24,6 +32,8 @@ router.post("/upload_item_test", async (req, res) => {
         offered: [], 
         id: newItemId, 
     })
+
+    // In the userDocument, add the reference of the newly created product document to the clothingImages array 
     userEmailDoc.update({
         clothingImages: admin.firestore.FieldValue.arrayUnion(newItemRef)
     })
