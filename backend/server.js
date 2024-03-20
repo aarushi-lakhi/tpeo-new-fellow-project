@@ -17,28 +17,28 @@ app.use(express.json());
 app.use("/", router);
 app.use("/", inventoryRouter); 
 
-
+// TODO: uncomment this!
 // Authenticaton middleware
-app.use((req, res, next) => {
-  const fullToken = req.headers.authorization; 
-  if (fullToken) {
-    const splitToken = fullToken.split(' '); 
-    if (splitToken[0] === 'Bearer') {
-      admin.auth()
-        .verifyIdToken(splitToken[1])
-        .then(() => {
-          next();
-        })
-        .catch(() => {
-          res.status(403).send({ msg: "Could not authorize" });
-        });
-    } else {
-      res.status(403).send({ msg: "Invalid token format" });
-    }
-  } else {
-    res.status(403).send({ msg: "Authorization token missing" });
-  }
-});
+// app.use((req, res, next) => {
+//   const fullToken = req.headers.authorization; 
+//   if (fullToken) {
+//     const splitToken = fullToken.split(' '); 
+//     if (splitToken[0] === 'Bearer') {
+//       admin.auth()
+//         .verifyIdToken(splitToken[1])
+//         .then(() => {
+//           next();
+//         })
+//         .catch(() => {
+//           res.status(403).send({ msg: "Could not authorize" });
+//         });
+//     } else {
+//       res.status(403).send({ msg: "Invalid token format" });
+//     }
+//   } else {
+//     res.status(403).send({ msg: "Authorization token missing" });
+//   }
+// });
 
 
 // Endpoint to handle user signup requests
@@ -135,31 +135,35 @@ app.post("/update_user_information", async (req, res) => {
 });
 
 
+// TODO: make sure user is a reference
+// TODO: add item to user's clothingItem field
 // POST endpoint to upload an item
 app.post("/upload_item", async (req, res) => {
   try {
-    const { description, size, clothingArticle, estimatedMonetaryValue, images } = req.body;
-
-    // Upload images to storage and get their URLs
-    const imageUrls = [];
-    for (const image of images) {
-      const imageRef = storage.ref().child(`images/${image.name}`);
-      await imageRef.put(image);
-      const imageUrl = await imageRef.getDownloadURL();
-      imageUrls.push(imageUrl);
-    }
+    const { userEmail, description, size, clothingArticle, estimatedMonetaryValue, images } = req.body;
 
     // Create a new item document in the database
-    await productCollection.add({
-      description,
-      size,
-      clothingArticle,
-      estimatedMonetaryValue,
-      images: imageUrls, // Store image URLs in the database
+    const newItemRef = await productCollection.add({
+      userDocumentReference: userEmail,
+      description: description,
+      size: size,
+      clothingArticle: clothingArticle,
+      estimatedMonetaryValue: estimatedMonetaryValue,
+      clothingImages: images, // Store image URLs in the database
       visibilityStatus: true,
       offering: [],
       offered: []
     });
+
+    // Get the ID of the newly created item
+    const newItemId = newItemRef.id;
+
+    // Update the user's clothingItems field
+    await userCollection.doc(userEmail).update({
+      clothingItems: admin.firestore.FieldValue.arrayUnion(newItemRef) // Push the product ID
+    });
+
+    console.log("Item uploaded!! ", newItemId);
 
     res.status(200).send({ success: "Item uploaded successfully." });
   } catch (error) {
@@ -169,19 +173,6 @@ app.post("/upload_item", async (req, res) => {
 });
 
 // Placing an offer/bid and Accepting an offer/bid
-
-// TODO: remove sample datas and call product documents associated with a user
-// Sample data to simulate database
-// Sample userOneProductDocument
-let userOneProductDocument = {
-  id: 1,
-  offering: []
-};
-// Sample userTwoProductDocument
-let userTwoProductDocument = {
-  id: 2,
-  offered: []
-};
 
 // POST endpoint to place an offer/bid endpoint
 app.post('/place_offer', async (req, res) => {

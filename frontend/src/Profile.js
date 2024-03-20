@@ -16,6 +16,7 @@ const Profile = () => {
   const [imageUpload, setImageUpload] =  useState(null);
   const [imageList, setImageList] = useState([]);
   const imageListRef = ref(storage, "images/");
+  const [profilePictureUrl, setProfilePictureUrl] = useState("");
 
   const [name,setName] = useState(""); 
   const [email,setEmail] = useState(""); 
@@ -47,39 +48,6 @@ const Profile = () => {
     }
   }
 
-  const updateProfileInformation = async () => {
-    try {
-      const myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
-  
-      const idToken = await currentUser.getIdToken(); 
-      myHeaders.append("Authorization", `Bearer ${idToken}`);
-  
-      const raw = JSON.stringify({
-        "userEmail": email, // Pass the user's email
-        "userSnapchat": snap,
-        "userInstagram": instagram,
-        "userPhoneNumber": phoneNumber,
-        // Add other fields as needed
-      });
-  
-      const requestOptions = {
-        method: "POST",
-        headers: myHeaders,
-        body: raw,
-        redirect: "follow"
-      };
-  
-      const fetchUrl = "http://localhost:4000/update_user_information";
-      const response = await fetch(fetchUrl, requestOptions);
-      const data = await response.json();
-      console.log(data);
-    } catch (error) {
-      console.error(error);
-    }
-  };  
-
-
   const uploadImage = () => {
     if (imageUpload == null) {
       return;
@@ -89,10 +57,46 @@ const Profile = () => {
     uploadBytes(imageRef, imageUpload).then((snapshot) => {
       alert("Image Uploaded");
       getDownloadURL(snapshot.ref).then((url) => {
-        setImageList((prev) => [...prev, url])
-      })
+        // Update profile picture URL state
+        console.log("hello");
+        setProfilePictureUrl(url);
+        console.log(url);
+      });
     })
+    .catch((error) => {
+      console.error("Error uploading image:", error);
+    });
   };
+
+  // Function to update profile information
+  const updateProfileInformation = async (profilePictureUrl, idToken) => {
+    try {
+      // Create request body with updated profile picture URL
+      const requestBody = JSON.stringify({
+        userEmail: email,
+        userSnapchat: snap,
+        userInstagram: instagram,
+        userPhoneNumber: phoneNumber,
+        userProfilePicture: profilePictureUrl, // Updated profile picture URL
+      });
+
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${idToken}`,
+        },
+        body: requestBody,
+      };
+
+      const fetchUrl = "http://localhost:4000/update_user_information";
+      const response = await fetch(fetchUrl, requestOptions);
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
+  }; 
 
   useEffect(() => {
     listAll(imageListRef).then((response) => {

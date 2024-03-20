@@ -24,6 +24,7 @@ const NewItemPage = () => {
     try {
       // Construct the item object
       const newItem = {
+        userEmail: currentUser.email,
         description,
         size,
         clothingArticle,
