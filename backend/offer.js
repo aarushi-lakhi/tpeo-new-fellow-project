@@ -13,13 +13,11 @@ router.post('/place_offer', async (req, res) => {
         const { userOneProductDocument, userTwoProductDocument } = req.body;
 
         // Update userOneProductDocument's "offering" array
-        //userOneProductDocument.offering.push(userTwoProductDocument.id);
         await firestore.doc(userOneProductDocument).update({
             offering: Firestore.FieldValue.arrayUnion(userTwoProductDocument)
         });
 
         // Update userTwoProductDocument's "offered" array
-        // userTwoProductDocument.offered.push(userOneProductDocument.id);
         await firestore.doc(userTwoProductDocument).update({
             offered: Firestore.FieldValue.arrayUnion(userOneProductDocument)
         });
@@ -52,11 +50,11 @@ router.post('/accept_offer', async (req, res) => {
             product2Ref: firestore.collection('Products').doc(userTwoProductDocument),
         });
 
-        await firestore.doc(userOneProductDocument).update({
+        await firestore.collection('Users').doc(userOneEmail).update({
             successfulTransactions: Firestore.FieldValue.arrayUnion(transactionRef)
         });
 
-        await firestore.doc(userOneProductDocument).update({
+        await firestore.collection('Users').doc(userTwoEmail).update({
             successfulTransactions: Firestore.FieldValue.arrayUnion(transactionRef)
         });
 
