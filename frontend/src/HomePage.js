@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useAuth } from './AuthContext';
 import { useNavigate } from 'react-router-dom';
+import GoogleButton from 'react-google-button';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 import Typography from '@mui/material/Typography';
 import { Button, Box } from '@mui/material';
 
 const HomePage = () => {
+  const { handleGoogleSignup } = useAuth();
   const navigate = useNavigate();
+  const [error, setError] = useState(null);
 
   //const Poppins = <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'></link>
 
@@ -17,6 +23,14 @@ const HomePage = () => {
     console.log("Handle Signup"); 
     navigate('/signup'); 
   }
+
+  const handleGoogleSignupClick = async () => {
+    try {
+      await handleGoogleSignup(setError);
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  };
 
   return (
     <div>
@@ -191,7 +205,15 @@ const HomePage = () => {
             Welcome to Barter Buddies!
           </Typography>
           {/* Continue with Google button */}
-          <Button
+          
+          <GoogleButton onClick={handleGoogleSignupClick} />
+          {error !== null && (
+          <Alert severity="error">
+            <AlertTitle>{error.errorHeader}</AlertTitle>
+            {error.errorMessage}
+          </Alert>
+          )}
+          {/* <Button
             variant="contained"
             color="primary"
             size="large"
@@ -208,7 +230,7 @@ const HomePage = () => {
               }}
             />
             Continue with Google
-          </Button>
+          </Button> */}
           {/* Text under continue with google button */}
           <Typography
             variant="h6"
