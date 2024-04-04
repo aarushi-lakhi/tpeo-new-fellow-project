@@ -7,6 +7,7 @@ import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Typography from '@mui/material/Typography';
 import { Box, Button, Grid, TextField } from '@mui/material';
+import './App.css';
 
 function SignupPage() {
   const { handleGoogleSignup } = useAuth();
@@ -35,7 +36,7 @@ function SignupPage() {
       {/* Nav Bar */}
       <Box
         width="100%"
-        height="10%"
+        height="12%"
         bgcolor="#A5B9E0"
         display="flex"
         flexDirection="row"
@@ -46,8 +47,11 @@ function SignupPage() {
       >
         {/* Barter Buddies */}
         <Box
-          width="13%"
-          height="100%"
+          width="17%"
+          height="80%"
+          top = "-10%"
+          gap = "0px"
+          opacity = "0px"
           bgcolor="#D9D9D9"
           display="flex"
           justifyContent="center"
@@ -57,9 +61,9 @@ function SignupPage() {
             variant="h2"
             sx={{
               fontFamily: 'Poppins',
-              fontSize: '3vw',
+              fontSize: '2vw',
               fontWeight: 500,
-              lineHeight: '1',
+              lineHeight: '1.5',
               textAlign: 'center',
               color: '#000000',
             }}

@@ -6,13 +6,12 @@ import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Typography from '@mui/material/Typography';
 import { Button, Box } from '@mui/material';
+import './App.css';
 
 const HomePage = () => {
   const { handleGoogleSignup } = useAuth();
   const navigate = useNavigate();
   const [error, setError] = useState(null);
-
-  //const Poppins = <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'></link>
 
   const handleLogin = () => {
     console.log("Handle Login"); 
@@ -37,7 +36,7 @@ const HomePage = () => {
       {/* Nav Bar */}
       <Box
         width="100%"
-        height="10%"
+        height="12%"
         bgcolor="#D9D9D9"
         display="flex"
         flexDirection="row"
@@ -48,20 +47,23 @@ const HomePage = () => {
       >
         {/* Barter Buddies */}
         <Box
-          width="14%"
-          height="100%"
+          width="17%"
+          height="80%"
           top = "-10%"
           gap = "0px"
           opacity = "0px"
           bgcolor="#A5B9E0"
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
         >
           <Typography
             variant="h2"
             sx={{
               fontFamily: 'Poppins',
               fontSize: '2vw',
-              fontWeight: 100,
-              lineHeight: '1',
+              fontWeight: 500,
+              lineHeight: '1.5',
               textAlign: 'center',
               color: '#000000',
             }}
@@ -114,6 +116,9 @@ const HomePage = () => {
           display="flex"
           flexDirection="column"
           justifyContent="center"
+          marginTop="7vw"
+          marginBottom="7vw"
+          marginLeft="2vw"
         >
           <Typography
             variant="h1"
@@ -131,9 +136,10 @@ const HomePage = () => {
           </Typography>
           <Typography
             variant="h2"
+            width="70%"
             sx={{
               fontFamily: 'Poppins',
-              fontSize: '4vw',
+              fontSize: '2vw',
               fontStyle: 'italic',
               fontWeight: 500,
               lineHeight: '1',
@@ -145,19 +151,16 @@ const HomePage = () => {
           </Typography>
         </Box>
 
-        {/*Space in between boxes*/}
-        <Box 
-          width = "5%"
-        >
-        </Box>
-
         {/* Right Box */}
         <Box
-          width="50%"
+          width="40%"
           height="100%"
           bgcolor="#D9D9D9"
           border="4px solid rgba(0, 0, 0, 0.5)"
           borderRadius="4vw 0 0 4vw"
+          marginLeft="4vw" 
+          marginRight="4vw"
+          marginBottom="2vw"
           marginTop="2vw"
           textAlign="center"
           display="flex"
@@ -171,12 +174,12 @@ const HomePage = () => {
             variant="h3"
             sx={{
               fontFamily: 'Poppins',
-              fontSize: '4vw',
+              fontSize: '1.75vw',
               fontWeight: 500,
               lineHeight: '1',
               textAlign: 'center',
               color: '#000000',
-              marginBottom: '2vw',
+              marginBottom: '1vw',
             }}
           >
             Log in or sign up
@@ -185,7 +188,7 @@ const HomePage = () => {
           <hr
             style={{
               border: '4px solid rgba(0, 0, 0, 0.2)',
-              width: '100%',
+              width: '120%',
               marginBottom: '2vw',
             }}
           />
@@ -194,7 +197,7 @@ const HomePage = () => {
             variant="h4"
             sx={{
               fontFamily: 'Poppins',
-              fontSize: '4vw',
+              fontSize: '2.5vw',
               fontWeight: 500,
               lineHeight: '1',
               textAlign: 'center',
@@ -231,9 +234,11 @@ const HomePage = () => {
             />
             Continue with Google
           </Button> */}
+
           {/* Text under continue with google button */}
           <Typography
             variant="h6"
+            marginTop = "1.5vw"
             sx={{
               fontFamily: 'Poppins',
               fontSize: '1.5vw',
