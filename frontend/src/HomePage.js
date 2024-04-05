@@ -157,7 +157,7 @@ const HomePage = () => {
           height="100%"
           bgcolor="#D9D9D9"
           border="4px solid rgba(0, 0, 0, 0.5)"
-          borderRadius="4vw 0 0 4vw"
+          borderRadius="4vw 4vw 4vw 4vw"
           marginLeft="4vw" 
           marginRight="4vw"
           marginBottom="2vw"
@@ -188,7 +188,7 @@ const HomePage = () => {
           <hr
             style={{
               border: '4px solid rgba(0, 0, 0, 0.2)',
-              width: '120%',
+              width: '100%',
               marginBottom: '2vw',
             }}
           />
