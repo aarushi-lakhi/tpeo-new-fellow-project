@@ -7,6 +7,7 @@ import HomePage from './HomePage';
 import Profile from './Profile';
 import UploadItem from './UploadItem';
 import OfferManagement from './OfferManagement';
+import OnboardingStart from './OnboardingStart';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/profile" element={<Profile/>} />
           <Route path="/upload-item" element={<UploadItem/>} />
           <Route path="/offer-management" element={<OfferManagement/>} />
+          <Route path="/onboarding-start" element={<OnboardingStart/>} />
         </Routes>
       </AuthProvider>
     </Router>
