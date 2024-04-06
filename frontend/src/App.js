@@ -8,6 +8,7 @@ import Profile from './Profile';
 import UploadItem from './UploadItem';
 import OfferManagement from './OfferManagement';
 import OnboardingStart from './OnboardingStart';
+import ChooseStyleOnboarding from './ChooseStyleOnboarding';
 
 function App() {
   return (
@@ -21,6 +22,8 @@ function App() {
           <Route path="/upload-item" element={<UploadItem/>} />
           <Route path="/offer-management" element={<OfferManagement/>} />
           <Route path="/onboarding-start" element={<OnboardingStart/>} />
+          <Route path="/onboarding-choose-style" element={<ChooseStyleOnboarding/>} />
+
         </Routes>
       </AuthProvider>
     </Router>
