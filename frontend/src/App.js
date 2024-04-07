@@ -9,6 +9,7 @@ import UploadItem from './UploadItem';
 import OfferManagement from './OfferManagement';
 import OnboardingStart from './OnboardingStart';
 import ChooseStyleOnboarding from './ChooseStyleOnboarding';
+import ChooseSizeOnboarding from './ChooseSizeOnboarding';
 
 function App() {
   return (
@@ -23,7 +24,7 @@ function App() {
           <Route path="/offer-management" element={<OfferManagement/>} />
           <Route path="/onboarding-start" element={<OnboardingStart/>} />
           <Route path="/onboarding-choose-style" element={<ChooseStyleOnboarding/>} />
-
+          <Route path="/onboarding-choose-size" element={<ChooseSizeOnboarding/>} />
         </Routes>
       </AuthProvider>
     </Router>
