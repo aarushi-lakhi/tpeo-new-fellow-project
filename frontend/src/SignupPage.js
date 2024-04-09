@@ -4,6 +4,11 @@ import Typography from '@mui/material/Typography';
 import { Box, Grid, TextField } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import phoneIcon from './components/phone_icon.jpg';
+import snapchatIcon from './components/snapchat_icon.png';
+import instagramIcon from './components/instagram_icon.png';
+import uploadImageIcon from './components/upload_image_icon.jpg'
+import locationIcon from './components/location_icon.jpg';
 import './App.css';
 
 function SignupPage() {
@@ -119,12 +124,15 @@ function SignupPage() {
             <Typography variant="h4" sx={{ fontSize: '2vw', fontWeight: 500, marginBottom: '1vw', textAlign: 'left', color: '#0000008A' }}>Optional</Typography>
             <Grid container spacing={2}>
               <Grid item xs={12}>
+                <img src={phoneIcon} width="8%" alt="phone icon" style={{ marginRight: '1rem' }} />
                 <TextField id="phone" label="Phone Number" variant="outlined" />
               </Grid>
               <Grid item xs={12}>
+                <img src={snapchatIcon} width="8%" alt="snapchat icon" style={{ marginRight: '1rem' }} />
                 <TextField id="snapchat" label="Snapchat" variant="outlined" />
               </Grid>
               <Grid item xs={12}>
+                <img src={instagramIcon} width="8%" alt="instagram icon" style={{ marginRight: '1rem' }} />
                 <TextField id="instagram" label="Instagram" variant="outlined" />
               </Grid>
             </Grid>
@@ -157,9 +165,8 @@ function SignupPage() {
               <Box
                 width="70%"
                 height="30%"
-                top="264px"
-                left="75px"
                 bgcolor="#9B9B9B"
+                marginLeft="8.5vw"
                 marginTop="2vw"
                 borderRadius="2vw 2vw 2vw 2vw"
 
@@ -169,8 +176,10 @@ function SignupPage() {
                 // transform="translateX(50%)"
                 textAlign="center"
                 >
-                {/* Upload image icon goes here */}
-                <Typography variant="h5" sx={{ fontSize: '2vw', fontWeight: 500, marginTop: '13vw' }}>Drop your image here or browse</Typography>
+
+                {/* Upload image icon */}
+                <img src={uploadImageIcon} width="40%" alt="upload image icon" style={{ marginTop: '2vw' }} />
+                <Typography variant="h5" sx={{ fontSize: '2vw', fontWeight: 500, marginTop: '1vw', marginBottom: '1vw' }}>Drop your image here or browse</Typography>
               </Box>
             <Box position="absolute" top="50%" transform="translateY(-50%)" left="2vw">
               <ArrowBackIcon fontSize="large" color="black" onClick={prevStep} />
@@ -204,12 +213,15 @@ function SignupPage() {
             <Typography variant="h4" sx={{ fontSize: '2vw', fontWeight: 500, marginBottom: '1vw', textAlign: 'left', color: '#0000008A' }}>Optional</Typography>
             <Grid container spacing={2}>
               <Grid item xs={12}>
+                <img src={locationIcon} width="5%" alt="location icon" style={{ marginRight: '1rem' }} />
                 <TextField id="location1" label="Location 1" variant="outlined" />
               </Grid>
               <Grid item xs={12}>
+                <img src={locationIcon} width="5%" alt="location icon" style={{ marginRight: '1rem' }} />
                 <TextField id="location2" label="Location 2" variant="outlined" />
               </Grid>
               <Grid item xs={12}>
+                <img src={locationIcon} width="5%" alt="location icon" style={{ marginRight: '1rem' }} />
                 <TextField id="location3" label="Location 3" variant="outlined" />
               </Grid>
             </Grid>
