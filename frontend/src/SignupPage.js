@@ -1,24 +1,14 @@
-// Existing imports
 import React, { useState } from 'react';
-import { useAuth } from './AuthContext';
 import { useNavigate } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
-import { Box, Button, Grid, TextField } from '@mui/material';
+import { Box, Grid, TextField } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import './App.css';
 
 function SignupPage() {
-  const { handleGoogleSignup } = useAuth();
   const navigate = useNavigate();
-  const [error, setError] = useState(null);
   const [currentStep, setCurrentStep] = useState(1);
-
-  const handleGoogleSignupClick = async () => {
-    try {
-      await handleGoogleSignup(setError);
-    } catch (error) {
-      console.log("Error:", error);
-    }
-  };
 
   const nextStep = () => {
     setCurrentStep(currentStep + 1);
@@ -26,6 +16,12 @@ function SignupPage() {
 
   const prevStep = () => {
     setCurrentStep(currentStep - 1);
+  };
+
+  const handleSubmit = () => {
+    // Add code to submit information to backend
+    // Then navigate to a different page
+    navigate('/success');
   };
 
   return (
@@ -46,9 +42,9 @@ function SignupPage() {
         <Box
           width="17%"
           height="80%"
-          top = "-10%"
-          gap = "0px"
-          opacity = "0px"
+          top="-10%"
+          gap="0px"
+          opacity="0px"
           bgcolor="#D9D9D9"
           display="flex"
           justifyContent="center"
@@ -114,6 +110,7 @@ function SignupPage() {
             flexDirection="column"
             marginBottom="7vw"
             marginTop="7vw"
+            position="relative"
           >
             {/* Step 1 content */}
             <Typography variant="h3" sx={{ fontSize: '3vw', fontWeight: 500, marginBottom: '2vw' }}>Sign up</Typography>
@@ -131,8 +128,9 @@ function SignupPage() {
                 <TextField id="instagram" label="Instagram" variant="outlined" />
               </Grid>
             </Grid>
-            <Box marginTop="2vw">
-              <Button variant="contained" color="primary" onClick={nextStep}>Next</Button>
+            {/* No back error on the first slide of sign up */}
+            <Box position="absolute" top="50%" transform="translateY(-50%)" right="2vw">
+              <ArrowForwardIcon fontSize="large" color="black" onClick={nextStep} />
             </Box>
           </Box>
         )}
@@ -150,14 +148,15 @@ function SignupPage() {
             flexDirection="column"
             marginBottom="7vw"
             marginTop="7vw"
+            position="relative"
           >
             <Typography variant="h3" sx={{ fontSize: '3vw', fontWeight: 500, marginBottom: '2vw' }}>Sign up</Typography>
             <hr style={{ width: '100%', border: '0.4vw solid rgba(0, 0, 0, 0.2)', marginBottom: '2vw' }} />
             <Typography variant="h4" sx={{ fontSize: '2.5vw', fontWeight: 500, marginBottom: '1vw', textAlign: 'left' }}>Add your profile picture</Typography>
             <Typography variant="h4" sx={{ fontSize: '2vw', fontWeight: 500, marginBottom: '1vw', textAlign: 'left', color: '#0000008A' }}>Optional</Typography>
               <Box
-                width="498px"
-                height="207px"
+                width="70%"
+                height="30%"
                 top="264px"
                 left="75px"
                 bgcolor="#9B9B9B"
@@ -167,13 +166,17 @@ function SignupPage() {
                 //TODO: not sure why this isn't centering my box
                 flexDirection="column"
                 alignItems="center"
+                // transform="translateX(50%)"
+                textAlign="center"
                 >
                 {/* Upload image icon goes here */}
                 <Typography variant="h5" sx={{ fontSize: '2vw', fontWeight: 500, marginTop: '13vw' }}>Drop your image here or browse</Typography>
               </Box>
-            <Box marginTop="2vw">
-              <Button variant="outlined" onClick={prevStep}>Back</Button>
-              <Button variant="contained" color="primary" onClick={nextStep}>Next</Button>
+            <Box position="absolute" top="50%" transform="translateY(-50%)" left="2vw">
+              <ArrowBackIcon fontSize="large" color="black" onClick={prevStep} />
+            </Box>
+            <Box position="absolute" top="50%" transform="translateY(-50%)" right="2vw">
+              <ArrowForwardIcon fontSize="large" color="black" onClick={nextStep} />
             </Box>
           </Box>
         )}
@@ -192,6 +195,7 @@ function SignupPage() {
             flexDirection="column"
             marginBottom="7vw"
             marginTop="7vw"
+            position="relative"
           >
             {/* Step 3 content */}
             <Typography variant="h3" sx={{ fontSize: '3vw', fontWeight: 500, marginBottom: '2vw' }}>Sign up</Typography>
@@ -209,53 +213,14 @@ function SignupPage() {
                 <TextField id="location3" label="Location 3" variant="outlined" />
               </Grid>
             </Grid>
-            <Box marginTop="2vw">
-              <Button variant="outlined" onClick={prevStep}>Back</Button>
-              <Button variant="contained" color="primary">Submit</Button>
+            <Box position="absolute" top="50%" transform="translateY(-50%)" left="2vw">
+              <ArrowBackIcon fontSize="large" color="black" onClick={prevStep} />
+            </Box>
+            <Box position="absolute" top="50%" transform="translateY(-50%)" right="2vw">
+              <ArrowForwardIcon fontSize="large" color="black" onClick={handleSubmit} />
             </Box>
           </Box>
         )}
-      </Box>
-
-      {/* Ellipses */}
-      <Box
-        width="100%"
-        height="128px"
-        bgcolor="#A5B9E0"
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-      >
-        <Box>
-          {currentStep > 1 && <Button onClick={prevStep}>Previous</Button>}
-          {currentStep < 3 && <Button onClick={nextStep}>Next</Button>}
-          <Box display="flex">
-            <Box
-              width="28px"
-              height="24px"
-              bgcolor={currentStep === 1 ? "#A5B9E0" : "#9B9B9B"}
-              border="1px solid #9B9B9B"
-              borderRadius="50%"
-              marginX="5px"
-            />
-            <Box
-              width="28px"
-              height="24px"
-              bgcolor={currentStep === 2 ? "#A5B9E0" : "#9B9B9B"}
-              border="1px solid #9B9B9B"
-              borderRadius="50%"
-              marginX="5px"
-            />
-            <Box
-              width="28px"
-              height="24px"
-              bgcolor={currentStep === 3 ? "#A5B9E0" : "#9B9B9B"}
-              border="1px solid #9B9B9B"
-              borderRadius="50%"
-              marginX="5px"
-            />
-          </Box>
-        </Box>
       </Box>
     </div>
   );
