@@ -2,9 +2,6 @@
 import React, { useState } from 'react';
 import { useAuth } from './AuthContext';
 import { useNavigate } from 'react-router-dom';
-import GoogleButton from 'react-google-button';
-import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
 import Typography from '@mui/material/Typography';
 import { Box, Button, Grid, TextField } from '@mui/material';
 import './App.css';
@@ -107,7 +104,7 @@ function SignupPage() {
         {/* Carousel Step 1 */}
         {currentStep === 1 && (
           <Box
-            width="34%"
+            width="60%"
             height="75%"
             bgcolor="#D9D9D9"
             border="4px solid rgba(0, 0, 0, 0.5)"
@@ -115,39 +112,14 @@ function SignupPage() {
             padding="2vw"
             display="flex"
             flexDirection="column"
-            alignItems="center"
+            marginBottom="7vw"
+            marginTop="7vw"
           >
+            {/* Step 1 content */}
             <Typography variant="h3" sx={{ fontSize: '3vw', fontWeight: 500, marginBottom: '2vw' }}>Sign up</Typography>
             <hr style={{ width: '100%', border: '0.4vw solid rgba(0, 0, 0, 0.2)', marginBottom: '2vw' }} />
-            <Typography variant="h4" sx={{ fontSize: '4vw', fontWeight: 500, marginBottom: '2vw' }}>Welcome to Barter Buddies!</Typography>
-            <GoogleButton onClick={handleGoogleSignupClick} />
-            {error !== null && (
-            <Alert severity="error">
-              <AlertTitle>{error.errorHeader}</AlertTitle>
-              {error.errorMessage}
-            </Alert>
-            )}
-            <Typography variant="h5" sx={{ fontSize: '2vw', fontWeight: 500 }}>Don’t have an account yet? Sign up</Typography>
-          </Box>
-        )}
-
-        {/* Carousel Step 2 */}
-        {currentStep === 2 && (
-          <Box
-            width="34%"
-            height="75%"
-            bgcolor="#D9D9D9"
-            border="4px solid rgba(0, 0, 0, 0.5)"
-            borderRadius="6vw 6vw 6vw 6vw"
-            padding="2vw"
-            display="flex"
-            flexDirection="column"
-            alignItems="center"
-          >
-            {/* Step 2 content */}
-            <Typography variant="h3" sx={{ fontSize: '3vw', fontWeight: 500, marginBottom: '2vw' }}>Sign up</Typography>
-            <hr style={{ width: '100%', border: '0.4vw solid rgba(0, 0, 0, 0.2)', marginBottom: '2vw' }} />
-            <Typography variant="h4" sx={{ fontSize: '4vw', fontWeight: 500, marginBottom: '2vw' }}>Optional contact information</Typography>
+            <Typography variant="h4" sx={{ fontSize: '2.5vw', fontWeight: 500, marginBottom: '1vw', textAlign: 'left' }}>Additional contact information</Typography>
+            <Typography variant="h4" sx={{ fontSize: '2vw', fontWeight: 500, marginBottom: '1vw', textAlign: 'left', color: '#0000008A' }}>Optional</Typography>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField id="phone" label="Phone Number" variant="outlined" />
@@ -160,16 +132,15 @@ function SignupPage() {
               </Grid>
             </Grid>
             <Box marginTop="2vw">
-              <Button variant="outlined" onClick={prevStep}>Back</Button>
               <Button variant="contained" color="primary" onClick={nextStep}>Next</Button>
             </Box>
           </Box>
         )}
 
-        {/* Carousel Step 3 */}
-        {currentStep === 3 && (
+        {/* Carousel Step 2 */}
+        {currentStep === 2 && (
           <Box
-            width="34%"
+            width="60%"
             height="75%"
             bgcolor="#D9D9D9"
             border="4px solid rgba(0, 0, 0, 0.5)"
@@ -177,12 +148,56 @@ function SignupPage() {
             padding="2vw"
             display="flex"
             flexDirection="column"
-            alignItems="center"
+            marginBottom="7vw"
+            marginTop="7vw"
+          >
+            <Typography variant="h3" sx={{ fontSize: '3vw', fontWeight: 500, marginBottom: '2vw' }}>Sign up</Typography>
+            <hr style={{ width: '100%', border: '0.4vw solid rgba(0, 0, 0, 0.2)', marginBottom: '2vw' }} />
+            <Typography variant="h4" sx={{ fontSize: '2.5vw', fontWeight: 500, marginBottom: '1vw', textAlign: 'left' }}>Add your profile picture</Typography>
+            <Typography variant="h4" sx={{ fontSize: '2vw', fontWeight: 500, marginBottom: '1vw', textAlign: 'left', color: '#0000008A' }}>Optional</Typography>
+              <Box
+                width="498px"
+                height="207px"
+                top="264px"
+                left="75px"
+                bgcolor="#9B9B9B"
+                marginTop="2vw"
+                borderRadius="2vw 2vw 2vw 2vw"
+
+                //TODO: not sure why this isn't centering my box
+                flexDirection="column"
+                alignItems="center"
+                >
+                {/* Upload image icon goes here */}
+                <Typography variant="h5" sx={{ fontSize: '2vw', fontWeight: 500, marginTop: '13vw' }}>Drop your image here or browse</Typography>
+              </Box>
+            <Box marginTop="2vw">
+              <Button variant="outlined" onClick={prevStep}>Back</Button>
+              <Button variant="contained" color="primary" onClick={nextStep}>Next</Button>
+            </Box>
+          </Box>
+        )}
+
+
+        {/* Carousel Step 3 */}
+        {currentStep === 3 && (
+          <Box
+            width="60%"
+            height="75%"
+            bgcolor="#D9D9D9"
+            border="4px solid rgba(0, 0, 0, 0.5)"
+            borderRadius="6vw 6vw 6vw 6vw"
+            padding="2vw"
+            display="flex"
+            flexDirection="column"
+            marginBottom="7vw"
+            marginTop="7vw"
           >
             {/* Step 3 content */}
             <Typography variant="h3" sx={{ fontSize: '3vw', fontWeight: 500, marginBottom: '2vw' }}>Sign up</Typography>
             <hr style={{ width: '100%', border: '0.4vw solid rgba(0, 0, 0, 0.2)', marginBottom: '2vw' }} />
-            <Typography variant="h4" sx={{ fontSize: '4vw', fontWeight: 500, marginBottom: '2vw' }}>Enter Preferred Locations</Typography>
+            <Typography variant="h4" sx={{ fontSize: '2.5vw', fontWeight: 500, marginBottom: '1vw', textAlign: 'left' }}>Enter Preferred Locations</Typography>
+            <Typography variant="h4" sx={{ fontSize: '2vw', fontWeight: 500, marginBottom: '1vw', textAlign: 'left', color: '#0000008A' }}>Optional</Typography>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField id="location1" label="Location 1" variant="outlined" />
@@ -201,6 +216,7 @@ function SignupPage() {
           </Box>
         )}
       </Box>
+
       {/* Ellipses */}
       <Box
         width="100%"
