@@ -20,7 +20,10 @@ router.post("/create_user", async (req, res) => {
             phoneNumber: "",
             clothingItems: [],
             successfulTransactions: [],
-            profilePicture: ""
+            profilePicture: "",
+            location1: "",
+            location2: "",
+            location3: ""
         });
         res.status(200).send({ success: "User created successfully." });
     } catch (error) {
@@ -32,14 +35,17 @@ router.post("/create_user", async (req, res) => {
 // POST endpoint to update user information in profile
 router.post("/update_user_information", async (req, res) => {
     try {
-        const { userEmail, userInstagram, userPhoneNumber, userSnapchat, userProfilePicture } = req.body;
+        const { userEmail, userInstagram, userPhoneNumber, userSnapchat, userProfilePicture, userLocation1, userLocation2, userLocation3 } = req.body;
         
         // Update the user document with the provided information
         await userCollection.doc(userEmail).update({
             instagram: userInstagram,
             snapchat: userSnapchat,
             phoneNumber: userPhoneNumber,
-            profilePicture: userProfilePicture
+            profilePicture: userProfilePicture,
+            location1: userLocation1,
+            location2: userLocation2,
+            location3: userLocation3
         });
 
         res.status(200).send({ success: "User information updated successfully." });

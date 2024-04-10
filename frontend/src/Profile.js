@@ -23,6 +23,9 @@ const Profile = () => {
   const [snap, setSnap] = useState(""); 
   const [instagram, setInstagram] = useState(""); 
   const [phoneNumber, setPhoneNumber] = useState("")
+  const [location1, setLocation1] = useState("");
+  const [location2, setLocation2] = useState("");
+  const [location3, setLocation3] = useState("");
 
   const fetchProfileInformation = async () => {
     try {
@@ -78,6 +81,9 @@ const Profile = () => {
         userInstagram: instagram,
         userPhoneNumber: phoneNumber,
         userProfilePicture: profilePictureUrl, // Updated profile picture URL
+        location1: location1,
+        location2: location2,
+        location3: location3,
       });
 
       const requestOptions = {
@@ -159,6 +165,22 @@ const Profile = () => {
           onChange={(event) => {
             setPhoneNumber(event.target.value); 
           }}
+        />
+        <TextField id="outlined-controlled" label="Location 1" variant="outlined" value={location1}
+          onChange={(event) => {
+            console.log("adding location 1");
+            setLocation1(event.target.value); 
+          }}
+        />
+        <TextField id="outlined-controlled" label="Location 2" variant="outlined" value={location2}
+            onChange={(event) => {
+              setLocation2(event.target.value); 
+            }}
+        />
+        <TextField id="outlined-controlled" label="Location 3" variant="outlined" value={location3}
+            onChange={(event) => {
+              setLocation3(event.target.value); 
+            }}
         />
         {/* <TextField id="outlined-basic" label="Snapchat (Optional)" variant="outlined" inputProps={{ defaultValue: {snap}}}/>
         <TextField id="outlined-basic" label="Instagram (Optional)" variant="outlined" defaultValue={userInfo ? userInfo.Instagram : "King"} />
