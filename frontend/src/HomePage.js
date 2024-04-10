@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { useAuth } from './AuthContext';
 import { useNavigate } from 'react-router-dom';
 import GoogleButton from 'react-google-button';
-import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
 import Typography from '@mui/material/Typography';
 import { Button, Box } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 import './App.css';
 
 const HomePage = () => {
@@ -30,6 +30,42 @@ const HomePage = () => {
       console.log("Error:", error);
     }
   };
+
+  const CustomErrorMessage = ({ error, onClose }) => (
+    <Box
+      width="40%"
+      height="50%"
+      top="35%"
+      left="30%"
+      position="absolute"
+      bgcolor="#9B9B9B"
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      justifyContent="center"
+    >
+      <IconButton
+        aria-label="close"
+        color="inherit"
+        size="small"
+        sx={{
+          position: 'absolute',
+          right: 0,
+          top: 0,
+        }}
+        onClick={onClose}
+      >
+        <CloseIcon />
+      </IconButton>
+      <Typography variant="h3" sx={{ fontSize: '100px', fontWeight: 500, textAlign: 'center', color: '#000000', marginBottom: '1rem'}}>Error!</Typography>
+      <Typography variant="body1" sx={{ fontSize: '30px', fontWeight: 400, textAlign: 'center', color: '#000000', marginBottom: '1rem'}}>Please use your utexas/edu email to log in</Typography>
+    </Box>
+  );
+
+  const handleCloseError = () => {
+    setError(null); // Clear the error state to hide the modal
+  };
+  
 
   return (
     <div>
@@ -141,7 +177,7 @@ const HomePage = () => {
               fontFamily: 'Poppins',
               fontSize: '2vw',
               fontStyle: 'italic',
-              fontWeight: 500,
+              fontWeight: 600,
               lineHeight: '1',
               textAlign: 'left',
               color: '#000000',
@@ -175,7 +211,7 @@ const HomePage = () => {
             sx={{
               fontFamily: 'Poppins',
               fontSize: '1.75vw',
-              fontWeight: 500,
+              fontWeight: 600,
               lineHeight: '1',
               textAlign: 'center',
               color: '#000000',
@@ -198,7 +234,7 @@ const HomePage = () => {
             sx={{
               fontFamily: 'Poppins',
               fontSize: '2.5vw',
-              fontWeight: 500,
+              fontWeight: 600,
               lineHeight: '1',
               textAlign: 'center',
               color: '#000000',
@@ -207,14 +243,30 @@ const HomePage = () => {
           >
             Welcome to Barter Buddies!
           </Typography>
+
+          {/* Text before continue with google button */}
+          <Typography
+            variant="h6"
+            marginBottom = "1.5vw"
+            sx={{
+              fontFamily: 'Poppins',
+              fontSize: '1vw',
+              fontWeight: 500,
+              lineHeight: '1',
+              textAlign: 'center',
+            }}
+          >
+            Please sign in with your school/edu account
+          </Typography>
+
           {/* Continue with Google button */}
-          
           <GoogleButton onClick={handleGoogleSignupClick} />
           {error !== null && (
-          <Alert severity="error">
-            <AlertTitle>{error.errorHeader}</AlertTitle>
-            {error.errorMessage}
-          </Alert>
+          // <Alert severity="error">
+          //   <AlertTitle>{error.errorHeader}</AlertTitle>
+          //   {error.errorMessage}
+          // </Alert>
+            <CustomErrorMessage error={error} onClose={handleCloseError} />
           )}
           {/* <Button
             variant="contained"
