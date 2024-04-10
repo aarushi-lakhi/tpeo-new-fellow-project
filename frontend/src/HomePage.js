@@ -58,7 +58,7 @@ const HomePage = () => {
         <CloseIcon />
       </IconButton>
       <Typography variant="h3" sx={{ fontSize: '100px', fontWeight: 500, textAlign: 'center', color: '#000000', marginBottom: '1rem'}}>Error!</Typography>
-      <Typography variant="body1" sx={{ fontSize: '30px', fontWeight: 400, textAlign: 'center', color: '#000000', marginBottom: '1rem'}}>Please use your utexas/edu email to log in</Typography>
+      <Typography variant="body1" sx={{ fontSize: '30px', fontWeight: 400, textAlign: 'center', color: '#000000', marginBottom: '1rem'}}>Please use your utexas.edu email to log in</Typography>
     </Box>
   );
 
@@ -262,30 +262,8 @@ const HomePage = () => {
           {/* Continue with Google button */}
           <GoogleButton onClick={handleGoogleSignupClick} />
           {error !== null && (
-          // <Alert severity="error">
-          //   <AlertTitle>{error.errorHeader}</AlertTitle>
-          //   {error.errorMessage}
-          // </Alert>
             <CustomErrorMessage error={error} onClose={handleCloseError} />
           )}
-          {/* <Button
-            variant="contained"
-            color="primary"
-            size="large"
-            sx={{ width: '60%', marginBottom: '2vw' }}
-            onClick={handleSignup}
-          >
-            <Box
-              width="10%"
-              height="100%"
-              style={{
-                backgroundImage: 'url("google-icon.png")',
-                backgroundSize: 'cover',
-                marginRight: '2vw',
-              }}
-            />
-            Continue with Google
-          </Button> */}
 
           {/* Text under continue with google button */}
           <Typography
@@ -294,12 +272,22 @@ const HomePage = () => {
             sx={{
               fontFamily: 'Poppins',
               fontSize: '1.5vw',
-              fontWeight: 500,
+              fontWeight: 600,
               lineHeight: '1',
               textAlign: 'center',
+              color: '#000000',
             }}
           >
-            Don’t have an account yet? Sign up
+            Don’t have an account yet?{' '}
+            <span
+              style={{
+                cursor: 'pointer',
+                color: '#06304E',
+              }}
+              onClick={handleGoogleSignupClick} // TODO: include same google button error handling. also modify once backend endpoint to check if user already exists is made.
+            >
+              Sign up
+            </span>
           </Typography>
         </Box>
       </Box>
