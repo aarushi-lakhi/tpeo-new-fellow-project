@@ -76,7 +76,7 @@ export const AuthProvider = ({ children }) => {
           const userEmail = result.user.email;
           const domainName = userEmail.split("@")[1];
           if (domainName === "utexas.edu") {
-              navigate('/profile');
+              navigate('/signup');
           } else {
               await signOut(auth);
               setError({ errorHeader: "Invalid Domain Name", errorMessage: "Please sign up with a @utexas.edu email." });

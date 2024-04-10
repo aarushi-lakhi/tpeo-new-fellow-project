@@ -10,18 +10,18 @@ import './App.css';
 
 const HomePage = () => {
   const { handleGoogleSignup } = useAuth();
+  const { handleGoogleSignIn } = useAuth();
   const navigate = useNavigate();
   const [error, setError] = useState(null);
 
-  const handleLogin = () => {
-    console.log("Handle Login"); 
-    navigate('/login'); 
-  }
+  const handleGoogleSigninClick = async () => {
+    try {
+      await handleGoogleSignIn(setError);
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  };
 
-  const handleSignup = () => {
-    console.log("Handle Signup"); 
-    navigate('/signup'); 
-  }
 
   const handleGoogleSignupClick = async () => {
     try {
@@ -260,7 +260,7 @@ const HomePage = () => {
           </Typography>
 
           {/* Continue with Google button */}
-          <GoogleButton onClick={handleGoogleSignupClick} />
+          <GoogleButton onClick={handleGoogleSigninClick} />
           {error !== null && (
             <CustomErrorMessage error={error} onClose={handleCloseError} />
           )}
@@ -284,7 +284,7 @@ const HomePage = () => {
                 cursor: 'pointer',
                 color: '#06304E',
               }}
-              onClick={handleGoogleSignupClick} // TODO: include same google button error handling. also modify once backend endpoint to check if user already exists is made.
+              onClick={handleGoogleSignupClick} // TODO: modify once backend endpoint to check if user already exists is made.
             >
               Sign up
             </span>
