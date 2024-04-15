@@ -44,7 +44,7 @@ export default function NavBar() {
         </Box> 
         <IconButton>
              <AccountCircleIcon sx={{fontSize: "4vw"}}/>
-         </IconButton> 
+        </IconButton> 
     </Box>
   )
 }
