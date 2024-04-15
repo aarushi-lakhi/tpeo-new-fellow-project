@@ -10,6 +10,8 @@ import OfferManagement from './OfferManagement';
 import OnboardingStart from './OnboardingStart';
 import ChooseStyleOnboarding from './ChooseStyleOnboarding';
 import ChooseSizeOnboarding from './ChooseSizeOnboarding';
+import NavBar from './components/NavBar';
+import TempNavBarPage from './TempNavBarPage';
 
 function App() {
   return (
@@ -25,6 +27,8 @@ function App() {
           <Route path="/onboarding-start" element={<OnboardingStart/>} />
           <Route path="/onboarding-choose-style" element={<ChooseStyleOnboarding/>} />
           <Route path="/onboarding-choose-size" element={<ChooseSizeOnboarding/>} />
+          <Route path="/temp-navbar" element={<TempNavBarPage/>} /> 
+          {/* DELETE ABOVE ROUTE, ONLY TEMPORARY FOR TESTING */}
         </Routes>
       </AuthProvider>
     </Router>
