@@ -8,17 +8,17 @@ import IconButton from '@mui/material/IconButton';
 const NavBarButtons = () => {
   return (
     <Stack flex="1" direction="row" justifyContent="space-evenly" alignItems="center">
-        <Box p={0.5} sx={{backgroundColor: "orange", display: "flex", justifyContent: "center", alignItems: "center"}}>
+        <Box p={0.5} sx={{backgroundColor: "#A5B9E0", display: "flex", justifyContent: "center", alignItems: "center"}}>
             <Typography variant="h4" sx={{fontFamily: 'Poppins', fontWeight: "400", textAlign: 'center', color: '#000000', display: {xs: 'none', md: 'block'}}}>
                 Clothes 
             </Typography>
         </Box>
-        <Box p={0.5} sx={{backgroundColor: "orange", display: "flex", justifyContent: "center", alignItems: "center"}}>
+        <Box p={0.5} sx={{backgroundColor: "#A5B9E0", display: "flex", justifyContent: "center", alignItems: "center"}}>
             <Typography variant="h4" sx={{fontFamily: 'Poppins', fontWeight: "400", textAlign: 'center', color: '#000000', display: {xs: 'none', md: 'block'}}}>
                 Offers 
             </Typography>
         </Box>
-        <Box p={0.5} sx={{backgroundColor: "orange", display: "flex", justifyContent: "center", alignItems: "center"}}>
+        <Box p={0.5} sx={{backgroundColor: "#A5B9E0", display: "flex", justifyContent: "center", alignItems: "center"}}>
             <Typography variant="h4" sx={{fontFamily: 'Poppins', fontWeight: "400", textAlign: 'center', color: '#000000', display: {xs: 'none', md: 'block'}}}>
                 Listings  
             </Typography>
