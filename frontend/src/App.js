@@ -14,6 +14,7 @@ import NavBar from './components/NavBar';
 import TempNavBarPage from './TempNavBarPage';
 import TempPageTwo from './TempPageTwo';
 import AddClothingItem from "./AddClothingItem"
+import Offers from "./Offers"
 
 function App() {
   return (
@@ -32,6 +33,8 @@ function App() {
           <Route path="/temp-navbar" element={<TempNavBarPage/>} /> 
           <Route path="/temp-page-two" element={<TempPageTwo/>} /> 
           <Route path="/add-item" element={<AddClothingItem/>} /> 
+          <Route path="/check-offers" element={<Offers/>} /> 
+
           {/* DELETE ABOVE ROUTE, ONLY TEMPORARY FOR TESTING */}
         </Routes>
       </AuthProvider>
