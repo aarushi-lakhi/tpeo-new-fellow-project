@@ -104,16 +104,8 @@ const Offers = () => {
                     </Typography> */}
                 </Stack>
                 <Stack gap={"24px"}> 
-                    {/* <Stack direction="row" alignItems={"space-between"} gap="300px">     
-                        <Typography variant="subtitle1" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'start', color: '#000000'}}>
-                            Their Offer
-                        </Typography>
-                        <Typography variant="subtitle1" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'start', color: '#000000'}}>
-                            Your Item
-                        </Typography>
-                    </Stack>  */}
-                    <Stack direction="row" justifyContent="center" alignItems="center" gap={"48px"}>
-                        <Stack direction="row" justifyContent={"center"} alignItems={"center"} gap={"24px"}>
+                    <Stack direction={{ xs: 'column', lg: 'row' }} justifyContent="center" alignItems="center" gap={"48px"}>
+                        <Stack direction={{ xs: 'column',  md: 'row' }} justifyContent={"center"} alignItems={"center"} gap={"24px"}>
                             <Stack direction="column" gap={"24px"}>
                                 <Typography variant="h6" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
                                     Their Offer
@@ -128,7 +120,7 @@ const Offers = () => {
                                 <ClothingCard/>
                             </Stack> 
                         </Stack> 
-                        <Stack direction="row" gap={"24px"}> 
+                        <Stack direction="row" gap="24px">
                             <Stack direction="column" justifyContent="center" alignItems="center" gap={"8px"} backgroundColor="#D9D9D9" height="75px" width="150px">
                                 <ThumbDownIcon/>
                                 <Typography variant="subtitle1" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
@@ -143,17 +135,17 @@ const Offers = () => {
                             </Stack> 
                         </Stack> 
                     </Stack>
-                    <Stack direction="row" justifyContent="center" alignItems="center" gap={"48px"}>
-                        <Stack direction="row" justifyContent={"center"} alignItems={"center"} gap={"24px"}> 
+                    <Stack direction={{ xs: 'column', lg: 'row' }} justifyContent="center" alignItems="center" gap={"48px"}>
+                        <Stack direction={{ xs: 'column',  md: 'row' }} justifyContent={"center"} alignItems={"center"} gap={"24px"}>
                             <ClothingCard/>
                             <Box component="img" sx={{ height: "200px", display: 'block', overflow: 'hidden', width: '200px' }} src={ArrowPicture}/>
-                            <ClothingCard/> 
+                            <ClothingCard/>
                         </Stack> 
-                        <Stack direction="row" gap={"24px"}> 
+                        <Stack direction="row" gap="24px">
                             <Stack direction="column" justifyContent="center" alignItems="center" gap={"8px"} backgroundColor="#D9D9D9" height="75px" width="150px">
                                 <ThumbDownIcon/>
                                 <Typography variant="subtitle1" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
-                                    Not Interested
+                                    Not Intersted
                                 </Typography>
                             </Stack> 
                             <Stack direction="column" justifyContent="center" alignItems="center" gap={"8px"} backgroundColor="#D9D9D9" height="75px" width="150px">
@@ -164,13 +156,13 @@ const Offers = () => {
                             </Stack> 
                         </Stack> 
                     </Stack>
-                    <Stack direction="row" justifyContent="center" alignItems="center" gap={"48px"}>
-                        <Stack direction="row" justifyContent={"center"} alignItems={"center"} gap={"24px"}> 
+                    <Stack direction={{ xs: 'column', lg: 'row' }} justifyContent="center" alignItems="center" gap={"48px"}>
+                        <Stack direction={{ xs: 'column',  md: 'row' }} justifyContent={"center"} alignItems={"center"} gap={"24px"}>
                             <ClothingCard/>
                             <Box component="img" sx={{ height: "200px", display: 'block', overflow: 'hidden', width: '200px' }} src={ArrowPicture}/>
-                            <ClothingCard/> 
+                            <ClothingCard/>
                         </Stack> 
-                        <Stack direction="row" gap={"24px"}> 
+                        <Stack direction="row" gap="24px">
                             <Stack direction="column" justifyContent="center" alignItems="center" gap={"8px"} backgroundColor="#D9D9D9" height="75px" width="150px">
                                 <ThumbDownIcon/>
                                 <Typography variant="subtitle1" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
