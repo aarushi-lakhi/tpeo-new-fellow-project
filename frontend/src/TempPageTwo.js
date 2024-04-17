@@ -34,6 +34,8 @@ import FormLabel from '@mui/material/FormLabel';
 import ImageCarousel from './components/ImageCarousel'
 import Modal from "./components/ChildModal"
 
+import PortraitShirt from "./components/PortraitShirt.jpg"
+
 const TempPageTwo = () => {
     const [burgerStatus, setBurgerStatus] = useState(false);
     const [clothingCardStatus, setclothingCardStatus] = useState(false);
@@ -99,7 +101,7 @@ const TempPageTwo = () => {
         </Stack>
         <Stack direction={{ xs: 'column', md: 'row' }}>
             <Stack flex={1} direction={{ xs: 'column', md: 'row' }} alignItems="center" justifyContent="center" mt={2} gap={"75px"}> 
-                <ImageCarousel/>
+                <ImageCarousel srcArray={[PortraitShirt, PortraitShirt, PortraitShirt]}/>
                 <Stack direction="column" gap={"25px"} >
                     <Typography variant="h3" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'start', color: '#000000'}}>
                         Centenial DECA Shirt
