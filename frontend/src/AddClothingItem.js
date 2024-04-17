@@ -39,8 +39,6 @@ import DropDownMenu from "./components/DropDownMenu"
 
 import ListingPreviewImage from "./components/YourListingPreviewImage.png"
 
-import "./AddClothingItemCSS.css"
-
 function AddClothingItem() {
     const [burgerStatus, setBurgerStatus] = useState(false);
     const [clothingCardStatus, setclothingCardStatus] = useState(false);
@@ -199,9 +197,9 @@ function AddClothingItem() {
                 </Box>
                 }
             </Stack>
-            <Stack direction="row" alignItems="space-between" justifyContent="space-between">
+            <Stack direction="row">
             {/* p={2}  under*/}
-                <Stack flex={0} className="add-item-stack" p={2} direction="column" gap="20px" backgroundColor="#A5B9E0">
+                <Stack sx={{flex: {xs: 1, md: 0}}} className="add-item-stack" p={2} direction="column" gap="20px" backgroundColor="#A5B9E0" height="85vh">
                     <Typography variant="h4" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'start', color: '#000000'}}>
                         Add an Item 
                     </Typography>
@@ -313,19 +311,19 @@ function AddClothingItem() {
                     </Box> 
                     
                 </Stack> 
-                <Stack className="responsive-stack" direction={{ xs: 'column', md: 'row'}}>
+                <Stack flex={1} className="responsive-stack" sx={{display: {xs: "none", md: "flex"}}}>
                     <Stack p={2} flex={1} direction={{ xs: 'column', md: 'row' }} alignItems="center" justifyContent="center" gap={"75px"}> 
                         {updateImageSrcArray()}
                         <ImageCarousel srcArray={imageSrcArray}/>
-                        <Stack direction="column" gap={"25px"} >
-                            <Typography variant="h3" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'start', color: '#000000', maxWidth:"450px", wordWrap: "break-word"}}>
-                                {title === "" ? "Title" : {title}}
+                        <Stack direction="column" gap={"25px"} width="300px" >
+                            <Typography variant="h3" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'start', color: '#000000', maxWidth:"300px", wordWrap: "break-word"}}>
+                                {title === "" ? "Title" : title}
                             </Typography>
                             <Typography variant="h5" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'start', color: '#000000'}}>
-                                {estimatedPrice === "" ? "Estimated Price" : "Estimated Price: $" + estimatedPrice}
+                                {estimatedPrice === "" ? "Estimated Price" : "$" + estimatedPrice}
                             </Typography>
-                            <Typography variant="h5" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'start', color: '#000000', maxWidth:"350px", wordWrap: "break-word"}}>
-                                {articleOfClothing === "" ? "Article of Clothing" : "Article of Clothing: " + articleOfClothing}
+                            <Typography variant="h5" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'start', color: '#000000', maxWidth:"300px", wordWrap: "break-word"}}>
+                                {articleOfClothing === "" ? "Article of Clothing" : articleOfClothing}
                             </Typography>
                             <Typography variant="h5" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'start', color: '#000000'}}>
                                 {size === "" ? "Size" : "Size: " + size}
@@ -340,6 +338,8 @@ function AddClothingItem() {
         </Box>
     );
   }
+
+
 
 export default AddClothingItem
 

@@ -65,9 +65,6 @@ function ImageCarousel({srcArray}) {
         {srcArray.map((src, index) => (
           <Box key={index} component="img" sx={{ height: "525px", display: 'block', overflow: 'hidden', width: '100%' }} src={src} alt={`Image ${index}`} />
         ))}
-        {/* <Box component="img" sx={{height: "525px", display: 'block', overflow: 'hidden', width: '100%'}} src={PortraitShirt}/>
-        <Box component="img" sx={{height: "525px", display: 'block', overflow: 'hidden', width: '100%'}} src={PortraitShirt}/>
-        <Box component="img" sx={{height: "525px", display: 'block', overflow: 'hidden', width: '100%'}} src={PortraitShirt}/> */}
       </AutoPlaySwipeableViews>
       <MobileStepper
         steps={maxSteps}
@@ -103,3 +100,8 @@ function ImageCarousel({srcArray}) {
 }
 
 export default ImageCarousel;
+
+
+{/* <Box component="img" sx={{height: "525px", display: 'block', overflow: 'hidden', width: '100%'}} src={PortraitShirt}/>
+        <Box component="img" sx={{height: "525px", display: 'block', overflow: 'hidden', width: '100%'}} src={PortraitShirt}/>
+        <Box component="img" sx={{height: "525px", display: 'block', overflow: 'hidden', width: '100%'}} src={PortraitShirt}/> */}
