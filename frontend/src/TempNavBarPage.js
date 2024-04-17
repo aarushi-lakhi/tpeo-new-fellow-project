@@ -38,10 +38,16 @@ const TempNavBarPage = () => {
   const [burgerStatus, setBurgerStatus] = useState(false);
   const [clothingCardStatus, setclothingCardStatus] = useState(false);
   const [filterDisplayStatus, setFilterDisplayStatus] = useState(true); 
+  const [sideClothingView, setSideClothingView] = useState(false); 
+
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } }; 
 
   function myFunction() {
     console.log("Hel;o")
+  }
+
+  function randomFinct() {
+    console.log("hello")
   }
 
   return (
@@ -186,17 +192,23 @@ const TempNavBarPage = () => {
             </Stack>
           </Stack>
           <Stack direction="row" flexWrap="wrap" justifyContent="center" alignItems="center" gap={2}>
-            <ClothingCard/>
-            <ClothingCard/>
-            <ClothingCard/>
-            <ClothingCard/>
-            <ClothingCard/>
-            <ClothingCard/>
-            <ClothingCard/>
-            <ClothingCard/>
-            <ClothingCard/>
+            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
+            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
+            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
+            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
+            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
+            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
+            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
+            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
+            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
+            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
           </Stack>
         </Stack>
+        <Box>
+          <Typography variant="h6" sx={{fontFamily: 'Poppins', fontWeight: "600", textAlign: 'start', color: '#000000'}}>
+                Activewear
+          </Typography>
+        </Box>
       {/* {clothingCardStatus &&
           <Box sx={{height: "100vh", backgroundColor: "orange", zIndex: "tooltip", position: 'fixed', top: 0, right: 0}}>
 

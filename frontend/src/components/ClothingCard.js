@@ -5,19 +5,23 @@ import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOu
 import ArrowCircleLeftOutlinedIcon from '@mui/icons-material/ArrowCircleLeftOutlined';
 import IconButton from '@mui/material/IconButton';
 import PortraitShirt from "./PortraitShirt.jpg"
+import CardActionArea from '@mui/material/CardActionArea';
 
-const ClothingCard = () => {
+
+const ClothingCard = ({onClickFunction, borderSize}) => {
     return (
-        <Card sx={{ width: {sm: '300px'}, boxShadow: "none", borderRadius: 0 }}>
-            <CardMedia image={PortraitShirt} alt={"TempVariable"} sx={{width: "300px", height: "300px"}} />
-            <CardContent sx={{ backgroundColor: "#A5B9E0", height: '35px' }}>
-                <Typography variant="subtitle1" fontWeight="bold" color="#FFF" sx={{fontFamily: 'Poppins'}}>
-                    Centennial DECA Shirt
-                </Typography>
-                <Typography variant="subtitle2" fontWeight="bold" color="#FFF" sx={{fontFamily: 'Poppins'}}>
-                    Size: M
-                </Typography>
-            </CardContent>
+        <Card sx={{ width: {sm: '300px'}, boxShadow: "none", borderRadius: 0, border: borderSize}} onClick={onClickFunction}>
+            <CardActionArea onClick={onClickFunction}> 
+                <CardMedia image={PortraitShirt} alt={"TempVariable"} sx={{width: "300px", height: "300px"}} />
+                <CardContent sx={{ backgroundColor: "#A5B9E0", height: '40px' }}>
+                    <Typography variant="subtitle1" fontWeight="bold" color="#FFF" sx={{fontFamily: 'Poppins'}}>
+                        Centennial DECA Shirt
+                    </Typography>
+                    <Typography variant="subtitle2" fontWeight="bold" color="#FFF" sx={{fontFamily: 'Poppins'}}>
+                        Size: M
+                    </Typography>
+                </CardContent>
+            </CardActionArea>
         </Card>
       );
 }

@@ -12,6 +12,8 @@ import ChooseStyleOnboarding from './ChooseStyleOnboarding';
 import ChooseSizeOnboarding from './ChooseSizeOnboarding';
 import NavBar from './components/NavBar';
 import TempNavBarPage from './TempNavBarPage';
+import TempPageTwo from './TempPageTwo';
+
 
 function App() {
   return (
@@ -28,6 +30,8 @@ function App() {
           <Route path="/onboarding-choose-style" element={<ChooseStyleOnboarding/>} />
           <Route path="/onboarding-choose-size" element={<ChooseSizeOnboarding/>} />
           <Route path="/temp-navbar" element={<TempNavBarPage/>} /> 
+          <Route path="/temp-page-two" element={<TempPageTwo/>} /> 
+
           {/* DELETE ABOVE ROUTE, ONLY TEMPORARY FOR TESTING */}
         </Routes>
       </AuthProvider>
