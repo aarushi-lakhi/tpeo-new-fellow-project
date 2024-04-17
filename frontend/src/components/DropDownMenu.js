@@ -13,7 +13,7 @@ export default function BasicSelect({text}) {
   };
 
   return (
-    <Box sx={{ minWidth: "10vw" }}>
+    <Box sx={{ minWidth: "200px"}}>
       <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">{text}</InputLabel>
         <Select
@@ -27,6 +27,7 @@ export default function BasicSelect({text}) {
           <MenuItem value={20}>S</MenuItem>
           <MenuItem value={30}>M</MenuItem>
           <MenuItem value={10}>L</MenuItem>
+          <MenuItem value={10}>XL</MenuItem>
 
         </Select>
       </FormControl>
