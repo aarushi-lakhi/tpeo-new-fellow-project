@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Button, Box, Stack, TextField, Paper} from '@mui/material';
+import { Button, Box, Stack, TextField, Paper, MenuItem, Select, InputLabel } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import IconButton from '@mui/material/IconButton';
@@ -37,31 +37,123 @@ import Modal from "./components/ChildModal"
 import PortraitShirt from "./components/PortraitShirt.jpg"
 import DropDownMenu from "./components/DropDownMenu"
 
+import ListingPreviewImage from "./components/YourListingPreviewImage.png"
+
 import "./AddClothingItemCSS.css"
 
 function AddClothingItem() {
     const [burgerStatus, setBurgerStatus] = useState(false);
     const [clothingCardStatus, setclothingCardStatus] = useState(false);
-    const [imageView, setImageView] = useState(false); 
-    const [imagePreviewUrl, setImagePreviewUrl] = React.useState('');
     const [tradeStatus, setTradeStatus] = useState(false);
     const [modalTruthValue, setModalTruthValue] = useState(false); 
 
-    const handleBoxClick = () => {
-        document.getElementById('hidden-file-input').click();
-      };
+
+    var imageSrcArray = []; 
+
+    // Image State - 1
+    const [imageViewOne, setImageViewOne] = useState(false); 
+    const [imagePreviewUrlOne, setImagePreviewUrlOne] = useState(""); 
+
+    // Image State - 2
+    const [imageViewTwo, setImageViewTwo] = useState(false); 
+    const [imagePreviewUrlTwo, setImagePreviewUrlTwo] = useState(""); 
+
+    // Image State - 3
+    const [imageViewThree, setImageViewThree] = useState(false); 
+    const [imagePreviewUrlThree, setImagePreviewUrlThree] = useState(""); 
+
+    const handleBoxClickOne = () => {
+        document.getElementById('hidden-file-input-one').click();
+    };
+    const handleBoxClickTwo = () => {
+        document.getElementById('hidden-file-input-two').click();
+    };
+    const handleBoxClickThree = () => {
+        document.getElementById('hidden-file-input-three').click();
+    };
   
-    const handleFileChange = (event) => {
+    const handleFileChange = (event, number) => {
       const file = event.target.files[0];
       if (file) {
+        const imageViewArray = [setImageViewOne, setImageViewTwo, setImageViewThree]; 
+        const imagePreviewURLArray = [setImagePreviewUrlOne, setImagePreviewUrlTwo, setImagePreviewUrlThree];
+
         const reader = new FileReader();
         reader.onloadend = () => {
-          setImagePreviewUrl(reader.result);
+            (imagePreviewURLArray[number])(reader.result);
         };
         reader.readAsDataURL(file);
-        setImageView(true);  
+        (imageViewArray[number])(true);  
       }
     };
+
+    function updateImageSrcArray() {
+        imageSrcArray = []; 
+
+        if(imagePreviewUrlOne !== "") {
+            imageSrcArray.push(imagePreviewUrlOne); 
+        } 
+        
+        if(imagePreviewUrlTwo !== "") {
+            imageSrcArray.push(imagePreviewUrlTwo); 
+        }
+
+        if(imagePreviewUrlThree !== "") {
+            imageSrcArray.push(imagePreviewUrlThree); 
+        }
+
+        if(imageSrcArray.length === 0) {
+            console.log("mac miller"); 
+            imageSrcArray.push(ListingPreviewImage); 
+        }
+    }
+
+    function handlePictureClose(number) {
+        const imageViewArray = [setImageViewOne, setImageViewTwo, setImageViewThree]; 
+        const imagePreviewURLArray = [setImagePreviewUrlOne, setImagePreviewUrlTwo, setImagePreviewUrlThree];
+
+        (imageViewArray[number])(false);  
+        (imagePreviewURLArray[number])("");
+    }
+
+    // Text Stuff
+    const [title, setTitle] = useState("");  
+
+    function handleTitleChange(event) {
+        const newValue = event.target.value;
+        setTitle(newValue);
+    }
+
+    const [estimatedPrice, setEstimatedPrice] = useState("");  
+
+    function handleEstimatedPriceChange(event) {
+        const newValue = event.target.value;
+        setEstimatedPrice(newValue);
+    }
+
+    const [size, setSize] = useState("");  
+
+    function handleSizeChange(event) {
+        const newValue = event.target.value;
+        setSize(newValue);
+    }
+
+    const [articleOfClothing, setArticleOfClothing] = useState(""); 
+
+    function handleArticleClothingChange(event) {
+        const newValue = event.target.value;
+        setArticleOfClothing(newValue);
+    }
+
+    const [description, setDescription] = useState(""); 
+    
+    function handleDescriptionChange(event) {
+        const newValue = event.target.value;
+        setDescription(newValue);
+    }
+
+
+
   
     return (
         <Box>
@@ -114,70 +206,105 @@ function AddClothingItem() {
                         Add an Item 
                     </Typography>
                     <Stack direction="row" gap="20px">
-                        {!imageView && 
-                            <Box display="flex" alignItems="center" justifyContent="center" width="100px" height="100px" sx={{cursor: "pointer", backgroundColor: "#D9D9D9"}} onClick={handleBoxClick}> 
-                                <input type="file" id="hidden-file-input" hidden accept="image/*" onChange={handleFileChange} style={{ display: 'none' }}/>
+                        {!imageViewOne && 
+                            <Box display="flex" alignItems="center" justifyContent="center" width="100px" height="100px" sx={{cursor: "pointer", backgroundColor: "#D9D9D9"}} onClick={handleBoxClickOne}> 
+                                <input type="file" id="hidden-file-input-one" hidden accept="image/*" onChange={(event) => handleFileChange(event, 0)} style={{ display: 'none' }}/>
                                 <Typography variant="subtitle1" sx={{ fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000' }}>
                                     Add Photo
                                 </Typography>
                             </Box>
                         }
-                        {imageView && 
-                            <Box sx={{position: "relative", height: "100px", width: '100px', backgroundColor: "red", overflow: 'hidden'}}>
-                                <Box component="img" sx={{height: "100px", display: 'block', overflow: 'hidden', width: '100px'}} src={PortraitShirt}/>
+                        {imageViewOne && 
+                            <Box sx={{position: "relative", height: "100px", width: '100px', overflow: 'hidden'}}>
+                                <Box component="img" sx={{height: "100px", display: 'block', overflow: 'hidden', width: '100px'}} src={imagePreviewUrlOne}/>
                                 <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", position: "absolute", right: 0, top: 0, width: '20px', height: '20px', backgroundColor: 'white', borderRadius: '50%' }}>
-                                    <IconButton onClick={() => setImageView(false)}>
+                                    <IconButton onClick={() => handlePictureClose(0)}>
                                         <CloseIcon sx={{fontSize: "15px"}}/>
                                     </IconButton> 
                                 </Box>
                             </Box>
                         }
-                        {!imageView && 
-                            <Box display="flex" alignItems="center" justifyContent="center" width="100px" height="100px" sx={{cursor: "pointer", backgroundColor: "#D9D9D9"}} onClick={handleBoxClick}> 
-                                <input type="file" id="hidden-file-input" hidden accept="image/*" onChange={handleFileChange} style={{ display: 'none' }}/>
+                        {!imageViewTwo && 
+                            <Box display="flex" alignItems="center" justifyContent="center" width="100px" height="100px" sx={{cursor: "pointer", backgroundColor: "#D9D9D9"}} onClick={handleBoxClickTwo}> 
+                                <input type="file" id="hidden-file-input-two" hidden accept="image/*" onChange={(event) => handleFileChange(event, 1)} style={{ display: 'none' }}/>
                                 <Typography variant="subtitle1" sx={{ fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000' }}>
                                     Add Photo
                                 </Typography>
                             </Box>
                         }
-                        {imageView && 
-                            <Box sx={{position: "relative", height: "100px", width: '100px', backgroundColor: "red", overflow: 'hidden'}}>
-                                <Box component="img" sx={{height: "100px", display: 'block', overflow: 'hidden', width: '100px'}} src={PortraitShirt}/>
+                        {imageViewTwo && 
+                            <Box sx={{position: "relative", height: "100px", width: '100px', overflow: 'hidden'}}>
+                                <Box component="img" sx={{height: "100px", display: 'block', overflow: 'hidden', width: '100px'}} src={imagePreviewUrlTwo}/>
                                 <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", position: "absolute", right: 0, top: 0, width: '20px', height: '20px', backgroundColor: 'white', borderRadius: '50%' }}>
-                                    <IconButton onClick={() => setImageView(false)}>
+                                    <IconButton onClick={() => handlePictureClose(1)}>
                                         <CloseIcon sx={{fontSize: "15px"}}/>
                                     </IconButton> 
                                 </Box>
                             </Box>
                         }
-                        {!imageView && 
-                            <Box display="flex" alignItems="center" justifyContent="center" width="100px" height="100px" sx={{cursor: "pointer", backgroundColor: "#D9D9D9"}} onClick={handleBoxClick}> 
-                                <input type="file" id="hidden-file-input" hidden accept="image/*" onChange={handleFileChange} style={{ display: 'none' }}/>
+                        {!imageViewThree && 
+                            <Box display="flex" alignItems="center" justifyContent="center" width="100px" height="100px" sx={{cursor: "pointer", backgroundColor: "#D9D9D9"}} onClick={handleBoxClickThree}> 
+                                <input type="file" id="hidden-file-input-three" hidden accept="image/*" onChange={(event) => handleFileChange(event, 2)} style={{ display: 'none' }}/>
                                 <Typography variant="subtitle1" sx={{ fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000' }}>
                                     Add Photo
                                 </Typography>
                             </Box>
                         }
-                        {imageView && 
-                            <Box sx={{position: "relative", height: "100px", width: '100px', backgroundColor: "red", overflow: 'hidden'}}>
-                                <Box component="img" sx={{height: "100px", display: 'block', overflow: 'hidden', width: '100px'}} src={PortraitShirt}/>
+                        {imageViewThree && 
+                            <Box sx={{position: "relative", height: "100px", width: '100px', overflow: 'hidden'}}>
+                                <Box component="img" sx={{height: "100px", display: 'block', overflow: 'hidden', width: '100px'}} src={imagePreviewUrlThree}/>
                                 <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", position: "absolute", right: 0, top: 0, width: '20px', height: '20px', backgroundColor: 'white', borderRadius: '50%' }}>
-                                    <IconButton onClick={() => setImageView(false)}>
+                                    <IconButton onClick={() => handlePictureClose(2)}>
                                         <CloseIcon sx={{fontSize: "15px"}}/>
                                     </IconButton> 
                                 </Box>
                             </Box>
                         }
                     </Stack>
-                    <TextField id="outlined-basic" label="Title" variant="outlined" />
-                    <TextField id="outlined-basic" label="Estimated Price" variant="outlined" />
-                    <DropDownMenu text="Article of Clothing"/>
-                    <DropDownMenu text="Size"/>
+                    <TextField id="outlined-basic" label="Title" variant="outlined" value={title} onChange={handleTitleChange} />
+                    <TextField id="outlined-basic" label="Estimated Price" variant="outlined" value={estimatedPrice} onChange={handleEstimatedPriceChange}/>
+                    <FormControl fullWidth>
+                        <InputLabel id="article-clothing-select-label">Article of Clothing</InputLabel>
+                        <Select
+                            labelId="article-clothing-select-label"
+                            id="article-clothing-select"
+                            value={articleOfClothing}
+                            label="Article of Clothing"
+                            onChange={handleArticleClothingChange}
+                        >
+                            <MenuItem value="Shirts">Shirts</MenuItem>
+                            <MenuItem value="Pants">Pants</MenuItem>
+                            <MenuItem value="Shoes">Shoes</MenuItem>
+                            <MenuItem value="Dresses">Dresses</MenuItem>
+                            <MenuItem value="Swimwear">Swimwear</MenuItem>
+                            <MenuItem value="Suits">Suits</MenuItem>
+                            <MenuItem value="Hoodies">Hoodies</MenuItem>
+                            <MenuItem value="Activewear">Activewear</MenuItem>
+
+                        </Select>
+                    </FormControl>
+                    <FormControl fullWidth>
+                        <InputLabel id="size-select-label">Size</InputLabel>
+                        <Select
+                            labelId="size-select-label"
+                            id="size-select"
+                            value={size}
+                            label="Size"
+                            onChange={handleSizeChange}
+                        >
+                            <MenuItem value="XS">XS</MenuItem>
+                            <MenuItem value="S">S</MenuItem>
+                            <MenuItem value="M">M</MenuItem>
+                            <MenuItem value="L">L</MenuItem>
+                            <MenuItem value="XL">XL</MenuItem>
+                        </Select>
+                    </FormControl>
                     <TextField
                         placeholder="Description"
                         multiline
                         rows={2}
                         maxRows={4}
+                        value={description} onChange={handleDescriptionChange}
                     />
                     <Box p={2} backgroundColor="#D9D9D9"> 
                         <Typography variant="h6" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: "#000000"}}>
@@ -187,26 +314,25 @@ function AddClothingItem() {
                     
                 </Stack> 
                 <Stack className="responsive-stack" direction={{ xs: 'column', md: 'row'}}>
-                    <Stack flex={1} direction={{ xs: 'column', md: 'row' }} alignItems="center" justifyContent="center" gap={"75px"}> 
-                        <ImageCarousel/>
+                    <Stack p={2} flex={1} direction={{ xs: 'column', md: 'row' }} alignItems="center" justifyContent="center" gap={"75px"}> 
+                        {updateImageSrcArray()}
+                        <ImageCarousel srcArray={imageSrcArray}/>
                         <Stack direction="column" gap={"25px"} >
                             <Typography variant="h3" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'start', color: '#000000', maxWidth:"450px", wordWrap: "break-word"}}>
-                                Centenial DECA Shirt gang
+                                {title === "" ? "Title" : {title}}
                             </Typography>
                             <Typography variant="h5" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'start', color: '#000000'}}>
-                                Size: M
+                                {estimatedPrice === "" ? "Estimated Price" : "Estimated Price: $" + estimatedPrice}
+                            </Typography>
+                            <Typography variant="h5" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'start', color: '#000000', maxWidth:"350px", wordWrap: "break-word"}}>
+                                {articleOfClothing === "" ? "Article of Clothing" : "Article of Clothing: " + articleOfClothing}
                             </Typography>
                             <Typography variant="h5" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'start', color: '#000000'}}>
-                                Estimated Value: $1000
+                                {size === "" ? "Size" : "Size: " + size}
                             </Typography>
                             <Typography wrap variant="subtitle1" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'start', color: '#000000', maxWidth:"350px", wordWrap: "break-word"}}>
-                                Description: Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
+                                {description === "" ? "Description" : "Description: " + description}
                             </Typography>
-                            <Box p={1} sx={{backgroundColor: "#D9D9D9", display: "flex", justifyContent: "center", alignItems: "center", width: "208px"}}>
-                                <Typography onClick={() => setTradeStatus(true)} variant="h5" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
-                                    Make a Trade!
-                                </Typography>
-                            </Box>
                         </Stack>
                     </Stack>
                 </Stack>
@@ -241,3 +367,9 @@ export default AddClothingItem
                 </Box> 
             }
         </Box> */}
+
+                                    {/* <Box p={1} sx={{backgroundColor: "#D9D9D9", display: "flex", justifyContent: "center", alignItems: "center", width: "208px"}}>
+                                <Typography onClick={() => setTradeStatus(true)} variant="h5" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
+                                    Make a Trade!
+                                </Typography>
+                            </Box> */}

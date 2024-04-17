@@ -37,10 +37,10 @@ const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 //   },
 // ];
 
-function ImageCarousel() {
+function ImageCarousel({srcArray}) {
   const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
-  const maxSteps = 3;
+  const maxSteps = srcArray.length;
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -62,10 +62,12 @@ function ImageCarousel() {
         onChangeIndex={handleStepChange}
         enableMouseEvents
       >
+        {srcArray.map((src, index) => (
+          <Box key={index} component="img" sx={{ height: "525px", display: 'block', overflow: 'hidden', width: '100%' }} src={src} alt={`Image ${index}`} />
+        ))}
+        {/* <Box component="img" sx={{height: "525px", display: 'block', overflow: 'hidden', width: '100%'}} src={PortraitShirt}/>
         <Box component="img" sx={{height: "525px", display: 'block', overflow: 'hidden', width: '100%'}} src={PortraitShirt}/>
-        <Box component="img" sx={{height: "525px", display: 'block', overflow: 'hidden', width: '100%'}} src={PortraitShirt}/>
-        <Box component="img" sx={{height: "525px", display: 'block', overflow: 'hidden', width: '100%'}} src={PortraitShirt}/>
-
+        <Box component="img" sx={{height: "525px", display: 'block', overflow: 'hidden', width: '100%'}} src={PortraitShirt}/> */}
       </AutoPlaySwipeableViews>
       <MobileStepper
         steps={maxSteps}

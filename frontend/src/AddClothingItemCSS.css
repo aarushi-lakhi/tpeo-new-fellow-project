@@ -13,9 +13,3 @@
   display: flex;  
 }
 }
-
-@media (max-width: 799px) {
-  .add-item-stack {
-    flex: 1; 
-  }
-}
