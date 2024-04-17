@@ -1,0 +1,21 @@
+@media (max-width: 799px) {
+    .responsive-stack {
+      display: none;
+      flex: 0
+    }
+    .add-item-stack {
+      flex: 1; 
+    }
+  }
+  
+@media (min-width: 800px) {
+.responsive-stack {
+  display: flex;  
+}
+}
+
+@media (max-width: 799px) {
+  .add-item-stack {
+    flex: 1; 
+  }
+}
