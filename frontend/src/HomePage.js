@@ -58,7 +58,7 @@ const HomePage = () => {
         <CloseIcon />
       </IconButton>
       <Typography variant="h3" sx={{ fontSize: '100px', fontWeight: 500, textAlign: 'center', color: '#000000', marginBottom: '1rem'}}>Error!</Typography>
-      <Typography variant="body1" sx={{ fontSize: '30px', fontWeight: 400, textAlign: 'center', color: '#000000', marginBottom: '1rem'}}>Please use your utexas.edu email to log in</Typography>
+      <Typography variant="body1" sx={{ fontSize: '30px', fontWeight: 400, textAlign: 'center', color: '#000000', marginBottom: '1rem', marginLeft: '2rem', marginRight: '2rem'}}>Please use your utexas.edu email to log in</Typography>
     </Box>
   );
 
