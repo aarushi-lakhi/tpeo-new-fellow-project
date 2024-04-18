@@ -36,8 +36,6 @@ function App() {
           <Route path="/add-item" element={<AddClothingItem/>} /> 
           <Route path="/check-offers" element={<Offers/>} /> 
           <Route path="/manage-listings" element={<ManageListings/>} /> 
-
-
           {/* DELETE ABOVE ROUTE, ONLY TEMPORARY FOR TESTING */}
         </Routes>
       </AuthProvider>

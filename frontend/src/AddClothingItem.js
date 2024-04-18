@@ -232,6 +232,7 @@ function AddClothingItem() {
             myHeaders.append("Authorization", token);
 
             const raw = JSON.stringify({
+                "title": title, 
                 "userEmail": currentUser.email,
                 "description": description,
                 "size": size,

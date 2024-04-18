@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import styled from "styled-components";
 import { Button, Box, Stack } from '@mui/material';
 import Typography from '@mui/material/Typography';
@@ -32,6 +32,11 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
+// Firebase Stuff 
+import {useAuth} from './AuthContext';
+import {storage} from './firebaseConfig';
+import {ref, uploadBytes, listAll, getDownloadURL} from 'firebase/storage';
+import {v4} from 'uuid';
 
 
 const TempNavBarPage = () => {
@@ -40,16 +45,51 @@ const TempNavBarPage = () => {
   const [filterDisplayStatus, setFilterDisplayStatus] = useState(true); 
   const [sideClothingView, setSideClothingView] = useState(false); 
 
-  const label = { inputProps: { 'aria-label': 'Checkbox demo' } }; 
+  const {currentUser} = useAuth();
+  const [userInventoryData, setUserInventoryData] = useState([]); 
 
-  function myFunction() {
-    console.log("Hel;o")
-  }
+  useEffect(() => {
+    const getUserListings = async () => {
+       console.log("here"); 
+        if(currentUser) {
+          try {
+            const idToken = await currentUser.getIdToken(); 
+            console.log(idToken); 
+            const myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+            const token = "Bearer " +  idToken; 
+            myHeaders.append("Authorization", token);
 
-  function randomFinct() {
-    console.log("hello")
-  }
+            const raw = JSON.stringify({
+              "userEmail": currentUser.email
+            });
+            
+            const requestOptions = {
+              method: "GET",
+              headers: myHeaders,
+              redirect: "follow"
+            };
+            
+            const url = "http://localhost:4000/inventory/view_inventory/" + currentUser.email; 
+            const response = await fetch(url, requestOptions); 
+            const data = await response.json();
+            console.log(data); 
+            if (Array.isArray(data)) {
+              setUserInventoryData(data); 
+            } else {
+              // Catch Error
+            }
+        } catch(e) {
+            // ERROR 
+            console.log(e); 
+        }
+      }
+    }
 
+    getUserListings(); 
+  }, [currentUser])
+
+  
   return (
     <Box>
        <Stack p={2} direction="row" justifyContent="space-between" alignItems="center" sx={{position: "sticky", backgroundColor: "#A5B9E0",  zIndex: "mobile stepper"}}>
@@ -105,16 +145,11 @@ const TempNavBarPage = () => {
         </Box>
 
         <Stack direction="row" flexWrap="wrap" justifyContent="center" alignItems="center" gap={2}>
-            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
-            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
-            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
-            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
-            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
-            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
-            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
-            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
-            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
-            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
+            {userInventoryData.length !== 0 && 
+              userInventoryData.map((item, index) => (
+                  <ClothingCard title={userInventoryData[index].title} size={userInventoryData[index].size} imgSrc={userInventoryData[index].clothingImages[0]} /> 
+              ))
+            }
         </Stack>
       </Stack>
     </Box>
@@ -122,3 +157,15 @@ const TempNavBarPage = () => {
 }
 
 export default TempNavBarPage
+
+
+            {/* <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
+            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
+            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
+            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
+            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
+            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
+            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
+            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
+            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
+            <ClothingCard onClickFunction={() => setSideClothingView(true)}/> */}

@@ -8,7 +8,7 @@ const userCollection = db.collection('Users');
 
 router.post("/upload_item_test", async (req, res) => {
     // Extract Request Body 
-    const {userEmail, description, size, clothingArticle, estimatedMonetaryValue, images} = req.body; 
+    const {title, userEmail, description, size, clothingArticle, estimatedMonetaryValue, images} = req.body; 
 
     // Create a blank document in the product collection
     const newItemRef = productCollection.doc(); 
@@ -21,6 +21,7 @@ router.post("/upload_item_test", async (req, res) => {
 
     // Set the fields of the newly created product document 
     await newItemRef.set({
+        title: title, 
         userDocumentReference: userEmailDoc,
         description: description,
         size: size,

@@ -54,8 +54,10 @@ router.get("/view_complete_inventory", async (req, res) => {
     res.status(200).json(allUserProductDocumentData)
 })
 
-router.get("/view_inventory", async (req, res) => {
-    const {userEmail} = req.body
+router.get("/view_inventory/:userEmail", async (req, res) => {
+    const userEmail = req.params.userEmail;
+    
+    console.log(userEmail); 
 
     const userDocReference = await userCollection.doc(userEmail).get()
     const userData = userDocReference.data() 
