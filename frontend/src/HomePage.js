@@ -69,73 +69,8 @@ const HomePage = () => {
 
   return (
     <div>
-      {/* Nav Bar */}
-      <Box
-        width="100%"
-        height="12%"
-        bgcolor="#D9D9D9"
-        display="flex"
-        flexDirection="row"
-        justifyContent="space-between"
-        alignItems="center"
-        textAlign="center"
-        padding="1rem"
-      >
-        {/* Barter Buddies */}
-        <Box
-          width="17%"
-          height="80%"
-          top = "-10%"
-          gap = "0px"
-          opacity = "0px"
-          bgcolor="#A5B9E0"
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <Typography
-            variant="h2"
-            sx={{
-              fontFamily: 'Poppins',
-              fontSize: '2vw',
-              fontWeight: 500,
-              lineHeight: '1.5',
-              textAlign: 'center',
-              color: '#000000',
-            }}
-          >
-            Barter Buddies
-          </Typography>
-        </Box>
-
-        {/* User Circle Icon */}
-        <Box
-          width="10%"
-          height="100%"
-          bgcolor="#1B1A1A"
-          border="2px solid #000000"
-          borderRadius="50%"
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-        >
-          {/* User Icon */}
-          <div
-            width="70%"
-            height="70%"
-            style={{
-              backgroundImage: 'url("user-icon.png")',
-              backgroundSize: 'cover',
-            }}
-          />
-        </Box>
-      </Box>
-
       {/* Main content */}
       <Box
-        width="100%"
-        height="100%"
-        top = "10%"
         bgcolor="#A5B9E0"
         display="flex"
         justifyContent="center"
@@ -148,12 +83,12 @@ const HomePage = () => {
           height="35%"
           bgcolor="#D9D9D9"
           textAlign="left"
-          padding="2vw"
+          padding="4vw"
           display="flex"
           flexDirection="column"
           justifyContent="center"
-          marginTop="7vw"
-          marginBottom="7vw"
+          marginTop="9vw"
+          marginBottom="9vw"
           marginLeft="2vw"
         >
           <Typography
