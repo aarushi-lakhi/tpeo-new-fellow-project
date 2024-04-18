@@ -122,8 +122,3 @@ const TempNavBarPage = () => {
 }
 
 export default TempNavBarPage
-
-// Profile 
-// Clothes 
-// Offers 
-// Listings 

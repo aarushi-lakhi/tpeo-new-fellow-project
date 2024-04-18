@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Button, Box, Stack, TextField, Paper, MenuItem, Select, InputLabel, Card, CardContent} from '@mui/material';
 import Typography from '@mui/material/Typography';
@@ -39,7 +39,23 @@ import DropDownMenu from "./components/DropDownMenu"
 
 import ListingPreviewImage from "./components/YourListingPreviewImage.png"
 
+
+// Firebase Stuff 
+import {useAuth} from './AuthContext';
+import {storage} from './firebaseConfig';
+import {ref, uploadBytes, listAll, getDownloadURL} from 'firebase/storage';
+import {v4} from 'uuid';
+
 function AddClothingItem() {
+    // Firebase Stuff 
+    // useEffect(async () => {
+    //     const idToken = await currentUser.getIdToken(); 
+    //     console.log("hello")
+    //     console.log(idToken); 
+    //   }, []);
+
+
+    // Frontend Stuff
     const [burgerStatus, setBurgerStatus] = useState(false);
     const [clothingCardStatus, setclothingCardStatus] = useState(false);
     const [tradeStatus, setTradeStatus] = useState(false);
@@ -69,9 +85,17 @@ function AddClothingItem() {
     const handleBoxClickThree = () => {
         document.getElementById('hidden-file-input-three').click();
     };
+
+    const [firebaseUploadImageOne, setFirebaseUploadImageOne] = useState(""); 
+    const [firebaseUploadImageTwo, setFirebaseUploadImageTwo] = useState(""); 
+    const [firebaseUploadImageThree, setFirebaseUploadImageThree] = useState(""); 
+
   
     const handleFileChange = (event, number) => {
+      const firebaseUploadImageArray = [setFirebaseUploadImageOne, setFirebaseUploadImageTwo, setFirebaseUploadImageThree]; 
+
       const file = event.target.files[0];
+      (firebaseUploadImageArray[number])(file); 
       if (file) {
         const imageViewArray = [setImageViewOne, setImageViewTwo, setImageViewThree]; 
         const imagePreviewURLArray = [setImagePreviewUrlOne, setImagePreviewUrlTwo, setImagePreviewUrlThree];
@@ -150,7 +174,99 @@ function AddClothingItem() {
         setDescription(newValue);
     }
 
+    // Firebase Stuff 
+    const {currentUser} = useAuth();
 
+    // const fetchProfileInformation = async () => {
+    //     try {
+    //       const idToken = await currentUser.getIdToken(); 
+    //       console.log(idToken); 
+    //     } catch(e) {
+    //       console.log(e); 
+    //     }
+    //   }
+
+    // useEffect(() => {
+    //     console.log("RAAAHAHHH"); 
+    //     if(currentUser) {
+    //         fetchProfileInformation();
+    //     }
+    // }, [currentUser]);
+
+    const uploadSpecificImage = async (imageToUpload) => {
+        const imageRef = ref(storage, `images/${imageToUpload.name + v4()}`);
+        try {
+            const imageRef = ref(storage, `images/${imageToUpload.name + v4()}`);
+            const snapshot = await uploadBytes(imageRef, imageToUpload);
+            const url = await getDownloadURL(snapshot.ref);
+            return url; 
+        } catch (error) {
+            console.error("Error uploading image:", error);
+            return null; 
+        }
+    };
+
+    const uploadImages = async () => {
+        const firebaseImageUploadArray = [firebaseUploadImageOne, firebaseUploadImageTwo, firebaseUploadImageThree]; 
+        const firebaseURLS = []; 
+        for (let i = 0; i < firebaseImageUploadArray.length; i++) {
+            if(firebaseImageUploadArray[i] !== "") {
+                // console.log("BORA BORA"); 
+                // console.log(i); 
+                uploadSpecificImage(firebaseImageUploadArray[i]).then((url) => {
+                    if (url) {
+                        firebaseURLS.push(url); 
+                    } else {
+                        // Error; 
+                    }
+                });
+            }
+        }
+        return firebaseURLS; 
+    };
+
+    const addListing = async () => {
+        console.log("Imma go off"); 
+        var finalURLS = await uploadImages(); 
+        console.log("migos"); 
+
+        try {
+            console.log("from the block"); 
+            const idToken = await currentUser.getIdToken(); 
+            console.log("boom"); 
+
+
+            const myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+            const token = "Bearer " +  idToken; 
+            myHeaders.append("Authorization", token);
+
+            const raw = JSON.stringify({
+                "userEmail": currentUser.email,
+                "description": description,
+                "size": size,
+                "clothingArticle": articleOfClothing,
+                "estimatedMonetaryValue": estimatedPrice,
+                "images": finalURLS, 
+            });
+
+            const requestOptions = {
+                method: "POST",
+                headers: myHeaders,
+                body: raw,
+                redirect: "follow"
+            };
+
+            fetch("http://localhost:4000/upload_item_test", requestOptions)
+                .then((response) => response.text())
+                .then((result) => console.log(result))
+                .catch((error) => console.error(error));
+                // ERROR 
+        } catch(e) {
+            // ERROR 
+            console.log(e); 
+        }
+    }
 
   
     return (
@@ -305,7 +421,7 @@ function AddClothingItem() {
                         value={description} onChange={handleDescriptionChange}
                     />
                     <Box p={2} backgroundColor="#D9D9D9"> 
-                        <Typography variant="h6" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: "#000000"}}>
+                        <Typography onClick={() => addListing()}variant="h6" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: "#000000"}}>
                             Add Listing
                         </Typography>
                     </Box> 
@@ -349,7 +465,7 @@ function AddClothingItem() {
             </Card> */}
         </Box>
     );
-  }
+}
 
 
 
