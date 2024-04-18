@@ -43,9 +43,12 @@ import ListingPreviewImage from "./components/YourListingPreviewImage.png"
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 
+import ConfirmTradeModal from "./components/ConfirmTradeModal";
+
 const Offers = () => {
     const [burgerStatus, setBurgerStatus] = useState(false);
     const [clothingCardStatus, setclothingCardStatus] = useState(false);
+    const [modalStatus, setModalStatus] = useState(false); 
 
   return (
         <Box>
@@ -129,7 +132,7 @@ const Offers = () => {
                             </Stack> 
                             <Stack direction="column" justifyContent="center" alignItems="center" gap={"8px"} backgroundColor="#D9D9D9" height="75px" width="150px">
                                 <ThumbUpIcon/>
-                                <Typography variant="subtitle1" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
+                                <Typography onClick={() => setModalStatus(true)}variant="subtitle1" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
                                     Interested
                                 </Typography>
                             </Stack> 
@@ -179,6 +182,9 @@ const Offers = () => {
                     </Stack>
                 </Stack>
             </Stack>
+            {modalStatus &&  
+                <ConfirmTradeModal modalValue={modalStatus} infoDisplay={true}/>
+            }
         </Box>
   )
 }

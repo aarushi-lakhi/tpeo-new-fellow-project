@@ -205,9 +205,6 @@ const TempNavBarPage = () => {
           </Stack>
         </Stack>
         <Box>
-          <Typography variant="h6" sx={{fontFamily: 'Poppins', fontWeight: "600", textAlign: 'start', color: '#000000'}}>
-                Activewear
-          </Typography>
         </Box>
       {/* {clothingCardStatus &&
           <Box sx={{height: "100vh", backgroundColor: "orange", zIndex: "tooltip", position: 'fixed', top: 0, right: 0}}>

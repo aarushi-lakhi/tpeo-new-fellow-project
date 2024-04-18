@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Button, Box, Stack, TextField, Paper, MenuItem, Select, InputLabel } from '@mui/material';
+import { Button, Box, Stack, TextField, Paper, MenuItem, Select, InputLabel, Card, CardContent} from '@mui/material';
 import Typography from '@mui/material/Typography';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import IconButton from '@mui/material/IconButton';
@@ -335,6 +335,18 @@ function AddClothingItem() {
                     </Stack>
                 </Stack>
             </Stack>
+            {/* <Card sx={{ maxWidth: 345, borderRadius: '16px', backgroundColor: '#D3D3D3', border: '1px solid #0000FF', boxShadow: 'none' }}>
+            <CardContent sx={{ textAlign: 'center' }}>
+                <Typography variant="h5" component="div">
+                Confirm your trade!
+                </Typography>
+                <Box mt={2}>
+                <Button variant="contained" color="primary">
+                    CONFIRM
+                </Button>
+                </Box>
+            </CardContent>
+            </Card> */}
         </Box>
     );
   }

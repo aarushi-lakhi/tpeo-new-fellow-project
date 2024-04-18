@@ -15,6 +15,7 @@ import TempNavBarPage from './TempNavBarPage';
 import TempPageTwo from './TempPageTwo';
 import AddClothingItem from "./AddClothingItem"
 import Offers from "./Offers"
+import ManageListings from "./ManageListingsPage"
 
 function App() {
   return (
@@ -34,6 +35,8 @@ function App() {
           <Route path="/temp-page-two" element={<TempPageTwo/>} /> 
           <Route path="/add-item" element={<AddClothingItem/>} /> 
           <Route path="/check-offers" element={<Offers/>} /> 
+          <Route path="/manage-listings" element={<ManageListings/>} /> 
+
 
           {/* DELETE ABOVE ROUTE, ONLY TEMPORARY FOR TESTING */}
         </Routes>
