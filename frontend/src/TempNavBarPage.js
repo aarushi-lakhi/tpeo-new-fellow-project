@@ -48,11 +48,21 @@ const TempNavBarPage = () => {
   }
 
   const handleGenderChange = (event, number) => {
-      genderFilter[number] = !genderFilter[number]; 
+      const copyGenderFilter = [];
+      for (let i = 0; i < genderFilter.length; i++) {
+        copyGenderFilter[i] = genderFilter[i];  // Copy each element using a for loop
+      }
+      copyGenderFilter[number] = !copyGenderFilter[number]; 
+      setGenderFilter(copyGenderFilter); 
   };
 
   const handleSizeChange = (event, number) => {
-    sizeFilter[number] = !sizeFilter[number]; 
+    const copySizeFilter = [];
+      for (let i = 0; i < sizeFilter.length; i++) {
+        copySizeFilter[i] = sizeFilter[i];  // Copy each element using a for loop
+      }
+      copySizeFilter[number] = !copySizeFilter[number]; 
+      setSizeFilter(copySizeFilter); 
 };
 
   return (
