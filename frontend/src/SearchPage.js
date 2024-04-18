@@ -8,6 +8,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import FormGroup from '@mui/material/FormGroup';
 import Checkbox from '@mui/material/Checkbox';
+import { useNavigate } from 'react-router-dom';
+
 
 // Clean this up later 
 import Shirt from "./components/ClothingArticlesImages/Shirt.png"
@@ -30,7 +32,9 @@ import {useAuth} from './AuthContext';
 import ClothingCard from "./components/ClothingCard.js"
 
 
-const TempNavBarPage = () => {
+
+const SearchPage = () => {
+  const navigate = useNavigate();
   const {currentUser} = useAuth();
 
   const [filterDisplayStatus, setFilterDisplayStatus] = useState(true); 
@@ -138,8 +142,8 @@ const TempNavBarPage = () => {
       // console.log(backgroundColorClothingArticles); 
   };
 
-  function navigateToTradePage() {
-
+  function navigateToTradePage(specificClothingData) {
+    navigate("/temp-page-two", {state: {clothingData: specificClothingData}}); 
   }
 
   return (
@@ -254,7 +258,7 @@ const TempNavBarPage = () => {
           <Stack direction="row" flexWrap="wrap" justifyContent="center" alignItems="center" gap={2}>
             {searchResults.length !== 0 && 
               searchResults.map((item, index) => (
-                  <ClothingCard userData={searchResults[index]}/> 
+                  <ClothingCard onClickFunction={() => navigateToTradePage(searchResults[index])}userData={searchResults[index]}/> 
               ))
             }
           </Stack>
@@ -266,7 +270,7 @@ const TempNavBarPage = () => {
   )
 }
 
-export default TempNavBarPage
+export default SearchPage
 
 
 

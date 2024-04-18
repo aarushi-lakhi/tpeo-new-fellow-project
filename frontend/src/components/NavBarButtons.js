@@ -10,7 +10,7 @@ const NavBarButtons = () => {
   return (
     <Stack flex="1" direction="row" justifyContent="space-evenly" alignItems="center">
         <Box p={2} sx={{backgroundColor: "#A5B9E0", display: "flex", justifyContent: "center", alignItems: "center", '&:hover': {backgroundColor: "#D9D9D9"}}}>
-            <Typography onClick={() => navigate("/temp-navbar")} variant="h4" sx={{fontFamily: 'Poppins', fontWeight: "400", textAlign: 'center', color: '#000000', display: {xs: 'none', md: 'block'}}}>
+            <Typography onClick={() => navigate("/search-page")} variant="h4" sx={{fontFamily: 'Poppins', fontWeight: "400", textAlign: 'center', color: '#000000', display: {xs: 'none', md: 'block'}}}>
                 Clothes 
             </Typography>
         </Box>
