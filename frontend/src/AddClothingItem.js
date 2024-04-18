@@ -125,7 +125,6 @@ function AddClothingItem() {
         }
 
         if(imageSrcArray.length === 0) {
-            console.log("mac miller"); 
             imageSrcArray.push(ListingPreviewImage); 
         }
     }
@@ -206,35 +205,26 @@ function AddClothingItem() {
         }
     };
 
-    const uploadImages = async () => {
+    // const uploadImages = async () => {
+    //     return firebaseURLS; 
+    // };
+
+    const addListing = async () => {
         const firebaseImageUploadArray = [firebaseUploadImageOne, firebaseUploadImageTwo, firebaseUploadImageThree]; 
         const firebaseURLS = []; 
         for (let i = 0; i < firebaseImageUploadArray.length; i++) {
             if(firebaseImageUploadArray[i] !== "") {
-                // console.log("BORA BORA"); 
-                // console.log(i); 
-                uploadSpecificImage(firebaseImageUploadArray[i]).then((url) => {
-                    if (url) {
-                        firebaseURLS.push(url); 
-                    } else {
-                        // Error; 
-                    }
-                });
+                const url = await uploadSpecificImage(firebaseImageUploadArray[i]);
+                if(url) {
+                    firebaseURLS.push(url); 
+                } else {
+                    // ERROR ; 
+                }
             }
         }
-        return firebaseURLS; 
-    };
-
-    const addListing = async () => {
-        console.log("Imma go off"); 
-        var finalURLS = await uploadImages(); 
-        console.log("migos"); 
 
         try {
-            console.log("from the block"); 
             const idToken = await currentUser.getIdToken(); 
-            console.log("boom"); 
-
 
             const myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/json");
@@ -247,7 +237,7 @@ function AddClothingItem() {
                 "size": size,
                 "clothingArticle": articleOfClothing,
                 "estimatedMonetaryValue": estimatedPrice,
-                "images": finalURLS, 
+                "images": firebaseURLS, 
             });
 
             const requestOptions = {
@@ -257,11 +247,11 @@ function AddClothingItem() {
                 redirect: "follow"
             };
 
-            fetch("http://localhost:4000/upload_item_test", requestOptions)
+            fetch("http://localhost:4000/item/upload_item_test", requestOptions)
                 .then((response) => response.text())
-                .then((result) => console.log(result))
+                .then((result) => setModalTruthValue(true))
                 .catch((error) => console.error(error));
-                // ERROR 
+                // ERROR ^
         } catch(e) {
             // ERROR 
             console.log(e); 
@@ -451,6 +441,9 @@ function AddClothingItem() {
                     </Stack>
                 </Stack>
             </Stack>
+            {modalTruthValue &&  
+                <Modal modalValue={modalTruthValue}/>
+            }
             {/* <Card sx={{ maxWidth: 345, borderRadius: '16px', backgroundColor: '#D3D3D3', border: '1px solid #0000FF', boxShadow: 'none' }}>
             <CardContent sx={{ textAlign: 'center' }}>
                 <Typography variant="h5" component="div">
