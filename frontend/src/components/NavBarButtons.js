@@ -1,25 +1,26 @@
 import React from 'react'
-import styled from "styled-components";
-import { Button, Box, Stack } from '@mui/material';
+import {Box, Stack } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import IconButton from '@mui/material/IconButton';
+import { useNavigate } from 'react-router-dom';
+
 
 const NavBarButtons = () => {
+  const navigate = useNavigate();
+
   return (
     <Stack flex="1" direction="row" justifyContent="space-evenly" alignItems="center">
-        <Box p={0.5} sx={{backgroundColor: "#A5B9E0", display: "flex", justifyContent: "center", alignItems: "center"}}>
-            <Typography variant="h4" sx={{fontFamily: 'Poppins', fontWeight: "400", textAlign: 'center', color: '#000000', display: {xs: 'none', md: 'block'}}}>
+        <Box p={2} sx={{backgroundColor: "#A5B9E0", display: "flex", justifyContent: "center", alignItems: "center", '&:hover': {backgroundColor: "#D9D9D9"}}}>
+            <Typography onClick={() => navigate("/temp-navbar")} variant="h4" sx={{fontFamily: 'Poppins', fontWeight: "400", textAlign: 'center', color: '#000000', display: {xs: 'none', md: 'block'}}}>
                 Clothes 
             </Typography>
         </Box>
-        <Box p={0.5} sx={{backgroundColor: "#A5B9E0", display: "flex", justifyContent: "center", alignItems: "center"}}>
-            <Typography variant="h4" sx={{fontFamily: 'Poppins', fontWeight: "400", textAlign: 'center', color: '#000000', display: {xs: 'none', md: 'block'}}}>
+        <Box p={2} sx={{backgroundColor: "#A5B9E0", display: "flex", justifyContent: "center", alignItems: "center", '&:hover': {backgroundColor: "#D9D9D9"}}} >
+            <Typography onClick={() => navigate("/check-offers")} variant="h4" sx={{fontFamily: 'Poppins', fontWeight: "400", textAlign: 'center', color: '#000000', display: {xs: 'none', md: 'block'}}}>
                 Offers 
             </Typography>
         </Box>
-        <Box p={0.5} sx={{backgroundColor: "#A5B9E0", display: "flex", justifyContent: "center", alignItems: "center"}}>
-            <Typography variant="h4" sx={{fontFamily: 'Poppins', fontWeight: "400", textAlign: 'center', color: '#000000', display: {xs: 'none', md: 'block'}}}>
+        <Box p={2} sx={{backgroundColor: "#A5B9E0", display: "flex", justifyContent: "center", alignItems: "center", '&:hover': {backgroundColor: "#D9D9D9"}}}>
+            <Typography onClick={() => navigate("/manage-listings")} variant="h4" sx={{fontFamily: 'Poppins', fontWeight: "400", textAlign: 'center', color: '#000000', display: {xs: 'none', md: 'block'}}}>
                 Listings  
             </Typography>
         </Box>

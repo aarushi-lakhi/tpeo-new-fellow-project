@@ -1,16 +1,11 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import { Button, Box, Stack } from '@mui/material';
+import React, { useState, useEffect } from "react";
+import {Box, Stack } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import IconButton from '@mui/material/IconButton';
 import NavBarButtons from './components/NavBarButtons';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme } from '@mui/material/styles';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
-import ClothingCard from './components/ClothingCard';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import FormGroup from '@mui/material/FormGroup';
 import Checkbox from '@mui/material/Checkbox';
 
@@ -25,166 +20,144 @@ import Suits from "./components/ClothingArticlesImages/Suits.png"
 import Swimwear from "./components/ClothingArticlesImages/Swimwear.png"
 
 // Formgroup stuff 
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-
-
+import NavBar from "./components/NavBar"
 
 
 const TempNavBarPage = () => {
-  const [burgerStatus, setBurgerStatus] = useState(false);
-  const [clothingCardStatus, setclothingCardStatus] = useState(false);
   const [filterDisplayStatus, setFilterDisplayStatus] = useState(true); 
-  const [sideClothingView, setSideClothingView] = useState(false); 
+  const [backgroundColorClothingArticles, setBackgroundColorClothingArticles] = useState(["#D9D9D9", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF"]); 
+  const [shoeSelected, setShoeSelected] = useState(false);
 
-  const label = { inputProps: { 'aria-label': 'Checkbox demo' } }; 
+  const [genderFilter, setGenderFilter] = useState([true, false, false]); 
+  const [sizeFilter, setSizeFilter] = useState([true, false, false, false, false]); 
 
-  function myFunction() {
-    console.log("Hel;o")
+  
+  useEffect(() => {
+    if(backgroundColorClothingArticles[2] === "#D9D9D9") {
+      setShoeSelected(true); 
+    } else {
+      setShoeSelected(false); 
+    }
+  }, [backgroundColorClothingArticles])
+
+  function backgroundColorChange(number) {
+      const backgroundColorArray = ["#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF"]; 
+      backgroundColorArray[number] = "#D9D9D9";  
+      setBackgroundColorClothingArticles(backgroundColorArray); 
   }
 
-  function randomFinct() {
-    console.log("hello")
-  }
+  const handleGenderChange = (event, number) => {
+      genderFilter[number] = !genderFilter[number]; 
+  };
+
+  const handleSizeChange = (event, number) => {
+    sizeFilter[number] = !sizeFilter[number]; 
+};
 
   return (
     <Box>
-       <Stack p={2} direction="row" justifyContent="space-between" alignItems="center" sx={{position: "sticky", backgroundColor: "#A5B9E0",  zIndex: "mobile stepper"}}>
-        <Box p={1.5} sx={{backgroundColor: "#D9D9D9", display: "flex", justifyContent: "center", alignItems: "center"}}>
-            <Typography variant="h4" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
-                Barter Buddies
-            </Typography>
-        </Box>
-        <NavBarButtons/>
-        <IconButton onClick={() => setclothingCardStatus(true)}>
-             <AccountCircleIcon sx={{fontSize: {xs: "65px"},  display: {xs: 'none', md: 'block'}}}/>
-        </IconButton> 
-        <IconButton onClick={() => setBurgerStatus(true)}>
-             <MenuIcon sx={{fontSize: {xs: "65px"},  display: {xs: 'block', md: 'none' }}}/>
-        </IconButton> 
-        {burgerStatus && 
-          <Box sx={{width: "100vw", height: "100vh", backgroundColor: "#A5B9E0", zIndex: "tooltip", position: 'fixed', top: 0, left: 0}}>
-            <Box p={1} sx={{display: "flex", justifyContent:"flex-end", alignItems:"flex-end"}}> 
-              <IconButton onClick={() => setBurgerStatus(false)}>
-                <CloseIcon sx={{fontSize: "50px"}}/>
-              </IconButton> 
-            </Box>
-            <Box sx={{margin: 2, display: "flex", justifyContent:"center", alignItems:"center"}}> 
-                <Typography variant="h4" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
-                    Menu
-                </Typography>
-            </Box>
-            <Stack p={2} direction="column" justifyContent="flex-start" alignItems="flex-start" gap="30px">
-              <Typography variant="h4" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
-                  Profile
-              </Typography>
-              <Typography variant="h4" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
-                  Clothes
-              </Typography>
-              <Typography variant="h4" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
-                  Offers
-              </Typography>
-              <Typography variant="h4" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
-                  Listings 
-              </Typography>
-            </Stack>
-          </Box>
-          }
-      </Stack>
+      <NavBar/>
       {!filterDisplayStatus && 
       <Typography p={1} onClick={() => setFilterDisplayStatus(true)} variant="subtitle1" sx={{fontFamily: 'Poppins', fontWeight: "600", textAlign: 'start', color: '#000000', hover: "pointer"}}>
           Open Filter
       </Typography>}
       <Stack direction="row">
         {filterDisplayStatus && 
-        <Box p={2} sx={{overflowY: "scroll", background: "#A5B9E0", cursor: 'pointer'}}>
+        <Box p={2} sx={{overflowY: "scroll", background: "#A5B9E0", cursor: 'pointer', height: "92vh"}}>
             <Typography onClick={() => setFilterDisplayStatus(false)} variant="subtitle1" sx={{fontFamily: 'Poppins', fontWeight: "600", textAlign: 'start', color: '#000000', hover: "pointer"}}>
                 Close Filter
             </Typography>
-          <Stack direction="column" marginTop={2} >
+          <Stack direction="column" marginTop={2}>
             <Typography variant="h5" sx={{fontFamily: 'Poppins', fontWeight: "600", textAlign: 'start', color: '#000000'}}>
                 Gender
             </Typography>
             <FormGroup>
-              <FormControlLabel control={<Checkbox/>} label="Male" />
-              <FormControlLabel control={<Checkbox/>} label="Female" />
-              <FormControlLabel control={<Checkbox/>} label="Unisex" />
+              <FormControlLabel control={<Checkbox checked={genderFilter[0]} onChange={(event) => handleGenderChange(event, 0)}/>} label="Male" />
+              <FormControlLabel control={<Checkbox checked={genderFilter[1]} onChange={(event) => handleGenderChange(event, 1)}/>} label="Female" />
+              <FormControlLabel control={<Checkbox checked={genderFilter[2]} onChange={(event) => handleGenderChange(event, 2)}/>} label="Unisex" />
             </FormGroup>
-            <Typography variant="h6" sx={{fontFamily: 'Poppins', fontWeight: "600", textAlign: 'start', color: '#000000'}}>
-                Shirt/Pant Sizes 
-            </Typography>
-            <FormGroup>
-              <FormControlLabel control={<Checkbox/>} label="XS" />
-              <FormControlLabel control={<Checkbox/>} label="S" />
-              <FormControlLabel control={<Checkbox/>} label="M" />
-              <FormControlLabel control={<Checkbox/>} label="L" />
-              <FormControlLabel control={<Checkbox/>} label="XL" />
-            </FormGroup>
-            <Typography variant="h6" sx={{fontFamily: 'Poppins', fontWeight: "600", textAlign: 'start', color: '#000000'}}>
-                Shoes Sizes 
-            </Typography>
-            <FormGroup>
-              <FormControlLabel control={<Checkbox/>} label="US 5-6" />
-              <FormControlLabel control={<Checkbox/>} label="US 6-7" />
-              <FormControlLabel control={<Checkbox/>} label="US 7-8" />
-              <FormControlLabel control={<Checkbox/>} label="US 8-9" />
-              <FormControlLabel control={<Checkbox/>} label="US 9-10+" />
-            </FormGroup>
+            {!shoeSelected && 
+              <Box> 
+                <Typography variant="h6" sx={{fontFamily: 'Poppins', fontWeight: "600", textAlign: 'start', color: '#000000'}}>
+                    Shirt/Pant Sizes 
+                </Typography>
+                <FormGroup>
+                  <FormControlLabel control={<Checkbox checked={sizeFilter[0]} onChange={(event) => handleSizeChange(event, 0)}/>} label="XS" />
+                  <FormControlLabel control={<Checkbox checked={sizeFilter[1]} onChange={(event) => handleSizeChange(event, 1)}/>} label="S" />
+                  <FormControlLabel control={<Checkbox checked={sizeFilter[2]} onChange={(event) => handleSizeChange(event, 2)}/>} label="M" />
+                  <FormControlLabel control={<Checkbox checked={sizeFilter[3]} onChange={(event) => handleSizeChange(event, 3)}/>} label="L" />
+                  <FormControlLabel control={<Checkbox checked={sizeFilter[4]} onChange={(event) => handleSizeChange(event, 4)}/>} label="XL" />
+                </FormGroup>
+              </Box> 
+            }
+            {shoeSelected && 
+              <Box> 
+                <Typography variant="h6" sx={{fontFamily: 'Poppins', fontWeight: "600", textAlign: 'start', color: '#000000'}}>
+                    Shoes Sizes 
+                </Typography>
+                <FormGroup>
+                  <FormControlLabel control={<Checkbox/>} label="US 5-6" />
+                  <FormControlLabel control={<Checkbox/>} label="US 6-7" />
+                  <FormControlLabel control={<Checkbox/>} label="US 7-8" />
+                  <FormControlLabel control={<Checkbox/>} label="US 8-9" />
+                  <FormControlLabel control={<Checkbox/>} label="US 9-10+" />
+                </FormGroup>
+              </Box> 
+            }
+            <Box mt={3} p={2} backgroundColor="#D9D9D9"> 
+              <Typography variant="h6" sx={{fontFamily: 'Poppins', fontWeight: "600", textAlign: 'center', color: '#000000'}}>
+                  Search! 
+              </Typography>
+            </Box>
           </Stack>
         </Box>}
+        {/* Change to flex start beneath me */}
         <Stack p={2} flex="1" justifyContent="center" alignItems="center" gap="20px">
           <Stack flexWrap="wrap" direction="row" justifyContent="center" alignItems="center" gap="20px"> 
-          {/* {!filterDisplayStatus && 
-            <Typography onClick={() => setFilterDisplayStatus(true)} variant="subtitle1" sx={{fontFamily: 'Poppins', fontWeight: "600", textAlign: 'start', color: '#000000', hover: "pointer"}}>
-                Open Filter
-            </Typography>
-          } */}
-            <Stack row="column" justifyContent="center" alignItems="center">
+            <Stack onClick={() => backgroundColorChange(0)} row="column" justifyContent="center" alignItems="center" sx={{'&:hover': {backgroundColor: "#D9D9D9"}, backgroundColor: backgroundColorClothingArticles[0]}}>
               <Box component="img" sx={{height: "100px", width: "125px",}} alt="Uh Oh" src={Shirt}/>
               <Typography variant="h6" sx={{fontFamily: 'Poppins', fontWeight: "600", textAlign: 'start', color: '#000000'}}>
                 Shirts
               </Typography>
             </Stack>
-            <Stack row="column" justifyContent="center" alignItems="center">
+            <Stack onClick={() => backgroundColorChange(1)} row="column" justifyContent="center" alignItems="center" sx={{'&:hover': {backgroundColor: "#D9D9D9"}, backgroundColor: backgroundColorClothingArticles[1]}}>
               <Box component="img" sx={{height: "100px", width: "125px",}} alt="Uh Oh" src={Pants}/>
               <Typography variant="h6" sx={{fontFamily: 'Poppins', fontWeight: "600", textAlign: 'start', color: '#000000'}}>
                 Pants
               </Typography>
             </Stack>
-            <Stack row="column" justifyContent="center" alignItems="center">
+            <Stack onClick={() => backgroundColorChange(2)} row="column" justifyContent="center" alignItems="center" sx={{'&:hover': {backgroundColor: "#D9D9D9"}, backgroundColor: backgroundColorClothingArticles[2]}}>
               <Box component="img" sx={{height: "100px", width: "125px",}} alt="Uh Oh" src={Shoes}/>
               <Typography variant="h6" sx={{fontFamily: 'Poppins', fontWeight: "600", textAlign: 'start', color: '#000000'}}>
                 Shoes
               </Typography>
             </Stack>
-            <Stack row="column" justifyContent="center" alignItems="center">
+            <Stack onClick={() => backgroundColorChange(3)} row="column" justifyContent="center" alignItems="center" sx={{'&:hover': {backgroundColor: "#D9D9D9"}, backgroundColor: backgroundColorClothingArticles[3]}}>
               <Box component="img" sx={{height: "100px", width: "125px",}} alt="Uh Oh" src={Dresses}/>
               <Typography variant="h6" sx={{fontFamily: 'Poppins', fontWeight: "600", textAlign: 'start', color: '#000000'}}>
                 Dresses
               </Typography>
             </Stack>
-            <Stack row="column" justifyContent="center" alignItems="center">
+            <Stack onClick={() => backgroundColorChange(4)} row="column" justifyContent="center" alignItems="center" sx={{'&:hover': {backgroundColor: "#D9D9D9"}, backgroundColor: backgroundColorClothingArticles[4]}}>
               <Box component="img" sx={{height: "100px", width: "125px",}} alt="Uh Oh" src={Swimwear}/>
               <Typography variant="h6" sx={{fontFamily: 'Poppins', fontWeight: "600", textAlign: 'start', color: '#000000'}}>
                 Swimwear
               </Typography>
             </Stack>
-            <Stack row="column" justifyContent="center" alignItems="center">
+            <Stack onClick={() => backgroundColorChange(5)} row="column" justifyContent="center" alignItems="center" sx={{'&:hover': {backgroundColor: "#D9D9D9"}, backgroundColor: backgroundColorClothingArticles[5]}}>
               <Box component="img" sx={{height: "100px", width: "125px",}} alt="Uh Oh" src={Suits}/>
               <Typography variant="h6" sx={{fontFamily: 'Poppins', fontWeight: "600", textAlign: 'start', color: '#000000'}}>
                 Suits
               </Typography>
             </Stack>
-            <Stack row="column" justifyContent="center" alignItems="center">
+            <Stack onClick={() => backgroundColorChange(6)} row="column" justifyContent="center" alignItems="center" sx={{'&:hover': {backgroundColor: "#D9D9D9"}, backgroundColor: backgroundColorClothingArticles[6]}}>
               <Box component="img" sx={{height: "100px", width: "125px",}} alt="Uh Oh" src={Hoodies}/>
               <Typography variant="h6" sx={{fontFamily: 'Poppins', fontWeight: "600", textAlign: 'start', color: '#000000'}}>
                 Hoodies
               </Typography>
             </Stack>
-            <Stack row="column" justifyContent="center" alignItems="center">
+            <Stack onClick={() => backgroundColorChange(7)} row="column" justifyContent="center" alignItems="center" sx={{'&:hover': {backgroundColor: "#D9D9D9"}, backgroundColor: backgroundColorClothingArticles[7]}}>
               <Box component="img" sx={{height: "100px", width: "125px",}} alt="Uh Oh" src={ActiveWear}/>
               <Typography variant="h6" sx={{fontFamily: 'Poppins', fontWeight: "600", textAlign: 'start', color: '#000000'}}>
                 Activewear
@@ -192,6 +165,7 @@ const TempNavBarPage = () => {
             </Stack>
           </Stack>
           <Stack direction="row" flexWrap="wrap" justifyContent="center" alignItems="center" gap={2}>
+            {/* <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
             <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
             <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
             <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
@@ -200,17 +174,11 @@ const TempNavBarPage = () => {
             <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
             <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
             <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
-            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
-            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
+            <ClothingCard onClickFunction={() => setSideClothingView(true)}/> */}
           </Stack>
         </Stack>
         <Box>
         </Box>
-      {/* {clothingCardStatus &&
-          <Box sx={{height: "100vh", backgroundColor: "orange", zIndex: "tooltip", position: 'fixed', top: 0, right: 0}}>
-
-          </Box>
-      } */}
       </Stack>
     </Box>
   )
@@ -222,3 +190,10 @@ export default TempNavBarPage
 // Clothes 
 // Offers 
 // Listings 
+
+
+          {/* {!filterDisplayStatus && 
+            <Typography onClick={() => setFilterDisplayStatus(true)} variant="subtitle1" sx={{fontFamily: 'Poppins', fontWeight: "600", textAlign: 'start', color: '#000000', hover: "pointer"}}>
+                Open Filter
+            </Typography>
+          } */}

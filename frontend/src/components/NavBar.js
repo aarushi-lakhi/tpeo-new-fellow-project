@@ -1,143 +1,62 @@
-import React from 'react'
-import styled from "styled-components";
-import { Button, Box } from '@mui/material';
+import React, {useState} from "react";
+import {Box, Stack } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import IconButton from '@mui/material/IconButton';
+import NavBarButtons from './NavBarButtons';
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
 
-const navBar = {
-    width: '100vw', 
-    height: '12vh', 
-    backgroundColor: "#A5B9E0", 
-    display: "flex", 
-    justifyContent: "space-between",  
-    alignItems: "center", 
-}
-
-const homePageNavBarButton = {
-    width: "17%", 
-    height: "70%",
-    backgroundColor: "#D9D9D9",
-    marginLeft: "1.5%",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    fontWeight: "500",
-}
-
-const homePageNavBarButtonTypography = {
-    fontFamily: 'Poppins',
-    fontSize: '2vw',
-    fontWeight: "600",
-    textAlign: 'center',
-    color: '#000000',
-}
+import { useNavigate } from 'react-router-dom';
 
 
 export default function NavBar() {
+    const [burgerStatus, setBurgerStatus] = useState(false);
+
   return (
-    <Box sx={navBar}>
-        <Box sx={homePageNavBarButton}>
-            <Typography variant="h2" sx={homePageNavBarButtonTypography}>
+    <Stack p={2} direction="row" justifyContent="space-between" alignItems="center" sx={{position: "sticky", backgroundColor: "#A5B9E0",  zIndex: "mobile stepper"}}>
+        <Box p={1.5} sx={{backgroundColor: "#D9D9D9", display: "flex", justifyContent: "center", alignItems: "center"}}>
+            <Typography variant="h4" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
                 Barter Buddies
             </Typography>
-        </Box> 
+        </Box>
+        <NavBarButtons/>
         <IconButton>
-             <AccountCircleIcon sx={{fontSize: "4vw"}}/>
+             <AccountCircleIcon sx={{fontSize: {xs: "65px"},  display: {xs: 'none', md: 'block'}}}/>
         </IconButton> 
-    </Box>
+        <IconButton onClick={() => setBurgerStatus(true)}>
+             <MenuIcon sx={{fontSize: {xs: "65px"},  display: {xs: 'block', md: 'none' }}}/>
+        </IconButton> 
+        {burgerStatus && 
+          <Box sx={{width: "100vw", height: "100vh", backgroundColor: "#A5B9E0", zIndex: "tooltip", position: 'fixed', top: 0, left: 0}}>
+            <Box p={1} sx={{display: "flex", justifyContent:"flex-end", alignItems:"flex-end"}}> 
+              <IconButton onClick={() => setBurgerStatus(false)}>
+                <CloseIcon sx={{fontSize: "50px"}}/>
+              </IconButton> 
+            </Box>
+            <Box sx={{margin: 2, display: "flex", justifyContent:"center", alignItems:"center"}}> 
+                <Typography variant="h4" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
+                    Menu
+                </Typography>
+            </Box>
+            <Stack p={2} direction="column" justifyContent="flex-start" alignItems="flex-start" gap="30px">
+              <Typography variant="h4" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: 'orange'}}>
+                  Profile
+              </Typography>
+              <Typography variant="h4" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
+                  Clothes
+              </Typography>
+              <Typography variant="h4" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
+                  Offers
+              </Typography>
+              <Typography variant="h4" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
+                  Listings 
+              </Typography>
+            </Stack>
+          </Box>
+          }
+      </Stack>
   )
 }
 
 
-
-const NavBarButton = styled.div`
-    width: 17%; 
-    height: 70%;
-    background-color: #D9D9D9;
-    margin-left: 2.5%;
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
-    font-weight: 500; 
-`
-
-const BarterBuddiesText = styled.div`
-    font-size: '10vw'; 
-    font-weight: 100; 
-`
-
-
-
-
-
-// import React from 'react'
-// import styled from "styled-components";
-// import { Button, Box } from '@mui/material';
-// import Typography from '@mui/material/Typography';
-// import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-// import IconButton from '@mui/material/IconButton';
-
-
-// const styles = {
-//     largeIcon: {
-//       width: "100%",
-//       height: "5%",
-//     },
-// };
-
-// const iconButtonStyles = {
-//     width: "50%", 
-//     height: "50%",
-// }
-
-// export default function NavBar() {
-//   return (
-//     <MainNavBar>
-//         <NavBarButton>
-//             <Typography
-//                 variant="h2"
-//                 sx={{
-//                     fontFamily: 'Poppins',
-//                     fontSize: '2vw',
-//                     fontWeight: 625,
-//                     lineHeight: '1.5',
-//                     textAlign: 'center',
-//                     color: '#000000',
-//                 }}
-//             >
-//                 Barter Buddies
-//             </Typography>
-//         </NavBarButton>
-//         <IconButton>
-//             <AccountCircleIcon sx={{fontSize: "50px"}}/>
-//         </IconButton>
-//     </MainNavBar>
-//   )
-// }
-
-
-// const MainNavBar = styled.div`
-//     width: 100vw; 
-//     height: 12vh;
-//     background-color: #A5B9E0; 
-//     display: flex; 
-//     justify-content: space-between; 
-//     align-items: center; 
-// `;
-
-// const NavBarButton = styled.div`
-//     width: 17%; 
-//     height: 70%;
-//     background-color: #D9D9D9;
-//     margin-left: 2.5%;
-//     display: flex; 
-//     justify-content: center; 
-//     align-items: center; 
-//     font-weight: 500; 
-// `
-
-// const BarterBuddiesText = styled.div`
-//     font-size: '10vw'; 
-//     font-weight: 100; 
-// `
