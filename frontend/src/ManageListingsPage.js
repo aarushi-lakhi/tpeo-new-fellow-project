@@ -34,11 +34,7 @@ const TempNavBarPage = () => {
             myHeaders.append("Content-Type", "application/json");
             const token = "Bearer " +  idToken; 
             myHeaders.append("Authorization", token);
-
-            const raw = JSON.stringify({
-              "userEmail": currentUser.email
-            });
-            
+        
             const requestOptions = {
               method: "GET",
               headers: myHeaders,

@@ -1,15 +1,26 @@
 const express = require("express")
 const router = express.Router() 
+const {getDoc} = require('firebase/firestore');
+
 
 const db = require('./firebase')
 const productCollection = db.collection('Product');
 const userCollection = db.collection('Users'); 
 
-router.get("/find_items", async (req, res) => {
+
+router.get("/find_items/:userEmail/:userSizes/:userClothingArticle/:gender", async (req, res) => {
     // Extract Request Body 
-    var {userEmail, userSize, userClothingArticle, userEstimatedMonetaryValue} = req.body;
-    userEstimatedMonetaryValue = parseFloat(userEstimatedMonetaryValue);
-    
+    const userEmail = req.params.userEmail;
+    const userSizes = ((req.params.userSizes) || "").split(',');
+    if(userSizes.length === 0) {
+        userSizes = ["XS", "S", "M", "L", "XL"]; 
+    }
+    const userClothingArticle = req.params.userClothingArticle; 
+    const userGenders = ((req.params.gender) || "").split(','); 
+    if(userGenders.length === 0) {
+        userGenders = ["Male", "Female", "Unisex"]; 
+    }
+
     const return_documents = [];
     const product_collection_all_documents = []; 
 
@@ -24,14 +35,32 @@ router.get("/find_items", async (req, res) => {
     // Find documents with matching tags and add json to "return_documents"
     for(doc of product_collection_all_documents) {
         // Get relevant fields from each document 
-        const {userDocumentReference, size, clothingArticle, estimatedMonetaryValue, visibilityStatus} = doc.data();  
+        const {userDocumentReference, size, clothingArticle, visibilityStatus, gender} = doc.data();  
 
         // Get Corresponding User Document
-        const userReferenceDoc = await userDocumentReference.get(); 
-        const {Email} = userReferenceDoc.data(); 
+        const docSnapshot = await (userDocumentReference.get());
+        const {Email} = docSnapshot.data(); 
 
-        if(userEmail !== Email && visibilityStatus) {
-            if(size === userSize && clothingArticle === userClothingArticle && estimatedMonetaryValue === userEstimatedMonetaryValue) {
+        // const userReferenceDoc = await userDocumentReference.get(); 
+        // const {Email} = userReferenceDoc.data(); 
+
+        if(visibilityStatus) { // userEmail !== Email &&
+            var sizeCheck = false; 
+            var genderCheck = false; 
+            
+            for(let i = 0; i < userSizes.length; i++) {
+                if(userSizes[i] === size) {
+                    sizeCheck = true; 
+                    break; 
+                }
+            }
+            for(let i = 0; i < userGenders.length; i++) {
+                if(userGenders[i] === gender) {
+                    genderCheck = true; 
+                    break; 
+                }
+            }
+            if(sizeCheck && clothingArticle === userClothingArticle && genderCheck) {
                 const docData = doc.data() 
                 delete docData["offered"] 
                 delete docData["offering"] 

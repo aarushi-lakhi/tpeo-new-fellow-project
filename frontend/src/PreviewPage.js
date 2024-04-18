@@ -37,6 +37,7 @@ import Modal from "./components/ChildModal"
 import PortraitShirt from "./components/PortraitShirt.jpg"
 
 import { useLocation } from 'react-router-dom';
+import NavBar from "./components/NavBar"
 
 const PreviewPage = () => {
     const location = useLocation();
@@ -45,48 +46,7 @@ const PreviewPage = () => {
 
   return (
     <Box>
-        <Stack p={2} direction="row" justifyContent="space-between" alignItems="center" sx={{position: "sticky", backgroundColor: "#A5B9E0",  zIndex: "mobile stepper"}}>
-            <Box p={1.5} sx={{backgroundColor: "#D9D9D9", display: "flex", justifyContent: "center", alignItems: "center"}}>
-                <Typography variant="h4" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
-                    Barter Buddies
-                </Typography>
-            </Box>
-            <NavBarButtons/>
-            <IconButton>
-                <AccountCircleIcon sx={{fontSize: {xs: "65px"},  display: {xs: 'none', md: 'block'}}}/>
-            </IconButton> 
-            <IconButton onClick={() => setBurgerStatus(true)}>
-                <MenuIcon sx={{fontSize: {xs: "65px"},  display: {xs: 'block', md: 'none' }}}/>
-            </IconButton> 
-            {burgerStatus && 
-            <Box sx={{width: "100vw", height: "100vh", backgroundColor: "#A5B9E0", zIndex: "tooltip", position: 'fixed', top: 0, left: 0}}>
-                <Box p={1} sx={{display: "flex", justifyContent:"flex-end", alignItems:"flex-end"}}> 
-                <IconButton onClick={() => setBurgerStatus(false)}>
-                    <CloseIcon sx={{fontSize: "50px"}}/>
-                </IconButton> 
-                </Box>
-                <Box sx={{margin: 2, display: "flex", justifyContent:"center", alignItems:"center"}}> 
-                    <Typography variant="h4" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
-                        Menu
-                    </Typography>
-                </Box>
-                <Stack p={2} direction="column" justifyContent="flex-start" alignItems="flex-start" gap="30px">
-                <Typography variant="h4" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
-                    Profile
-                </Typography>
-                <Typography variant="h4" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
-                    Clothes
-                </Typography>
-                <Typography variant="h4" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
-                    Offers
-                </Typography>
-                <Typography variant="h4" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
-                    Listings 
-                </Typography>
-                </Stack>
-            </Box>
-            }
-        </Stack>
+        <NavBar/>
         <Stack direction={{ xs: 'column', md: 'row' }}>
             <Stack flex={1} direction={{ xs: 'column', md: 'row' }} alignItems="center" justifyContent="center" mt={2} gap={"75px"}> 
                 <ImageCarousel srcArray={userData.clothingImages}/>
@@ -96,6 +56,12 @@ const PreviewPage = () => {
                     </Typography>
                     <Typography variant="h5" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'start', color: '#000000'}}>
                         {"Size: " + userData.size}
+                    </Typography>
+                    <Typography variant="h5" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'start', color: '#000000'}}>
+                        {userData.clothingArticle}
+                    </Typography>
+                    <Typography variant="h5" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'start', color: '#000000'}}>
+                        {userData.gender}
                     </Typography>
                     <Typography variant="h5" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'start', color: '#000000'}}>
                         {"Estimated Price: " + userData.estimatedMonetaryValue}

@@ -23,14 +23,27 @@ import Swimwear from "./components/ClothingArticlesImages/Swimwear.png"
 import FormControlLabel from '@mui/material/FormControlLabel';
 import NavBar from "./components/NavBar"
 
+// Firebase 
+import {useAuth} from './AuthContext';
+
+// Componentsn 
+import ClothingCard from "./components/ClothingCard.js"
+
 
 const TempNavBarPage = () => {
+  const {currentUser} = useAuth();
+
   const [filterDisplayStatus, setFilterDisplayStatus] = useState(true); 
   const [backgroundColorClothingArticles, setBackgroundColorClothingArticles] = useState(["#D9D9D9", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF"]); 
+  const [userClothingArticle, setUserClothingArticle] = useState("Shirts"); 
   const [shoeSelected, setShoeSelected] = useState(false);
 
   const [genderFilter, setGenderFilter] = useState([true, false, false]); 
+  const [genders, setGenders] = useState(["Male"]); 
   const [sizeFilter, setSizeFilter] = useState([true, false, false, false, false]); 
+  const [sizes, setSizes] = useState(["XS"]); 
+
+  const [searchResults, setSearchResults] = useState([]); 
 
   
   useEffect(() => {
@@ -43,8 +56,11 @@ const TempNavBarPage = () => {
 
   function backgroundColorChange(number) {
       const backgroundColorArray = ["#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF"]; 
+      const clothingArticle = ["Shirts", "Pants", "Shoes", "Dresses", "Swimwear", "Suits", "Hoodies", "Activewear"]; 
+
       backgroundColorArray[number] = "#D9D9D9";  
       setBackgroundColorClothingArticles(backgroundColorArray); 
+      setUserClothingArticle(clothingArticle[number]);
   }
 
   const handleGenderChange = (event, number) => {
@@ -54,6 +70,16 @@ const TempNavBarPage = () => {
       }
       copyGenderFilter[number] = !copyGenderFilter[number]; 
       setGenderFilter(copyGenderFilter); 
+
+
+      const genderStrings = ["Male", "Female", "Unisex"]; 
+      const genders = []; 
+      for(let i = 0; i < copyGenderFilter.length; i++) {
+        if(copyGenderFilter[i]) {
+          genders.push(genderStrings[i]); 
+        }
+      }
+      setGenders(genders); 
   };
 
   const handleSizeChange = (event, number) => {
@@ -63,7 +89,58 @@ const TempNavBarPage = () => {
       }
       copySizeFilter[number] = !copySizeFilter[number]; 
       setSizeFilter(copySizeFilter); 
-};
+      
+      const sizeValues = ["XS", "S", "M", "L", "XL"]; 
+      const sizes = []; 
+      for (let i = 0; i < copySizeFilter.length; i++) {
+        if(copySizeFilter[i]) {
+          sizes.push(sizeValues[i]); 
+        }
+      }
+      setSizes(sizes); 
+  };
+
+  const handleSearchRequest = async () => {
+    if(currentUser) {
+        try {
+          console.log("That you do"); 
+          const idToken = await currentUser.getIdToken(); 
+          const myHeaders = new Headers();
+          myHeaders.append("Content-Type", "application/json");
+          const token = "Bearer " +  idToken; 
+          myHeaders.append("Authorization", token);
+      
+          const requestOptions = {
+            method: "GET",
+            headers: myHeaders,
+            redirect: "follow"
+          };
+          console.log(sizes); 
+          console.log(genders); 
+           
+
+          const url = "http://localhost:4000/filter/find_items/" + currentUser.email + "/" + sizes + "/" + userClothingArticle + "/" + genders; 
+          const response = await fetch(url, requestOptions); 
+          const data = await response.json();
+          if (Array.isArray(data)) {
+            setSearchResults(data); 
+          } else {
+            // Catch Error
+          }
+      } catch(e) {
+          // ERROR 
+          console.log(e); 
+      }
+    }
+      // console.log("hola"); 
+      // console.log(genderFilter); 
+      // console.log(sizeFilter); 
+      // console.log(backgroundColorClothingArticles); 
+  };
+
+  function navigateToTradePage() {
+
+  }
 
   return (
     <Box>
@@ -116,14 +193,14 @@ const TempNavBarPage = () => {
               </Box> 
             }
             <Box mt={3} p={2} backgroundColor="#D9D9D9"> 
-              <Typography variant="h6" sx={{fontFamily: 'Poppins', fontWeight: "600", textAlign: 'center', color: '#000000'}}>
+              <Typography onClick={() => handleSearchRequest()} variant="h6" sx={{fontFamily: 'Poppins', fontWeight: "600", textAlign: 'center', color: '#000000'}}>
                   Search! 
               </Typography>
             </Box>
           </Stack>
         </Box>}
         {/* Change to flex start beneath me */}
-        <Stack p={2} flex="1" justifyContent="center" alignItems="center" gap="20px">
+        <Stack p={2} flex="1" justifyContent="flex-start" alignItems="center" gap="20px">
           <Stack flexWrap="wrap" direction="row" justifyContent="center" alignItems="center" gap="20px"> 
             <Stack onClick={() => backgroundColorChange(0)} row="column" justifyContent="center" alignItems="center" sx={{'&:hover': {backgroundColor: "#D9D9D9"}, backgroundColor: backgroundColorClothingArticles[0]}}>
               <Box component="img" sx={{height: "100px", width: "125px",}} alt="Uh Oh" src={Shirt}/>
@@ -175,16 +252,11 @@ const TempNavBarPage = () => {
             </Stack>
           </Stack>
           <Stack direction="row" flexWrap="wrap" justifyContent="center" alignItems="center" gap={2}>
-            {/* <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
-            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
-            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
-            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
-            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
-            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
-            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
-            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
-            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
-            <ClothingCard onClickFunction={() => setSideClothingView(true)}/> */}
+            {searchResults.length !== 0 && 
+              searchResults.map((item, index) => (
+                  <ClothingCard userData={searchResults[index]}/> 
+              ))
+            }
           </Stack>
         </Stack>
         <Box>
@@ -195,6 +267,22 @@ const TempNavBarPage = () => {
 }
 
 export default TempNavBarPage
+
+
+
+
+
+
+            {/* <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
+            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
+            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
+            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
+            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
+            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
+            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
+            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
+            <ClothingCard onClickFunction={() => setSideClothingView(true)}/>
+            <ClothingCard onClickFunction={() => setSideClothingView(true)}/> */}
 
 // Profile 
 // Clothes 

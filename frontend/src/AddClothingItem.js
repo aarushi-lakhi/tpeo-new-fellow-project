@@ -173,6 +173,13 @@ function AddClothingItem() {
         setDescription(newValue);
     }
 
+    const [gender, setGender] = useState(""); 
+
+    function handleGenderChange(event) {
+        const newValue = event.target.value;
+        setGender(newValue);
+    }
+
     // Firebase Stuff 
     const {currentUser} = useAuth();
 
@@ -239,6 +246,7 @@ function AddClothingItem() {
                 "clothingArticle": articleOfClothing,
                 "estimatedMonetaryValue": estimatedPrice,
                 "images": firebaseURLS, 
+                "gender": gender, 
             });
 
             const requestOptions = {
@@ -366,7 +374,7 @@ function AddClothingItem() {
                             </Box>
                         }
                     </Stack>
-                    <TextField id="outlined-basic" label="Title" variant="outlined" value={title} onChange={handleTitleChange} />
+                    <TextField id="outlined-basic" label="Title" variant="outlined" value={title} onChange={handleTitleChange}/>
                     <TextField id="outlined-basic" label="Estimated Price" variant="outlined" value={estimatedPrice} onChange={handleEstimatedPriceChange}/>
                     <FormControl fullWidth>
                         <InputLabel id="article-clothing-select-label">Article of Clothing</InputLabel>
@@ -388,22 +396,38 @@ function AddClothingItem() {
 
                         </Select>
                     </FormControl>
-                    <FormControl fullWidth>
-                        <InputLabel id="size-select-label">Size</InputLabel>
-                        <Select
-                            labelId="size-select-label"
-                            id="size-select"
-                            value={size}
-                            label="Size"
-                            onChange={handleSizeChange}
-                        >
-                            <MenuItem value="XS">XS</MenuItem>
-                            <MenuItem value="S">S</MenuItem>
-                            <MenuItem value="M">M</MenuItem>
-                            <MenuItem value="L">L</MenuItem>
-                            <MenuItem value="XL">XL</MenuItem>
-                        </Select>
-                    </FormControl>
+                    <Stack direction="row" justifyContent="space-evenly"> 
+                        <FormControl fullWidth>
+                            <InputLabel id="size-select-label">Size</InputLabel>
+                            <Select
+                                labelId="size-select-label"
+                                id="size-select"
+                                value={size}
+                                label="Size"
+                                onChange={handleSizeChange}
+                            >
+                                <MenuItem value="XS">XS</MenuItem>
+                                <MenuItem value="S">S</MenuItem>
+                                <MenuItem value="M">M</MenuItem>
+                                <MenuItem value="L">L</MenuItem>
+                                <MenuItem value="XL">XL</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <FormControl fullWidth>
+                            <InputLabel id="gender-select-label">Gender</InputLabel>
+                            <Select
+                                labelId="gender-select-label"
+                                id="gender-select"
+                                value={gender}
+                                label="Gender"
+                                onChange={handleGenderChange}
+                            >
+                                <MenuItem value="Male">Male</MenuItem>
+                                <MenuItem value="Female">Female</MenuItem>
+                                <MenuItem value="Unisex">Unisex</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Stack> 
                     <TextField
                         placeholder="Description"
                         multiline
