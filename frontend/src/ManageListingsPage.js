@@ -38,8 +38,11 @@ import {storage} from './firebaseConfig';
 import {ref, uploadBytes, listAll, getDownloadURL} from 'firebase/storage';
 import {v4} from 'uuid';
 
+import { useNavigate } from 'react-router-dom';
+
 
 const TempNavBarPage = () => {
+  const navigate = useNavigate();
   const [burgerStatus, setBurgerStatus] = useState(false);
   const [clothingCardStatus, setclothingCardStatus] = useState(false);
   const [filterDisplayStatus, setFilterDisplayStatus] = useState(true); 
@@ -47,6 +50,15 @@ const TempNavBarPage = () => {
 
   const {currentUser} = useAuth();
   const [userInventoryData, setUserInventoryData] = useState([]); 
+
+  function navigateToAddListing() {
+    navigate('/add-item'); 
+  }
+
+  function navigateToPreview(specificClothingData) {
+    navigate("/preview-page", {state: {clothingData: specificClothingData}});
+  }
+
 
   useEffect(() => {
     const getUserListings = async () => {
@@ -137,8 +149,8 @@ const TempNavBarPage = () => {
       <Stack direction="column">
         <Box p={4}>
             <Stack direction={"row"} alignItems="center" justifyContent={"flex-end"} gap="16px" > 
-                <AddCircleOutlineIcon sx={{fontSize: "56px"}}/>
-                <Typography variant="h3" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
+                <AddCircleOutlineIcon onClick={navigateToAddListing}  sx={{fontSize: "56px",  hover: "pointer"}}/>
+                <Typography onClick={navigateToAddListing} variant="h3" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000', hover: "pointer"}}>
                   Add New Listing
                 </Typography>
             </Stack>
@@ -147,7 +159,7 @@ const TempNavBarPage = () => {
         <Stack direction="row" flexWrap="wrap" justifyContent="center" alignItems="center" gap={2}>
             {userInventoryData.length !== 0 && 
               userInventoryData.map((item, index) => (
-                  <ClothingCard title={userInventoryData[index].title} size={userInventoryData[index].size} imgSrc={userInventoryData[index].clothingImages[0]} /> 
+                  <ClothingCard onClickFunction={() => navigateToPreview(userInventoryData[index])} userData={userInventoryData[index]}/> 
               ))
             }
         </Stack>

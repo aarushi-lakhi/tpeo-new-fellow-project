@@ -8,17 +8,17 @@ import PortraitShirt from "./PortraitShirt.jpg"
 import CardActionArea from '@mui/material/CardActionArea';
 
 
-const ClothingCard = ({onClickFunction, borderSize, title, size, imgSrc}) => {
+const ClothingCard = ({onClickFunction, borderSize, userData}) => {
     return (
         <Card sx={{ width: {sm: '300px'}, boxShadow: "none", borderRadius: 0, border: borderSize}} onClick={onClickFunction}>
-            <CardActionArea onClick={onClickFunction}> 
-                <CardMedia image={imgSrc} alt={"TempVariable"} sx={{width: "300px", height: "300px"}} />
+            <CardActionArea onClick={() => onClickFunction}> 
+                <CardMedia image={userData.clothingImages[0]} alt={"TempVariable"} sx={{width: "300px", height: "300px"}} />
                 <CardContent sx={{ backgroundColor: "#A5B9E0", height: '40px' }}>
                     <Typography variant="subtitle1" fontWeight="bold" color="#FFF" sx={{fontFamily: 'Poppins'}}>
-                        {title}
+                        {userData.title}
                     </Typography>
                     <Typography variant="subtitle2" fontWeight="bold" color="#FFF" sx={{fontFamily: 'Poppins'}}>
-                        {"Size " + size}
+                        {"Size " + userData.size}
                     </Typography>
                 </CardContent>
             </CardActionArea>

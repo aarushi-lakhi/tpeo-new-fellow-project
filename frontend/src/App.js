@@ -16,6 +16,7 @@ import TempPageTwo from './TempPageTwo';
 import AddClothingItem from "./AddClothingItem"
 import Offers from "./Offers"
 import ManageListings from "./ManageListingsPage"
+import PreviewPage from "./PreviewPage"
 
 function App() {
   return (
@@ -36,6 +37,8 @@ function App() {
           <Route path="/add-item" element={<AddClothingItem/>} /> 
           <Route path="/check-offers" element={<Offers/>} /> 
           <Route path="/manage-listings" element={<ManageListings/>} /> 
+          <Route path="/preview-page" element={<PreviewPage/>} /> 
+
           {/* DELETE ABOVE ROUTE, ONLY TEMPORARY FOR TESTING */}
         </Routes>
       </AuthProvider>

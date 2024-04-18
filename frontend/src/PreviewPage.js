@@ -38,28 +38,10 @@ import PortraitShirt from "./components/PortraitShirt.jpg"
 
 import { useLocation } from 'react-router-dom';
 
-
-const TempPageTwo = () => {
+const PreviewPage = () => {
     const location = useLocation();
     const userData = location.state.clothingData;
-
     const [burgerStatus, setBurgerStatus] = useState(false);
-    const [clothingCardStatus, setclothingCardStatus] = useState(false);
-    const [tradeStatus, setTradeStatus] = useState(false);
-    const [borderSize, setBorderSize] = useState(0); 
-    const [modalTruthValue, setModalTruthValue] = useState(false); 
-
-
-    var borderSizeValue = 0; 
-
-    function random() {
-        console.log("helo"); 
-    }
-
-    function handleConfirmTrade() {
-        setModalTruthValue(true); 
-        console.log("heloasd"); 
-    }
 
   return (
     <Box>
@@ -70,7 +52,7 @@ const TempPageTwo = () => {
                 </Typography>
             </Box>
             <NavBarButtons/>
-            <IconButton onClick={() => setclothingCardStatus(true)}>
+            <IconButton>
                 <AccountCircleIcon sx={{fontSize: {xs: "65px"},  display: {xs: 'none', md: 'block'}}}/>
             </IconButton> 
             <IconButton onClick={() => setBurgerStatus(true)}>
@@ -108,7 +90,7 @@ const TempPageTwo = () => {
         <Stack direction={{ xs: 'column', md: 'row' }}>
             <Stack flex={1} direction={{ xs: 'column', md: 'row' }} alignItems="center" justifyContent="center" mt={2} gap={"75px"}> 
                 <ImageCarousel srcArray={userData.clothingImages}/>
-                <Stack direction="column" gap={"25px"} >
+                <Stack direction="column" gap={"25px"}>
                     <Typography variant="h3" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'start', color: '#000000'}}>
                         {userData.title}
                     </Typography>
@@ -121,45 +103,11 @@ const TempPageTwo = () => {
                     <Typography wrap variant="subtitle1" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'start', color: '#000000', maxWidth:"350px", wordWrap: "break-word"}}>
                         {"Description: " + userData.description}
                     </Typography>
-                    <Box p={1} sx={{backgroundColor: "#D9D9D9", display: "flex", justifyContent: "center", alignItems: "center", width: "208px"}}>
-                        <Typography onClick={() => setTradeStatus(true)} variant="h5" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
-                            Make a Trade!
-                        </Typography>
-                    </Box>
-                    {borderSize == 5 && 
-                         <Box p={1} sx={{backgroundColor: "#D9D9D9", display: "flex", justifyContent: "center", alignItems: "center", width: "208px"}}>
-                            <Typography onClick={() => handleConfirmTrade()} variant="h5" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
-                                Confirm Trade! 
-                            </Typography>
-                        </Box>
-                    }
-                </Stack>
+                </Stack> 
             </Stack>
-            {tradeStatus && 
-                <Box p={2} backgroundColor="#D9D9D9" overflow="scroll" height="90vh">
-                    <Stack direction="column" gap={"20px"}>
-                        <Box display="flex" justifyContent="flex-end">
-                            <IconButton onClick={() => setTradeStatus(false)}>
-                                <CloseIcon/>
-                            </IconButton> 
-                        </Box>
-                        <Typography onClick={() => setTradeStatus(true)} variant="h6" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
-                            Select an Item to Trade
-                        </Typography>
-                        <ClothingCard onClickFunction={() => setBorderSize(5)} borderSize={borderSize}/>
-                        <ClothingCard onClickFunction={() => setBorderSize(5)} borderSize={borderSize}/>
-                        <ClothingCard onClickFunction={() => setBorderSize(5)} borderSize={borderSize}/>
-                        <ClothingCard onClickFunction={() => setBorderSize(5)} borderSize={borderSize}/>
-                        <ClothingCard onClickFunction={() => setBorderSize(5)} borderSize={borderSize}/>
-                    </Stack>
-                </Box>
-            }
-            {modalTruthValue &&  
-                <Modal modalValue={modalTruthValue}/>
-            }
-      </Stack>
+        </Stack>
     </Box>
   )
 }
 
-export default TempPageTwo
+export default PreviewPage
