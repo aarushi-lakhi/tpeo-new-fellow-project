@@ -9,6 +9,7 @@ import snapchatIcon from './components/SignUp_Icons/snapchat_icon.png';
 import instagramIcon from './components/SignUp_Icons/instagram_icon.png';
 import uploadImageIcon from './components/SignUp_Icons/upload_image_icon.png'
 import locationIcon from './components/SignUp_Icons/location_icon.png';
+import NavBar from './components/NavBar';
 import './App.css';
 
 function SignupPage() {
@@ -31,66 +32,8 @@ function SignupPage() {
 
   return (
     <div>
-      {/* Nav Bar */}
-      <Box
-        width="100%"
-        height="12%"
-        bgcolor="#A5B9E0"
-        display="flex"
-        flexDirection="row"
-        justifyContent="space-between"
-        alignItems="center"
-        textAlign="center"
-        padding="1rem"
-      >
-        {/* Barter Buddies */}
-        <Box
-          width="17%"
-          height="80%"
-          top="-10%"
-          gap="0px"
-          opacity="0px"
-          bgcolor="#D9D9D9"
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <Typography
-            variant="h2"
-            sx={{
-              fontFamily: 'Poppins',
-              fontSize: '2vw',
-              fontWeight: 500,
-              lineHeight: '1.5',
-              textAlign: 'center',
-              color: '#000000',
-            }}
-          >
-            Barter Buddies
-          </Typography>
-        </Box>
-
-        {/* User Profile */}
-        <Box
-          width="4%"
-          height="100%"
-          bgcolor="#1B1A1A"
-          border="2px solid #000000"
-          borderRadius="50%"
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <div
-            width="42px"
-            height="42px"
-            style={{
-              backgroundImage: 'url("user-icon.png")',
-              backgroundSize: 'cover',
-            }}
-          />
-        </Box>
-      </Box>
+      {/* NavBar component */}
+      <NavBar/>
 
       {/* Main content */}
       <Box
