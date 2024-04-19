@@ -137,7 +137,12 @@ const Offers = () => {
     getUserInventory(); 
   }, [currentUser])
 
+  const [theirOffer, setTheirOffer] = useState(""); 
+  const [yourItem, setYourItem] = useState(""); 
+
   function tradeRequestInitiated(index) {
+    setTheirOffer(pendingOffers[index][0]); 
+    setYourItem(pendingOffers[index][1]); 
     setModalStatus(true); 
   }
 
@@ -200,7 +205,7 @@ const Offers = () => {
                 </Stack>
             </Stack>
             {modalStatus &&  
-                <ConfirmTradeModal modalValue={modalStatus} infoDisplayValue={false}/>
+                <ConfirmTradeModal modalValue={modalStatus} theirOffer={theirOffer} yourItem={yourItem}/>
             }
         </Box>
   )

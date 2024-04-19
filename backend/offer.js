@@ -5,6 +5,8 @@ const db = require('./firebase')
 const admin = require('firebase-admin')
 const productCollection = db.collection('Product');
 const userCollection = db.collection('Users'); 
+const transactionsCollection = db.collection('Transactions'); 
+
 
 // POST endpoint to place an offer/bid endpoint
 router.post('/place_offer', async (req, res) => {
@@ -34,29 +36,35 @@ router.post('/place_offer', async (req, res) => {
 // POST endpoint to accept an offer
 router.post('/accept_offer', async (req, res) => {
     try {
-        const { userOneEmail, userTwoEmail, userOneProductDocument, userTwoProductDocument } = req.body;
+        var { userOneEmail, userTwoEmail, userOneProductDocument, userTwoProductDocument} = req.body;
+        userOneProductDocument = productCollection.doc(userOneProductDocument); 
+        userTwoProductDocument = productCollection.doc(userTwoProductDocument); 
 
         // Set both documents' visibility status to false
-        userOneProductDocument.visibilityStatus = false;
-        userTwoProductDocument.visibilityStatus = false;
+        await userOneProductDocument.update({
+            visibilityStatus: false 
+        })
+        await userTwoProductDocument.update({
+            visibilityStatus: false 
+        })
 
         // Create a transaction document
-        const transactionRef = await firestore.collection('Transactions').doc(); 
+        const transactionRef = await transactionsCollection.doc(); 
 
         await transactionRef.set({
             date: new Date(),
-            user1Ref: firestore.collection('Users').doc(userOneEmail),
-            user2Ref: firestore.collection('Users').doc(userTwoEmail),
-            product1Ref: firestore.collection('Products').doc(userOneProductDocument),
-            product2Ref: firestore.collection('Products').doc(userTwoProductDocument),
+            user1Ref: userCollection.doc(userOneEmail),
+            user2Ref: userCollection.doc(userTwoEmail),
+            product1Ref: userOneProductDocument,
+            product2Ref: userTwoProductDocument,
         });
 
-        await firestore.collection('Users').doc(userOneEmail).update({
-            successfulTransactions: Firestore.FieldValue.arrayUnion(transactionRef)
+        await userCollection.doc(userOneEmail).update({
+            successfulTransactions: admin.firestore.FieldValue.arrayUnion(transactionRef)
         });
 
-        await firestore.collection('Users').doc(userTwoEmail).update({
-            successfulTransactions: Firestore.FieldValue.arrayUnion(transactionRef)
+        await userCollection.doc(userTwoEmail).update({
+            successfulTransactions: admin.firestore.FieldValue.arrayUnion(transactionRef)
         });
 
         // Respond with the ID of the created transaction document

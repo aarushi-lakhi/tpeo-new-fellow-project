@@ -8,6 +8,7 @@ import Sucess from "./ClothingArticlesImages/Success.png"
 import Stack from '@mui/material/Stack';
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
+import {useAuth} from '../AuthContext';
 
 
 const style = {
@@ -54,19 +55,50 @@ function ChildModal() {
   );
 }
 
-export default function ConfirmTradeModal({modalValue, infoDisplayValue, tradeRequestFunction}) {
+export default function ConfirmTradeModal({modalValue, theirOffer, yourItem}) {
   const [open, setOpen] = React.useState(modalValue);
-  const [infoDisplay, setInfoDisplay] = useState(infoDisplayValue); 
-  // const handleOpen = () => {
-  //   setOpen(true);
-  // };
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const [infoDisplay, setInfoDisplay] = useState(false); 
 
-  function confirmButtonClicked() {
-    setInfoDisplay(true);
-    tradeRequestFunction(); 
+  const {currentUser} = useAuth();
+
+  async function confirmButtonClicked() {
+    console.log("we here")
+      try {
+          const idToken = await currentUser.getIdToken(); 
+
+          const myHeaders = new Headers();
+          myHeaders.append("Content-Type", "application/json");
+          const token = "Bearer " +  idToken; 
+          myHeaders.append("Authorization", token);
+          // const { userOneEmail, userTwoEmail, userOneProductDocument, userTwoProductDocument } = req.body;
+
+          console.log(theirOffer); 
+          console.log(yourItem);
+          console.log(theirOffer.id);
+          console.log(yourItem.id); 
+
+          const raw = JSON.stringify({  
+              "userOneEmail":  theirOffer.userDocumentReference.Email,
+              "userTwoEmail": yourItem.userDocumentReference.Email,
+              "userOneProductDocument": theirOffer.id,
+              "userTwoProductDocument": yourItem.id 
+          });
+
+          const requestOptions = {
+              method: "POST",
+              headers: myHeaders,
+              body: raw,
+              redirect: "follow"
+          };
+
+          const repsonse = await fetch("http://localhost:4000/offer/accept_offer", requestOptions); 
+          const result = await repsonse.json(); 
+          setInfoDisplay(true); 
+      } catch(e) { 
+        console.log(e); 
+        console.log("there was an error"); 
+          // Catch Error
+      }
   }
 
   return (
@@ -80,7 +112,7 @@ export default function ConfirmTradeModal({modalValue, infoDisplayValue, tradeRe
             {!infoDisplay && 
                 <Stack direction="column" justifyContent="space-between" alignItems="center" sx={{ ...style, width: 500 }}>
                     <Typography p={4} variant="h4" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
-                            Confirm your trade! 
+                          Confirm your trade! 
                     </Typography>
                     <Box display="flex" justifyContent="center" alignItems="center" sx={{backgroundColor: "#A5B9E0", borderRadius: "5%", border: '2px solid #000'}}> 
                         <Typography onClick={() => confirmButtonClicked()} p={1} variant="h5" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
@@ -95,7 +127,7 @@ export default function ConfirmTradeModal({modalValue, infoDisplayValue, tradeRe
                             Trade confirmed! 
                     </Typography>
                     <Typography p={4} variant="h6" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
-                        Reach out to <Link href="/temp-navbar">@bevo</Link> to trade your items!
+                        Reach out to <Link href="/temp-navbar">{theirOffer.userDocumentReference.Name}</Link> to trade your items!
                         {/* CHANGE ABOVE LINK LATER  */}
                     </Typography>
                 </Stack>
