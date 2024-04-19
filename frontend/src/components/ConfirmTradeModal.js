@@ -54,7 +54,7 @@ function ChildModal() {
   );
 }
 
-export default function ConfirmTradeModal({modalValue, infoDisplayValue}) {
+export default function ConfirmTradeModal({modalValue, infoDisplayValue, tradeRequestFunction}) {
   const [open, setOpen] = React.useState(modalValue);
   const [infoDisplay, setInfoDisplay] = useState(infoDisplayValue); 
   // const handleOpen = () => {
@@ -63,6 +63,11 @@ export default function ConfirmTradeModal({modalValue, infoDisplayValue}) {
   const handleClose = () => {
     setOpen(false);
   };
+
+  function confirmButtonClicked() {
+    setInfoDisplay(true);
+    tradeRequestFunction(); 
+  }
 
   return (
     <div>
@@ -78,7 +83,7 @@ export default function ConfirmTradeModal({modalValue, infoDisplayValue}) {
                             Confirm your trade! 
                     </Typography>
                     <Box display="flex" justifyContent="center" alignItems="center" sx={{backgroundColor: "#A5B9E0", borderRadius: "5%", border: '2px solid #000'}}> 
-                        <Typography onClick={() => setInfoDisplay(true)} p={1} variant="h5" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
+                        <Typography onClick={() => confirmButtonClicked()} p={1} variant="h5" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
                             Confirm
                         </Typography>
                     </Box>

@@ -94,9 +94,6 @@ const Offers = () => {
             const response = await fetch(url, requestOptions); 
             const data = await response.json();
             if (Array.isArray(data)) {
-                console.log("biggei"); 
-                console.log(data); 
-                
                 const pendingOffersCopy = []; 
                 const offersYouMadeCopy = []; 
                 const myNoOffersCopy = []; 
@@ -127,13 +124,6 @@ const Offers = () => {
               setPendingOffers(pendingOffersCopy); 
               setOffersYouMade(offersYouMadeCopy); 
               setMyNoOffers(myNoOffersCopy); 
-            
-              console.log("pending offers"); 
-              console.log(pendingOffers); 
-              console.log("offers you made"); 
-              console.log(offersYouMade); 
-              console.log("my no offers"); 
-              console.log(myNoOffers); 
 
             } else {
               // Catch Error
@@ -149,7 +139,6 @@ const Offers = () => {
 
   function tradeRequestInitiated(index) {
     setModalStatus(true); 
-    //setModalProfileName(pendingOffers[index][0])
   }
 
 
