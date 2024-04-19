@@ -15,12 +15,12 @@ router.post('/place_offer', async (req, res) => {
 
         // Update userOneProductDocument's "offering" array
         await productCollection.doc(userOneProductDocument).update({
-            offering: admin.firestore.FieldValue.arrayUnion(userTwoProductDocument)
+            offering: admin.firestore.FieldValue.arrayUnion(productCollection.doc(userTwoProductDocument))
         });
 
         // Update userTwoProductDocument's "offered" array
         await productCollection.doc(userTwoProductDocument).update({
-            offered: admin.firestore.FieldValue.arrayUnion(userOneProductDocument)
+            offered: admin.firestore.FieldValue.arrayUnion(productCollection.doc(userOneProductDocument))
         });
 
         // Sample response

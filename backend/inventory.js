@@ -5,8 +5,8 @@ const db = require('./firebase')
 const productCollection = db.collection('Product');
 const userCollection = db.collection('Users'); 
 
-router.get("/view_complete_inventory", async (req, res) => {
-    const {userEmail} = req.body
+router.get("/view_complete_inventory/:userEmail", async (req, res) => {
+    const userEmail = req.params.userEmail; 
 
     const userDocReference = await userCollection.doc(userEmail).get()
     const userData = userDocReference.data() 
