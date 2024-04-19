@@ -35,7 +35,7 @@ const HomePage = () => {
     <Box
       width="40%"
       height="50%"
-      top="35%"
+      top="27%"
       left="30%"
       position="absolute"
       bgcolor="#9B9B9B"
