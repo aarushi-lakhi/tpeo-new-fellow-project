@@ -164,7 +164,7 @@ const Profile = () => {
                     justifyContent="center"
                     alignItems="center"
                     flexDirection="column"
-                    marginTop="35vw"
+                    marginTop="37vw"
                 >
                     <Box
                         width="85%"
