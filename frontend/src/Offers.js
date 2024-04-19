@@ -72,10 +72,10 @@ const Offers = () => {
   const [pendingOffers, setPendingOffers] = useState([]); 
   const [offersYouMade, setOffersYouMade] = useState([]); 
   const [myNoOffers, setMyNoOffers] = useState([]); 
+  const [successfulTransactions, setSuccessfulTransactions] = useState([]); 
 
   useEffect(() => {
     const getUserInventory = async () => {
-        console.log("vamanos"); 
         if(currentUser) {
           try {
             const idToken = await currentUser.getIdToken(); 
@@ -115,8 +115,8 @@ const Offers = () => {
                 if(offeringClothes.length !== 0) {
                     for(let j = 0; j < offeringClothes.length; j++) {
                         const oneOffer = []; 
-                        oneOffer.push(data[i]); 
                         oneOffer.push(offeringClothes[j]); 
+                        oneOffer.push(data[i]); 
                         offersYouMadeCopy.push(oneOffer); 
                     }
                 }
@@ -137,6 +137,41 @@ const Offers = () => {
     getUserInventory(); 
   }, [currentUser])
 
+
+  useEffect(() => {
+    const getUserSuccessfulTrades = async () => {
+        if(currentUser) {
+          try {
+            const idToken = await currentUser.getIdToken(); 
+            const myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+            const token = "Bearer " +  idToken; 
+            myHeaders.append("Authorization", token);
+        
+            const requestOptions = {
+              method: "GET",
+              headers: myHeaders,
+              redirect: "follow"
+            };
+            
+            const url = "http://localhost:4000/inventory/successful_trades/" + currentUser.email; 
+            const response = await fetch(url, requestOptions); 
+            const data = await response.json();
+            if (Array.isArray(data)) {
+                setSuccessfulTransactions(data); 
+            } else {
+              // Catch Error
+            }
+        } catch(e) {
+            // ERROR 
+            console.log(e); 
+        }
+      }
+    }
+    getUserSuccessfulTrades(); 
+  }, [currentUser])
+
+
   const [theirOffer, setTheirOffer] = useState(""); 
   const [yourItem, setYourItem] = useState(""); 
 
@@ -146,22 +181,23 @@ const Offers = () => {
     setModalStatus(true); 
   }
 
-
   return (
         <Box>
             <NavBar/>
             <Stack direction="column" gap={"24px"}>
                 <Stack gap={"24px"}> 
-                    <Typography variant="h5" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'start', color: '#000000'}} pt={3} pl={3}>
-                        Pending Offers 
-                    </Typography>
+                    {pendingOffers.length !== 0 &&
+                        <Typography variant="h5" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'start', color: '#000000'}} pt={3} pl={3}>
+                            {"Pending Offers - Their Offer <-> Your Item"}
+                        </Typography>
+                    }
                     {pendingOffers.length !== 0 && 
                         pendingOffers.map((item, index) => (
                             <Stack direction={{ xs: 'column', lg: 'row' }} justifyContent="center" alignItems="center" gap={"48px"}>
                                 <Stack direction={{ xs: 'column',  md: 'row' }} justifyContent={"center"} alignItems={"center"} gap={"24px"}>
-                                    <ClothingCard userData={pendingOffers[index][0]}/>
+                                    <ClothingCard onClickFunction={() => navigateToPreview(pendingOffers[index][0])} userData={pendingOffers[index][0]}/>
                                     <Box component="img" sx={{ height: "200px", display: 'block', overflow: 'hidden', width: '200px' }} src={ArrowPicture}/>
-                                    <ClothingCard userData={pendingOffers[index][1]}/>
+                                    <ClothingCard onClickFunction={() => navigateToPreview(pendingOffers[index][1])} userData={pendingOffers[index][1]}/>
                                 </Stack> 
                                 <Stack direction="row" gap="24px">
                                     <Stack direction="column" justifyContent="center" alignItems="center" gap={"8px"} backgroundColor="#D9D9D9" height="75px" width="150px">
@@ -180,26 +216,46 @@ const Offers = () => {
                             </Stack>
                         ))
                     }
-                    <Typography variant="h5" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'start', color: '#000000'}} pt={3} pl={3}>
-                        Offers you made
-                    </Typography>
+                    {offersYouMade.length !== 0 &&
+                        <Typography variant="h5" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'start', color: '#000000'}} pt={3} pl={3}>
+                             {"Offers you made - Their Item <-> Your Offered Item"}
+                        </Typography>
+                    }
                     {offersYouMade.length !== 0 && 
                         offersYouMade.map((item, index) => (
                             <Stack direction={{ xs: 'column',  md: 'row' }} justifyContent={"center"} alignItems={"center"} gap={"24px"}>
-                                <ClothingCard userData={offersYouMade[index][0]}/>
+                                <ClothingCard onClickFunction={() => navigateToPreview(offersYouMade[index][0])} userData={offersYouMade[index][0]}/>
                                 <Box component="img" sx={{ height: "200px", display: 'block', overflow: 'hidden', width: '200px' }} src={ArrowPicture}/>
-                                <ClothingCard userData={offersYouMade[index][1]}/>
+                                <ClothingCard onClickFunction={() => navigateToPreview(offersYouMade[index][1])} userData={offersYouMade[index][1]}/>
                             </Stack> 
                         ))
                     }
-                    <Typography variant="h5" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'start', color: '#000000'}} pt={3} pl={3}>
-                        Your Clothes with No Offers
-                    </Typography>
-                    {myNoOffers.length !== 0 && 
-                        myNoOffers.map((item, index) => (
-                            <Box display="flex" justifyContent={"center"}>
-                                <ClothingCard userData={myNoOffers[index]}/>
-                            </Box>
+                    {myNoOffers.length !== 0 &&
+                        <Typography variant="h5" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'start', color: '#000000'}} pt={3} pl={3}>
+                            Your Clothes with no Offers  
+                        </Typography>
+                    }
+                    <Stack direction={"row"} justifyContent={"center"} gap={"24px"}> 
+                        {myNoOffers.length !== 0 && 
+                            myNoOffers.map((item, index) => (
+                                <Box display="flex" justifyContent={"center"}>
+                                    <ClothingCard onClickFunction={() => navigateToPreview(myNoOffers[index])} userData={myNoOffers[index]}/>
+                                </Box>
+                            ))
+                        }
+                    </Stack> 
+                    {successfulTransactions.length !== 0 &&
+                        <Typography variant="h5" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'start', color: '#000000'}} pt={3} pl={3}>
+                             {"Successful Trades"}
+                        </Typography>
+                    }
+                    {successfulTransactions.length !== 0 && 
+                        successfulTransactions.map((item, index) => (
+                            <Stack direction={{ xs: 'column',  md: 'row' }} justifyContent={"center"} alignItems={"center"} gap={"24px"}>
+                                <ClothingCard onClickFunction={() => navigateToPreview(successfulTransactions[index].product1Ref)} userData={successfulTransactions[index].product1Ref}/>
+                                <Box component="img" sx={{ height: "200px", display: 'block', overflow: 'hidden', width: '200px' }} src={ArrowPicture}/>
+                                <ClothingCard onClickFunction={() => navigateToPreview(successfulTransactions[index].product2Ref)} userData={successfulTransactions[index].product2Ref}/>
+                            </Stack> 
                         ))
                     }
                 </Stack>
@@ -212,13 +268,6 @@ const Offers = () => {
 }
 
 export default Offers
-
-                    {/* <Typography variant="h6" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
-                        Their Offer 
-                    </Typography>
-                    <Typography variant="h6" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
-                        Your Item 
-                    </Typography> */}
 
 
 

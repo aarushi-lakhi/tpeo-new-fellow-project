@@ -62,10 +62,15 @@ router.get("/find_items/:userEmail/:userSizes/:userClothingArticle/:gender", asy
             }
             if(sizeCheck && clothingArticle === userClothingArticle && genderCheck) {
                 const docData = doc.data() 
+
+                const userDocument = await docData.userDocumentReference.get(); 
+                const userDocuementData = userDocument.data(); 
+
                 delete docData["offered"] 
                 delete docData["offering"] 
                 delete docData["visibilityStatus"] 
                 delete docData["userDocumentReference"] 
+                docData["userDocumentReference"] = userDocuementData; 
                 docData["user"] = Email 
                 return_documents.push(docData) 
             }

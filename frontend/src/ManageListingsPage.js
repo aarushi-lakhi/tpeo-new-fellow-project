@@ -22,7 +22,9 @@ const TempNavBarPage = () => {
   }
 
   function navigateToPreview(specificClothingData) {
-    navigate("/preview-page", {state: {clothingData: specificClothingData}});
+    console.log("rain"); 
+    console.log(specificClothingData); 
+    navigate("/preview-page", {state: {clothingData: specificClothingData, sellerTextValue: true}});
   }
 
   useEffect(() => {

@@ -73,8 +73,6 @@ router.get("/view_complete_inventory/:userEmail", async (req, res) => {
 
 router.get("/view_inventory/:userEmail", async (req, res) => {
     const userEmail = req.params.userEmail;
-    
-    console.log(userEmail); 
 
     const userDocReference = await userCollection.doc(userEmail).get()
     const userData = userDocReference.data() 
@@ -94,6 +92,50 @@ router.get("/view_inventory/:userEmail", async (req, res) => {
     }
 
     res.status(200).json(allUserProductDocumentData)
+})
+
+router.get("/successful_trades/:userEmail", async (req, res) => {
+    const userEmail = req.params.userEmail;
+
+    const userDocReference = await userCollection.doc(userEmail).get()
+    const userData = userDocReference.data();
+
+    const transactions = []; 
+    const returnTransactions = []; 
+    userData.successfulTransactions.forEach((ref) => {
+        transactions.push(ref)
+    })
+
+    for(ref of transactions) {
+        const transactionDocumentReference = await ref.get(); 
+        const transactionDocumentData = transactionDocumentReference.data(); 
+
+
+        const productDocumentOneReference = await transactionDocumentData.product1Ref.get(); 
+        const productDocumentTwoReference = await transactionDocumentData.product2Ref.get(); 
+
+        const productDocumentOneData = productDocumentOneReference.data(); 
+        const productDocumentTwoData = productDocumentTwoReference.data(); 
+
+        const userOneDocumentReference = await productDocumentOneData.userDocumentReference.get(); 
+        const userOneDocumentData = userOneDocumentReference.data(); 
+        delete productDocumentOneData["userDocumentReference"]; 
+        productDocumentOneData["userDocumentReference"] = userOneDocumentData; 
+
+        const userTwoDocumentReference = await productDocumentTwoData.userDocumentReference.get(); 
+        const userTwoDocumentData = userTwoDocumentReference.data(); 
+        delete productDocumentTwoData["userDocumentReference"]; 
+        productDocumentTwoData["userDocumentReference"] = userTwoDocumentData; 
+
+        delete transactionDocumentData["product1Ref"];
+        delete transactionDocumentData["product2Ref"];
+        transactionDocumentData["product1Ref"] = productDocumentOneData;
+        transactionDocumentData["product2Ref"] = productDocumentTwoData; 
+
+        returnTransactions.push(transactionDocumentData); 
+    }
+
+    res.status(200).json(returnTransactions);
 })
 
 module.exports = router; 

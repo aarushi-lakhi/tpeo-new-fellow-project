@@ -29,6 +29,8 @@ import {useAuth} from './AuthContext';
 
 // Componentsn 
 import ClothingCard from "./components/ClothingCard.js"
+import Modal from "./components/ChildModal"
+
 
 
 
@@ -104,9 +106,9 @@ const SearchPage = () => {
   };
 
   const handleSearchRequest = async () => {
+    setModalTruthValue(true); 
     if(currentUser) {
         try {
-          console.log("That you do"); 
           const idToken = await currentUser.getIdToken(); 
           const myHeaders = new Headers();
           myHeaders.append("Content-Type", "application/json");
@@ -118,9 +120,6 @@ const SearchPage = () => {
             headers: myHeaders,
             redirect: "follow"
           };
-          console.log(sizes); 
-          console.log(genders); 
-           
 
           const url = "http://localhost:4000/filter/find_items/" + currentUser.email + "/" + sizes + "/" + userClothingArticle + "/" + genders; 
           const response = await fetch(url, requestOptions); 
@@ -130,6 +129,8 @@ const SearchPage = () => {
           } else {
             // Catch Error
           }
+          console.log(data); 
+          setModalTruthValue(false); 
       } catch(e) {
           // ERROR 
           console.log(e); 
@@ -137,9 +138,18 @@ const SearchPage = () => {
     }
   };
 
+  useEffect(() => {
+    if(currentUser) {
+      handleSearchRequest(); 
+    }
+  }, [currentUser])
+
   function navigateToTradePage(specificClothingData) {
     navigate("/make-trade", {state: {clothingData: specificClothingData}}); 
   }
+
+  const [modalTruthValue, setModalTruthValue] = useState(false); 
+
 
   return (
     <Box>
@@ -253,7 +263,7 @@ const SearchPage = () => {
           <Stack direction="row" flexWrap="wrap" justifyContent="center" alignItems="center" gap={2}>
             {searchResults.length !== 0 && 
               searchResults.map((item, index) => (
-                  <ClothingCard onClickFunction={() => navigateToTradePage(searchResults[index])}userData={searchResults[index]}/> 
+                  <ClothingCard onClickFunction={() => navigateToTradePage(searchResults[index])} userData={searchResults[index]}/> 
               ))
             }
           </Stack>
@@ -261,6 +271,9 @@ const SearchPage = () => {
         <Box>
         </Box>
       </Stack>
+      {modalTruthValue &&  
+          <Modal modalValue={modalTruthValue} modalText={"Searching...."} displayImage={false}/>
+      }
     </Box>
   )
 }

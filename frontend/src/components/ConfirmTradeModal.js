@@ -61,6 +61,10 @@ export default function ConfirmTradeModal({modalValue, theirOffer, yourItem}) {
 
   const {currentUser} = useAuth();
 
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   async function confirmButtonClicked() {
     console.log("we here")
       try {
@@ -70,12 +74,6 @@ export default function ConfirmTradeModal({modalValue, theirOffer, yourItem}) {
           myHeaders.append("Content-Type", "application/json");
           const token = "Bearer " +  idToken; 
           myHeaders.append("Authorization", token);
-          // const { userOneEmail, userTwoEmail, userOneProductDocument, userTwoProductDocument } = req.body;
-
-          console.log(theirOffer); 
-          console.log(yourItem);
-          console.log(theirOffer.id);
-          console.log(yourItem.id); 
 
           const raw = JSON.stringify({  
               "userOneEmail":  theirOffer.userDocumentReference.Email,
@@ -122,7 +120,13 @@ export default function ConfirmTradeModal({modalValue, theirOffer, yourItem}) {
                 </Stack>
             }
             {infoDisplay && 
+            
                 <Stack direction="column" justifyContent="space-between" alignItems="center" sx={{ ...style, width: 500 }}>
+                    <Box display="flex" justifyContent="flex-end" sx={{width: "100%"}}>
+                      <IconButton onClick={() => handleClose()}>
+                          <CloseIcon/>
+                      </IconButton>
+                    </Box>
                     <Typography p={4} variant="h4" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
                             Trade confirmed! 
                     </Typography>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Button, Box, Stack } from '@mui/material';
 import Typography from '@mui/material/Typography';
@@ -39,10 +39,28 @@ import PortraitShirt from "./components/PortraitShirt.jpg"
 import { useLocation } from 'react-router-dom';
 import NavBar from "./components/NavBar"
 
+import {useAuth} from './AuthContext';
+
+
 const PreviewPage = () => {
     const location = useLocation();
     const userData = location.state.clothingData;
+    const sellerTextValue = location.state.sellerTextValue;
+
     const [burgerStatus, setBurgerStatus] = useState(false);
+
+    const [sellerText, setSellerText] = useState(""); 
+
+    const {currentUser} = useAuth();
+
+    useEffect(() => {
+        if(sellerTextValue === undefined) {
+            setSellerText(userData.userDocumentReference.Name); 
+        } else if(sellerTextValue) {
+            setSellerText(currentUser.displayName); 
+        }
+    }, []);
+
 
   return (
     <Box>
@@ -53,6 +71,9 @@ const PreviewPage = () => {
                 <Stack direction="column" gap={"25px"}>
                     <Typography variant="h3" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'start', color: '#000000'}}>
                         {userData.title}
+                    </Typography>
+                    <Typography variant="h5" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'start', color: '#000000'}}>
+                        {"Seller: " + sellerText}
                     </Typography>
                     <Typography variant="h5" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'start', color: '#000000'}}>
                         {"Size: " + userData.size}

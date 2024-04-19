@@ -216,7 +216,16 @@ function AddClothingItem() {
     //     return firebaseURLS; 
     // };
 
+    const [modalText, setModalText] = useState("");
+    const [modalDisplayImage, setModalDisplayImage] = useState(false); 
+
     const addListing = async () => {
+
+        setModalTruthValue(true); 
+        setModalText("Waiting...."); 
+        setModalDisplayImage(false); 
+
+
         const firebaseImageUploadArray = [firebaseUploadImageOne, firebaseUploadImageTwo, firebaseUploadImageThree]; 
         const firebaseURLS = []; 
         for (let i = 0; i < firebaseImageUploadArray.length; i++) {
@@ -256,10 +265,12 @@ function AddClothingItem() {
                 redirect: "follow"
             };
 
-            fetch("http://localhost:4000/item/upload_item_test", requestOptions)
-                .then((response) => response.text())
-                .then((result) => setModalTruthValue(true))
-                .catch((error) => console.error(error));
+            const response = await fetch("http://localhost:4000/item/upload_item_test", requestOptions); 
+            const result = await response.text(); 
+
+            setModalDisplayImage(true); 
+            setModalText("Added Item Successfully!"); 
+            setModalDisplayImage(true); 
                 // ERROR ^
         } catch(e) {
             // ERROR 
@@ -451,6 +462,9 @@ function AddClothingItem() {
                                 {title === "" ? "Title" : title}
                             </Typography>
                             <Typography variant="h5" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'start', color: '#000000'}}>
+                                {"Seller: " + currentUser.displayName} 
+                            </Typography>
+                            <Typography variant="h5" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'start', color: '#000000'}}>
                                 {estimatedPrice === "" ? "Estimated Price" : "$" + estimatedPrice}
                             </Typography>
                             <Typography variant="h5" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'start', color: '#000000', maxWidth:"300px", wordWrap: "break-word"}}>
@@ -467,7 +481,7 @@ function AddClothingItem() {
                 </Stack>
             </Stack>
             {modalTruthValue &&  
-                <Modal modalValue={modalTruthValue}/>
+                <Modal modalValue={modalTruthValue} modalText={modalText} displayImage={modalDisplayImage}/>
             }
             {/* <Card sx={{ maxWidth: 345, borderRadius: '16px', backgroundColor: '#D3D3D3', border: '1px solid #0000FF', boxShadow: 'none' }}>
             <CardContent sx={{ textAlign: 'center' }}>
