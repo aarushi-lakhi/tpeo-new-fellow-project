@@ -4,11 +4,11 @@ import Typography from '@mui/material/Typography';
 import { Box, Grid, TextField } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import phoneIcon from './components/phone_icon.jpg';
-import snapchatIcon from './components/snapchat_icon.png';
-import instagramIcon from './components/instagram_icon.png';
-import uploadImageIcon from './components/upload_image_icon.jpg'
-import locationIcon from './components/location_icon.jpg';
+import phoneIcon from './components/SignUp_Icons/phone_icon.png';
+import snapchatIcon from './components/SignUp_Icons/snapchat_icon.png';
+import instagramIcon from './components/SignUp_Icons/instagram_icon.png';
+import uploadImageIcon from './components/SignUp_Icons/upload_image_icon.png'
+import locationIcon from './components/SignUp_Icons/location_icon.png';
 import './App.css';
 
 function SignupPage() {
@@ -213,15 +213,15 @@ function SignupPage() {
             <Typography variant="h4" sx={{ fontSize: '2vw', fontWeight: 500, marginBottom: '1vw', textAlign: 'left', color: '#0000008A' }}>Optional</Typography>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <img src={locationIcon} width="5%" alt="location icon" style={{ marginRight: '1rem' }} />
+                <img src={locationIcon} width="8%" alt="location icon" style={{ marginRight: '1rem' }} />
                 <TextField id="location1" label="Location 1" variant="outlined" />
               </Grid>
               <Grid item xs={12}>
-                <img src={locationIcon} width="5%" alt="location icon" style={{ marginRight: '1rem' }} />
+                <img src={locationIcon} width="8%" alt="location icon" style={{ marginRight: '1rem' }} />
                 <TextField id="location2" label="Location 2" variant="outlined" />
               </Grid>
               <Grid item xs={12}>
-                <img src={locationIcon} width="5%" alt="location icon" style={{ marginRight: '1rem' }} />
+                <img src={locationIcon} width="8%" alt="location icon" style={{ marginRight: '1rem' }} />
                 <TextField id="location3" label="Location 3" variant="outlined" />
               </Grid>
             </Grid>

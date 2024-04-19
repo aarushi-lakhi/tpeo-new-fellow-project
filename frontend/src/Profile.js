@@ -8,10 +8,10 @@ import Typography from '@mui/material/Typography';
 import { useAuth } from './AuthContext';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
-import phoneIcon from './components/phone_icon.jpg';
-import snapchatIcon from './components/snapchat_icon.png';
-import instagramIcon from './components/instagram_icon.png';
-import locationIcon from './components/location_icon.jpg';
+import phoneIcon from './components/SignUp_Icons/phone_icon.png';
+import snapchatIcon from './components/SignUp_Icons/snapchat_icon.png';
+import instagramIcon from './components/SignUp_Icons/instagram_icon.png';
+import locationIcon from './components/SignUp_Icons/location_icon.png';
 import NavBar from './components/NavBar';
 import { useLocation } from 'react-router-dom';
 
@@ -371,7 +371,7 @@ const Profile = () => {
                                     alignItems="center"
                                     paddingLeft="50%"
                                 >
-                                    <img src={locationIcon} width="10%" alt="Location Icon" style={{ marginRight: '0.5rem' }} />
+                                    <img src={locationIcon} width="15%" alt="Location Icon" style={{ marginRight: '0.5rem' }} />
                                     <TextField
                                         id="location1"
                                         label="Location 1"
@@ -391,7 +391,7 @@ const Profile = () => {
                                     alignItems="center"
                                     paddingLeft="50%"
                                 >
-                                    <img src={locationIcon} width="10%" alt="Location Icon" style={{ marginRight: '0.5rem' }} />
+                                    <img src={locationIcon} width="15%" alt="Location Icon" style={{ marginRight: '0.5rem' }} />
                                     <TextField
                                         id="location2"
                                         label="Location 2"
@@ -410,7 +410,7 @@ const Profile = () => {
                                     alignItems="center"
                                     paddingLeft="50%"
                                 >
-                                    <img src={locationIcon} width="10%" alt="Location Icon" style={{ marginRight: '0.5rem' }} />
+                                    <img src={locationIcon} width="15%" alt="Location Icon" style={{ marginRight: '0.5rem' }} />
                                     <TextField
                                         id="location3"
                                         label="Location 3"
