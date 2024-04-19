@@ -39,7 +39,11 @@ import PortraitShirt from "./components/PortraitShirt.jpg"
 import { useLocation } from 'react-router-dom';
 import NavBar from "./components/NavBar"
 
-const TempPageTwo = () => {
+// Firebase 
+import {useAuth} from './AuthContext';
+
+
+const MakeTrade = () => {
     const location = useLocation();
     const userData = location.state.clothingData;
 
@@ -49,17 +53,94 @@ const TempPageTwo = () => {
     const [borderSize, setBorderSize] = useState(0); 
     const [modalTruthValue, setModalTruthValue] = useState(false); 
 
+    const {currentUser} = useAuth();
+    const [userInventoryData, setUserInventoryData] = useState([]); 
 
-    var borderSizeValue = 0; 
+    const [borderStatus, setBorderStatus] = useState(false); 
+    const [borderSizes, setBorderSizes] = useState([]); 
+    const [selectedTradeOption, setSelectedTradeOption] = useState(""); 
 
-    function random() {
-        console.log("helo"); 
+    async function handleConfirmTrade() {
+        try {
+            const idToken = await currentUser.getIdToken(); 
+
+            const myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+            const token = "Bearer " +  idToken; 
+            myHeaders.append("Authorization", token);
+
+            const raw = JSON.stringify({
+                "userOneProductDocument":  selectedTradeOption.id,
+                "userTwoProductDocument": userData.id,
+            });
+
+            const requestOptions = {
+                method: "POST",
+                headers: myHeaders,
+                body: raw,
+                redirect: "follow"
+            };
+
+            const repsonse = await fetch("http://localhost:4000/offer/place_offer", requestOptions); 
+            const result = await repsonse.json(); 
+            setModalTruthValue(true); 
+        } catch(e) {
+            // Catch Error
+        }
     }
 
-    function handleConfirmTrade() {
-        setModalTruthValue(true); 
-        console.log("heloasd"); 
-    }
+
+
+    const getUserListings = async () => {
+        console.log("another test"); 
+        if(currentUser) {
+          try {
+            const idToken = await currentUser.getIdToken(); 
+            const myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+            const token = "Bearer " +  idToken; 
+            myHeaders.append("Authorization", token);
+        
+            const requestOptions = {
+              method: "GET",
+              headers: myHeaders,
+              redirect: "follow"
+            };
+            
+            const url = "http://localhost:4000/inventory/view_inventory/" + currentUser.email; 
+            const response = await fetch(url, requestOptions); 
+            const data = await response.json();
+            if (Array.isArray(data)) {
+              setUserInventoryData(data); 
+            } else {
+              // Catch Error
+            }
+        } catch(e) {
+            console.log(e); 
+        }
+
+        }
+      }
+
+      async function handleTradeRequest() {
+        setTradeStatus(true); 
+        await getUserListings(); 
+        handleBorderSizeChange(); 
+      }
+
+      function handleBorderSizeChange(number) {
+            const borderSize = []; 
+            for(let i = 0; i < userInventoryData.length; i++) {
+                if(i !== number) {
+                    borderSize.push(0); 
+                } else {
+                    borderSize.push(5);
+                    setSelectedTradeOption(userInventoryData[number]);
+                }
+            }
+            setBorderSizes(borderSize); 
+            setBorderStatus(true); 
+      }
 
   return (
     <Box>
@@ -86,6 +167,18 @@ const TempPageTwo = () => {
                     <Typography wrap variant="subtitle1" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'start', color: '#000000', maxWidth:"350px", wordWrap: "break-word"}}>
                         {"Description: " + userData.description}
                     </Typography>
+                    <Box p={1} onClick={() => handleTradeRequest()} sx={{backgroundColor: "#D9D9D9", display: "flex", justifyContent: "center", alignItems: "center", width: "208px"}}>
+                        <Typography variant="h5" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
+                            Make a Trade!
+                        </Typography>
+                    </Box>
+                    {borderStatus && 
+                         <Box p={1} sx={{backgroundColor: "#D9D9D9", display: "flex", justifyContent: "center", alignItems: "center", width: "208px"}}>
+                            <Typography onClick={() => handleConfirmTrade()} variant="h5" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
+                                Confirm Trade! 
+                            </Typography>
+                        </Box>
+                    }
                 </Stack> 
             </Stack>
         {tradeStatus && 
@@ -99,11 +192,11 @@ const TempPageTwo = () => {
                     <Typography onClick={() => setTradeStatus(true)} variant="h6" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
                         Select an Item to Trade
                     </Typography>
-                    <ClothingCard onClickFunction={() => setBorderSize(5)} borderSize={borderSize}/>
-                    <ClothingCard onClickFunction={() => setBorderSize(5)} borderSize={borderSize}/>
-                    <ClothingCard onClickFunction={() => setBorderSize(5)} borderSize={borderSize}/>
-                    <ClothingCard onClickFunction={() => setBorderSize(5)} borderSize={borderSize}/>
-                    <ClothingCard onClickFunction={() => setBorderSize(5)} borderSize={borderSize}/>
+                    {userInventoryData.length !== 0 && 
+                        userInventoryData.map((item, index) => (
+                            <ClothingCard onClickFunction={() => handleBorderSizeChange(index)} borderSize={borderSizes[index]} userData={userInventoryData[index]}/> 
+                        ))
+                    }
                 </Stack>
             </Box>
         }
@@ -114,5 +207,4 @@ const TempPageTwo = () => {
     </Box>
   )
 }
-
-export default TempPageTwo
+export default MakeTrade

@@ -8,25 +8,26 @@ const userCollection = db.collection('Users');
 
 // POST endpoint to place an offer/bid endpoint
 router.post('/place_offer', async (req, res) => {
+    console.log("in the palce offer"); 
     try {
         // Extract data from request body
         const { userOneProductDocument, userTwoProductDocument } = req.body;
 
         // Update userOneProductDocument's "offering" array
-        await firestore.doc(userOneProductDocument).update({
-            offering: Firestore.FieldValue.arrayUnion(userTwoProductDocument)
+        await productCollection.doc(userOneProductDocument).update({
+            offering: admin.firestore.FieldValue.arrayUnion(userTwoProductDocument)
         });
 
         // Update userTwoProductDocument's "offered" array
-        await firestore.doc(userTwoProductDocument).update({
-            offered: Firestore.FieldValue.arrayUnion(userOneProductDocument)
+        await productCollection.doc(userTwoProductDocument).update({
+            offered: admin.firestore.FieldValue.arrayUnion(userOneProductDocument)
         });
 
         // Sample response
         res.status(200).json({ message: 'Offer placed successfully' });
     } catch (error) {
         console.error('Error placing offer:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({ error: 'Internally server error' });
     }
 });
   

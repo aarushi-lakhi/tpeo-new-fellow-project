@@ -10,7 +10,6 @@ import FormGroup from '@mui/material/FormGroup';
 import Checkbox from '@mui/material/Checkbox';
 import { useNavigate } from 'react-router-dom';
 
-
 // Clean this up later 
 import Shirt from "./components/ClothingArticlesImages/Shirt.png"
 import ActiveWear from "./components/ClothingArticlesImages/Activewear.png"
@@ -136,14 +135,10 @@ const SearchPage = () => {
           console.log(e); 
       }
     }
-      // console.log("hola"); 
-      // console.log(genderFilter); 
-      // console.log(sizeFilter); 
-      // console.log(backgroundColorClothingArticles); 
   };
 
   function navigateToTradePage(specificClothingData) {
-    navigate("/temp-page-two", {state: {clothingData: specificClothingData}}); 
+    navigate("/make-trade", {state: {clothingData: specificClothingData}}); 
   }
 
   return (
