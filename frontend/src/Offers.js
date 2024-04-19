@@ -57,6 +57,7 @@ const Offers = () => {
     const [burgerStatus, setBurgerStatus] = useState(false);
     const [clothingCardStatus, setclothingCardStatus] = useState(false);
     const [modalStatus, setModalStatus] = useState(false); 
+    const [modalProfileName, setModalProfileName] = useState(""); 
 
 
   const navigate = useNavigate();
@@ -93,6 +94,9 @@ const Offers = () => {
             const response = await fetch(url, requestOptions); 
             const data = await response.json();
             if (Array.isArray(data)) {
+                console.log("biggei"); 
+                console.log(data); 
+                
                 const pendingOffersCopy = []; 
                 const offersYouMadeCopy = []; 
                 const myNoOffersCopy = []; 
@@ -120,17 +124,16 @@ const Offers = () => {
                     }
                 }
               }
-              console.log(pendingOffersCopy); 
-              console.log(offersYouMadeCopy); 
-              console.log(myNoOffersCopy); 
-
               setPendingOffers(pendingOffersCopy); 
               setOffersYouMade(offersYouMadeCopy); 
               setMyNoOffers(myNoOffersCopy); 
             
-              console.log("biggie"); 
-              console.log(pendingOffers[0][0]);
-              console.log(pendingOffers[0][1]);
+              console.log("pending offers"); 
+              console.log(pendingOffers); 
+              console.log("offers you made"); 
+              console.log(offersYouMade); 
+              console.log("my no offers"); 
+              console.log(myNoOffers); 
 
             } else {
               // Catch Error
@@ -143,6 +146,11 @@ const Offers = () => {
     }
     getUserInventory(); 
   }, [currentUser])
+
+  function tradeRequestInitiated(index) {
+    setModalStatus(true); 
+    //setModalProfileName(pendingOffers[index][0])
+  }
 
 
   return (
@@ -170,7 +178,7 @@ const Offers = () => {
                                     </Stack> 
                                     <Stack direction="column" justifyContent="center" alignItems="center" gap={"8px"} backgroundColor="#D9D9D9" height="75px" width="150px">
                                         <ThumbUpIcon/>
-                                        <Typography variant="subtitle1" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
+                                        <Typography onClick={() => tradeRequestInitiated(index)} variant="subtitle1" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
                                             Interested
                                         </Typography>
                                     </Stack> 
@@ -203,7 +211,7 @@ const Offers = () => {
                 </Stack>
             </Stack>
             {modalStatus &&  
-                <ConfirmTradeModal modalValue={modalStatus} infoDisplay={true}/>
+                <ConfirmTradeModal modalValue={modalStatus} infoDisplayValue={false}/>
             }
         </Box>
   )

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from "react";
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
@@ -54,8 +54,9 @@ function ChildModal() {
   );
 }
 
-export default function ConfirmTradeModal({modalValue, infoDisplay}) {
+export default function ConfirmTradeModal({modalValue, infoDisplayValue}) {
   const [open, setOpen] = React.useState(modalValue);
+  const [infoDisplay, setInfoDisplay] = useState(infoDisplayValue); 
   // const handleOpen = () => {
   //   setOpen(true);
   // };
@@ -77,7 +78,7 @@ export default function ConfirmTradeModal({modalValue, infoDisplay}) {
                             Confirm your trade! 
                     </Typography>
                     <Box display="flex" justifyContent="center" alignItems="center" sx={{backgroundColor: "#A5B9E0", borderRadius: "5%", border: '2px solid #000'}}> 
-                        <Typography p={1} variant="h5" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
+                        <Typography onClick={() => setInfoDisplay(true)} p={1} variant="h5" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
                             Confirm
                         </Typography>
                     </Box>
