@@ -10,7 +10,6 @@ const transactionsCollection = db.collection('Transactions');
 
 // POST endpoint to place an offer/bid endpoint
 router.post('/place_offer', async (req, res) => {
-    console.log("in the palce offer"); 
     try {
         // Extract data from request body
         const { userOneProductDocument, userTwoProductDocument } = req.body;
@@ -74,5 +73,31 @@ router.post('/accept_offer', async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+
+router.post("/reverse_offer", async (req, res) => {
+    try {
+        const {theirItemProductID, yourItemProductID} = req.body;
+
+        const theirReference = await productCollection.doc(theirItemProductID); 
+        const yourReference = await productCollection.doc(yourItemProductID); 
+
+        // Update userOneProductDocument's "offering" array
+        await yourReference.update({
+            offering: admin.firestore.FieldValue.arrayRemove(theirReference) 
+        });
+
+        // Update userTwoProductDocument's "offered" array
+        await theirReference.update({
+            offered: admin.firestore.FieldValue.arrayRemove(yourReference)
+        });
+
+        // Sample response
+        res.status(200).json({ message: 'Offer Removed placed successfully' });
+    } catch (error) {
+        console.error('Error placing offer:', error);
+        res.status(500).json({ error: 'Internally server error' });
+    }
+
+}); 
 
 module.exports = router; 

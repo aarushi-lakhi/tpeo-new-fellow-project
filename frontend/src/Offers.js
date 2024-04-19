@@ -53,6 +53,7 @@ import {useAuth} from './AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 
+
 const Offers = () => {
     const [burgerStatus, setBurgerStatus] = useState(false);
     const [clothingCardStatus, setclothingCardStatus] = useState(false);
@@ -181,6 +182,41 @@ const Offers = () => {
     setModalStatus(true); 
   }
 
+
+  const [removeOfferStatus, setRemoveOfferStatus] = useState(false);
+
+  async function handleRemoveTrade(index) {
+    try {
+        const idToken = await currentUser.getIdToken(); 
+
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        const token = "Bearer " +  idToken; 
+        myHeaders.append("Authorization", token);
+
+        const raw = JSON.stringify({  
+            "theirItemProductID":  offersYouMade[index][0].id,
+            "yourItemProductID":  offersYouMade[index][1].id,
+        });
+
+        const requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow"
+        };
+
+        const repsonse = await fetch("http://localhost:4000/offer/reverse_offer", requestOptions); 
+        const result = await repsonse.json();
+        setRemoveOfferStatus(true); 
+
+    } catch(e) { 
+      console.log(e); 
+      console.log("there was an error"); 
+        // Catch Error
+    }
+  }
+
   return (
         <Box>
             <NavBar/>
@@ -223,11 +259,18 @@ const Offers = () => {
                     }
                     {offersYouMade.length !== 0 && 
                         offersYouMade.map((item, index) => (
-                            <Stack direction={{ xs: 'column',  md: 'row' }} justifyContent={"center"} alignItems={"center"} gap={"24px"}>
-                                <ClothingCard onClickFunction={() => navigateToPreview(offersYouMade[index][0])} userData={offersYouMade[index][0]}/>
-                                <Box component="img" sx={{ height: "200px", display: 'block', overflow: 'hidden', width: '200px' }} src={ArrowPicture}/>
-                                <ClothingCard onClickFunction={() => navigateToPreview(offersYouMade[index][1])} userData={offersYouMade[index][1]}/>
-                            </Stack> 
+                            <Stack direction={{ xs: 'column', lg: 'row' }} justifyContent="center" alignItems="center" gap={"48px"}>
+                                <Stack direction={{ xs: 'column',  md: 'row' }} justifyContent={"center"} alignItems={"center"} gap={"24px"}>
+                                    <ClothingCard onClickFunction={() => navigateToPreview(offersYouMade[index][0])} userData={offersYouMade[index][0]}/>
+                                    <Box component="img" sx={{ height: "200px", display: 'block', overflow: 'hidden', width: '200px' }} src={ArrowPicture}/>
+                                    <ClothingCard onClickFunction={() => navigateToPreview(offersYouMade[index][1])} userData={offersYouMade[index][1]}/>
+                                </Stack> 
+                                <Box onClick={() => handleRemoveTrade(index)}display="flex" justifyContent="center" alignItems="center" backgroundColor="#D9D9D9" height="75px" width="150px">
+                                    <Typography variant="subtitle1" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
+                                        Remove Offer
+                                    </Typography>
+                                </Box>
+                            </Stack>
                         ))
                     }
                     {myNoOffers.length !== 0 &&
@@ -262,6 +305,9 @@ const Offers = () => {
             </Stack>
             {modalStatus &&  
                 <ConfirmTradeModal modalValue={modalStatus} theirOffer={theirOffer} yourItem={yourItem}/>
+            }
+            {removeOfferStatus &&  
+                <Modal modalValue={removeOfferStatus} modalText={"Offer Removed"} displayImage={false}/>
             }
         </Box>
   )
