@@ -1,10 +1,13 @@
-const express = require("express")
-const router = express.Router() 
-
-const db = require('./firebase')
-const admin = require('firebase-admin')
+const express = require('express');
+const router = express.Router();
+const bodyParser = require('body-parser');
+const db = require('./firebase');
+const admin = require('firebase-admin');
 const productCollection = db.collection('Product');
-const userCollection = db.collection('Users'); 
+const userCollection = db.collection('Users');
+
+router.use(bodyParser.json());
+router.use(bodyParser.urlencoded({ extended: true }));
 
 // POST endpoint to create a new user
 router.post("/create_user", async (req, res) => {

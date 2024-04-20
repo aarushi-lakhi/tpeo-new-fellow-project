@@ -148,27 +148,30 @@ function SignupPage() {
             <hr style={{ width: '100%', border: '0.4vw solid rgba(0, 0, 0, 0.2)', marginBottom: '2vw' }} />
             <Typography variant="h4" sx={{ fontSize: '2.5vw', fontWeight: 500, marginBottom: '1vw', textAlign: 'left' }}>Add your profile picture</Typography>
             <Typography variant="h4" sx={{ fontSize: '2vw', fontWeight: 500, marginBottom: '1vw', textAlign: 'left', color: '#0000008A' }}>Optional</Typography>
-            <label htmlFor="image-upload" style={{ cursor: 'pointer' }}>
-              <Box
-                width="70%"
-                height="30%"
-                bgcolor="#9B9B9B"
-                marginLeft="8.5vw"
-                marginTop="2vw"
-                borderRadius="2vw 2vw 2vw 2vw"
 
-                //TODO: not sure why this isn't centering my box
-                flexDirection="column"
-                alignItems="center"
-                // transform="translateX(50%)"
-                textAlign="center"
+            {/* Conditionally render the uploaded image */}
+            {profilePicture ? (
+              <img src={URL.createObjectURL(profilePicture)} alt="profile" style={{ width: '70%', borderRadius: '2vw 2vw 2vw 2vw', margin: '2vw auto' }} />
+            ) : (
+              <label htmlFor="image-upload" style={{ cursor: 'pointer' }}>
+                <Box
+                  width="70%"
+                  height="30%"
+                  bgcolor="#9B9B9B"
+                  marginLeft="8.5vw"
+                  marginTop="2vw"
+                  borderRadius="2vw 2vw 2vw 2vw"
+                  flexDirection="column"
+                  alignItems="center"
+                  textAlign="center"
                 >
-
-                {/* Upload image icon */}
-                <img src={uploadImageIcon} width="40%" alt="upload image icon" style={{ marginTop: '2vw' }} />
-                <Typography variant="h5" sx={{ fontSize: '2vw', fontWeight: 500, marginTop: '1vw', marginBottom: '1vw' }}>Drop your image here or browse</Typography>
-              </Box>
-            </label>
+                  {/* Upload image icon */}
+                  <img src={uploadImageIcon} width="30%" alt="upload image icon" style={{ marginTop: '2vw' }} />
+                  <Typography variant="h5" sx={{ fontSize: '2vw', fontWeight: 500, marginTop: '1vw', marginBottom: '1vw' }}>Drop your image here or browse</Typography>
+                </Box>
+              </label>
+            )}
+            
             <input
               id="image-upload"
               type="file"
