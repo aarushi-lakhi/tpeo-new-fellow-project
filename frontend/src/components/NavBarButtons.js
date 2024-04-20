@@ -9,7 +9,7 @@ const NavBarButtons = ({ isProfilePage }) => {
     return (
         <Stack flex="1" direction="row" justifyContent="space-evenly" alignItems="center">
             <Box p={2} sx={{ backgroundColor: isProfilePage ? "#A5B9E0": "#D9D9D9" , display: "flex", justifyContent: "center", alignItems: "center", '&:hover': { backgroundColor: isProfilePage ? "#D9D9D9" :  "#A5B9E0" } }}>
-                <Typography onClick={() => navigate("/temp-navbar")} variant="h5" sx={{ fontFamily: 'Poppins', fontWeight: "400", textAlign: 'center', color: '#000000', display: { xs: 'none', md: 'block' } }}>
+                <Typography onClick={() => navigate("/search-page")} variant="h5" sx={{ fontFamily: 'Poppins', fontWeight: "400", textAlign: 'center', color: '#000000', display: { xs: 'none', md: 'block' } }}>
                     Clothes
                 </Typography>
             </Box>

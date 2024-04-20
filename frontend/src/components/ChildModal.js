@@ -52,7 +52,7 @@ function ChildModal() {
   );
 }
 
-export default function NestedModal({modalValue}) {
+export default function NestedModal({modalValue, modalText, displayImage}) {
   const [open, setOpen] = React.useState(modalValue);
   // const handleOpen = () => {
   //   setOpen(true);
@@ -76,9 +76,11 @@ export default function NestedModal({modalValue}) {
             </IconButton>
           </Box>
           <Typography variant="h6" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
-                Trade Successful!
+                {modalText === "" ? "Default Text" : modalText}
           </Typography>
-          <Box marginTop="20px" component="img" sx={{height: "200px", width: "200px",}} alt="Uh Oh" src={Sucess}/>
+          {displayImage && 
+              <Box marginTop="20px" component="img" sx={{height: "200px", width: "200px",}} alt="Uh Oh" src={Sucess}/>
+          }
         </Stack>
       </Modal>
     </div>

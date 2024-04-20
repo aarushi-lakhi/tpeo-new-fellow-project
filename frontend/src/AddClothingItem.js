@@ -173,6 +173,13 @@ function AddClothingItem() {
         setDescription(newValue);
     }
 
+    const [gender, setGender] = useState(""); 
+
+    function handleGenderChange(event) {
+        const newValue = event.target.value;
+        setGender(newValue);
+    }
+
     // Firebase Stuff 
     const {currentUser} = useAuth();
 
@@ -209,7 +216,16 @@ function AddClothingItem() {
     //     return firebaseURLS; 
     // };
 
+    const [modalText, setModalText] = useState("");
+    const [modalDisplayImage, setModalDisplayImage] = useState(false); 
+
     const addListing = async () => {
+
+        setModalTruthValue(true); 
+        setModalText("Waiting...."); 
+        setModalDisplayImage(false); 
+
+
         const firebaseImageUploadArray = [firebaseUploadImageOne, firebaseUploadImageTwo, firebaseUploadImageThree]; 
         const firebaseURLS = []; 
         for (let i = 0; i < firebaseImageUploadArray.length; i++) {
@@ -239,6 +255,7 @@ function AddClothingItem() {
                 "clothingArticle": articleOfClothing,
                 "estimatedMonetaryValue": estimatedPrice,
                 "images": firebaseURLS, 
+                "gender": gender, 
             });
 
             const requestOptions = {
@@ -248,10 +265,12 @@ function AddClothingItem() {
                 redirect: "follow"
             };
 
-            fetch("http://localhost:4000/item/upload_item_test", requestOptions)
-                .then((response) => response.text())
-                .then((result) => setModalTruthValue(true))
-                .catch((error) => console.error(error));
+            const response = await fetch("http://localhost:4000/item/upload_item_test", requestOptions); 
+            const result = await response.text(); 
+
+            setModalDisplayImage(true); 
+            setModalText("Added Item Successfully!"); 
+            setModalDisplayImage(true); 
                 // ERROR ^
         } catch(e) {
             // ERROR 
@@ -366,7 +385,7 @@ function AddClothingItem() {
                             </Box>
                         }
                     </Stack>
-                    <TextField id="outlined-basic" label="Title" variant="outlined" value={title} onChange={handleTitleChange} />
+                    <TextField id="outlined-basic" label="Title" variant="outlined" value={title} onChange={handleTitleChange}/>
                     <TextField id="outlined-basic" label="Estimated Price" variant="outlined" value={estimatedPrice} onChange={handleEstimatedPriceChange}/>
                     <FormControl fullWidth>
                         <InputLabel id="article-clothing-select-label">Article of Clothing</InputLabel>
@@ -388,22 +407,38 @@ function AddClothingItem() {
 
                         </Select>
                     </FormControl>
-                    <FormControl fullWidth>
-                        <InputLabel id="size-select-label">Size</InputLabel>
-                        <Select
-                            labelId="size-select-label"
-                            id="size-select"
-                            value={size}
-                            label="Size"
-                            onChange={handleSizeChange}
-                        >
-                            <MenuItem value="XS">XS</MenuItem>
-                            <MenuItem value="S">S</MenuItem>
-                            <MenuItem value="M">M</MenuItem>
-                            <MenuItem value="L">L</MenuItem>
-                            <MenuItem value="XL">XL</MenuItem>
-                        </Select>
-                    </FormControl>
+                    <Stack direction="row" justifyContent="space-evenly"> 
+                        <FormControl fullWidth>
+                            <InputLabel id="size-select-label">Size</InputLabel>
+                            <Select
+                                labelId="size-select-label"
+                                id="size-select"
+                                value={size}
+                                label="Size"
+                                onChange={handleSizeChange}
+                            >
+                                <MenuItem value="XS">XS</MenuItem>
+                                <MenuItem value="S">S</MenuItem>
+                                <MenuItem value="M">M</MenuItem>
+                                <MenuItem value="L">L</MenuItem>
+                                <MenuItem value="XL">XL</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <FormControl fullWidth>
+                            <InputLabel id="gender-select-label">Gender</InputLabel>
+                            <Select
+                                labelId="gender-select-label"
+                                id="gender-select"
+                                value={gender}
+                                label="Gender"
+                                onChange={handleGenderChange}
+                            >
+                                <MenuItem value="Male">Male</MenuItem>
+                                <MenuItem value="Female">Female</MenuItem>
+                                <MenuItem value="Unisex">Unisex</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Stack> 
                     <TextField
                         placeholder="Description"
                         multiline
@@ -427,6 +462,9 @@ function AddClothingItem() {
                                 {title === "" ? "Title" : title}
                             </Typography>
                             <Typography variant="h5" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'start', color: '#000000'}}>
+                                {"Seller: " + currentUser.displayName} 
+                            </Typography>
+                            <Typography variant="h5" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'start', color: '#000000'}}>
                                 {estimatedPrice === "" ? "Estimated Price" : "$" + estimatedPrice}
                             </Typography>
                             <Typography variant="h5" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'start', color: '#000000', maxWidth:"300px", wordWrap: "break-word"}}>
@@ -443,7 +481,7 @@ function AddClothingItem() {
                 </Stack>
             </Stack>
             {modalTruthValue &&  
-                <Modal modalValue={modalTruthValue}/>
+                <Modal modalValue={modalTruthValue} modalText={modalText} displayImage={modalDisplayImage}/>
             }
             {/* <Card sx={{ maxWidth: 345, borderRadius: '16px', backgroundColor: '#D3D3D3', border: '1px solid #0000FF', boxShadow: 'none' }}>
             <CardContent sx={{ textAlign: 'center' }}>

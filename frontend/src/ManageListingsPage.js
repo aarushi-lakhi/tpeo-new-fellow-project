@@ -22,7 +22,9 @@ const TempNavBarPage = () => {
   }
 
   function navigateToPreview(specificClothingData) {
-    navigate("/preview-page", {state: {clothingData: specificClothingData}});
+    console.log("rain"); 
+    console.log(specificClothingData); 
+    navigate("/preview-page", {state: {clothingData: specificClothingData, sellerTextValue: true}});
   }
 
   useEffect(() => {
@@ -34,11 +36,7 @@ const TempNavBarPage = () => {
             myHeaders.append("Content-Type", "application/json");
             const token = "Bearer " +  idToken; 
             myHeaders.append("Authorization", token);
-
-            const raw = JSON.stringify({
-              "userEmail": currentUser.email
-            });
-            
+        
             const requestOptions = {
               method: "GET",
               headers: myHeaders,

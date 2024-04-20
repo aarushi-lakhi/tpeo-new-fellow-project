@@ -11,8 +11,8 @@ import OnboardingStart from './OnboardingStart';
 import ChooseStyleOnboarding from './ChooseStyleOnboarding';
 import ChooseSizeOnboarding from './ChooseSizeOnboarding';
 import NavBar from './components/NavBar';
-import TempNavBarPage from './TempNavBarPage';
-import TempPageTwo from './TempPageTwo';
+import SearchPage from './SearchPage';
+import MakeTrade from './MakeTradePage';
 import AddClothingItem from "./AddClothingItem"
 import Offers from "./Offers"
 import ManageListings from "./ManageListingsPage"
@@ -32,8 +32,8 @@ function App() {
           <Route path="/onboarding-start" element={<OnboardingStart/>} />
           <Route path="/onboarding-choose-style" element={<ChooseStyleOnboarding/>} />
           <Route path="/onboarding-choose-size" element={<ChooseSizeOnboarding/>} />
-          <Route path="/temp-navbar" element={<TempNavBarPage/>} /> 
-          <Route path="/temp-page-two" element={<TempPageTwo/>} /> 
+          <Route path="/search-page" element={<SearchPage/>} /> 
+          <Route path="/make-trade" element={<MakeTrade/>} /> 
           <Route path="/add-item" element={<AddClothingItem/>} /> 
           <Route path="/check-offers" element={<Offers/>} /> 
           <Route path="/manage-listings" element={<ManageListings/>} /> 
