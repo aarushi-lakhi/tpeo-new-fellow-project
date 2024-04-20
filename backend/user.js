@@ -55,4 +55,33 @@ router.post("/update_user_information", async (req, res) => {
     }
 });
 
+// POST endpoint to upload image
+router.post("/upload_image", async (req, res) => {
+    try {
+        if (!req.files || Object.keys(req.files).length === 0) {
+            return res.status(400).send('No files were uploaded.');
+        }
+
+        const image = req.files.image;
+        const fileName = `${uuidv4()}_${image.name}`;
+
+        const filePath = path.join(__dirname, '../public/uploads/', fileName);
+
+        image.mv(filePath, async (err) => {
+            if (err) {
+                return res.status(500).send(err);
+            }
+
+            // Need to store the file path or URL in the database
+            // Below sends back the URL
+            const url = `http://localhost:4000/uploads/${fileName}`;
+            res.status(200).json({ url });
+        });
+    } catch (error) {
+        console.error("Error uploading image:", error);
+        res.status(500).send({ error: "Failed to upload image." });
+    }
+});
+
+
 module.exports = router 

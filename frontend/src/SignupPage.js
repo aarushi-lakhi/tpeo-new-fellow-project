@@ -9,12 +9,22 @@ import snapchatIcon from './components/SignUp_Icons/snapchat_icon.png';
 import instagramIcon from './components/SignUp_Icons/instagram_icon.png';
 import uploadImageIcon from './components/SignUp_Icons/upload_image_icon.png'
 import locationIcon from './components/SignUp_Icons/location_icon.png';
+import { useAuth } from './AuthContext';
 import NavBar from './components/NavBar';
+import axios from 'axios';
 import './App.css';
 
 function SignupPage() {
   const navigate = useNavigate();
+  const { currentUser } = useAuth();
   const [currentStep, setCurrentStep] = useState(1);
+  const [profilePicture, setProfilePicture] = useState(null);
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [snapchat, setSnapchat] = useState('');
+  const [instagram, setInstagram] = useState('');
+  const [location1, setLocation1] = useState('');
+  const [location2, setLocation2] = useState('');
+  const [location3, setLocation3] = useState('');
 
   const nextStep = () => {
     setCurrentStep(currentStep + 1);
@@ -24,10 +34,42 @@ function SignupPage() {
     setCurrentStep(currentStep - 1);
   };
 
-  const handleSubmit = () => {
-    // Add code to submit information to backend
-    // Then navigate to a different page
-    navigate('/success');
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    setProfilePicture(file);
+  };
+
+  const handleSubmit = async () => {
+    try {
+      // Upload profile picture
+      let profilePictureUrl = '';
+      if (profilePicture) {
+        const formData = new FormData();
+        formData.append('image', profilePicture);
+
+        const response = await axios.post('http://localhost:4000/upload_image', formData);
+        profilePictureUrl = response.data.url;
+      }
+
+      // Submit form data
+      const userData = {
+        userEmail: currentUser.email,
+        userPhoneNumber: phoneNumber,
+        userSnapchat: snapchat,
+        userInstagram: instagram,
+        userLocation1: location1,
+        userLocation2: location2,
+        userLocation3: location3,
+        userProfilePicture: profilePictureUrl,
+      };
+
+      await axios.post('http://localhost:4000/update_user_information', userData);
+
+      navigate('/success');
+    } catch (error) {
+      // Handle error
+      console.error('Error submitting form:', error);
+    }
   };
 
   return (
@@ -105,6 +147,7 @@ function SignupPage() {
             <hr style={{ width: '100%', border: '0.4vw solid rgba(0, 0, 0, 0.2)', marginBottom: '2vw' }} />
             <Typography variant="h4" sx={{ fontSize: '2.5vw', fontWeight: 500, marginBottom: '1vw', textAlign: 'left' }}>Add your profile picture</Typography>
             <Typography variant="h4" sx={{ fontSize: '2vw', fontWeight: 500, marginBottom: '1vw', textAlign: 'left', color: '#0000008A' }}>Optional</Typography>
+            <label htmlFor="image-upload" style={{ cursor: 'pointer' }}>
               <Box
                 width="70%"
                 height="30%"
@@ -124,6 +167,14 @@ function SignupPage() {
                 <img src={uploadImageIcon} width="40%" alt="upload image icon" style={{ marginTop: '2vw' }} />
                 <Typography variant="h5" sx={{ fontSize: '2vw', fontWeight: 500, marginTop: '1vw', marginBottom: '1vw' }}>Drop your image here or browse</Typography>
               </Box>
+            </label>
+            <input
+              id="image-upload"
+              type="file"
+              accept="image/*"
+              style={{ display: 'none' }}
+              onChange={handleImageUpload}
+            />
             <Box position="absolute" top="50%" transform="translateY(-50%)" left="2vw">
               <ArrowBackIcon fontSize="large" color="black" onClick={prevStep} />
             </Box>
