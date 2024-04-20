@@ -139,10 +139,17 @@ const Profile = () => {
         }
     }, [currentUser]);
 
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        setImageUpload(file);
+    };
+
     const handleSave = async () => {
         try {
-            await updateProfileInformation();
-            navigate('/success');
+            if (imageUpload) {
+                await uploadImage();
+            }
+            await updateProfileInformation(profilePictureUrl);
         } catch (error) {
             console.error('Error saving profile:', error);
         }
@@ -197,26 +204,40 @@ const Profile = () => {
                             top="15%"
                             left="5%"
                         >
-                            {/* Profile picture content here */}
-                        </Box>
+                            {/* Conditionally render the profile picture */}
+                            {profilePictureUrl ? (
+                                <img src={profilePictureUrl} alt="Profile Picture" style={{ width: '100%', height: '100%', borderRadius: '50%' }} />
+                            ) : (
+                                <>
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        style={{ display: 'none' }}
+                                        onChange={handleImageChange}
+                                        id="imageUploadInput"
+                                    />
+                                    <label htmlFor="imageUploadInput" style={{ cursor: 'pointer' }}>
+                                        {/* Edit profile picture text */}
+                                        <Typography
+                                            variant="h6"
+                                            sx={{
+                                                fontFamily: 'Poppins',
+                                                fontSize: '1.75vw',
+                                                fontWeight: 500,
+                                                lineHeight: '1',
+                                                textAlign: 'center',
+                                                color: '#1A3F7D',
+                                                position: 'absolute',
+                                                top: '50%',
+                                            }}
+                                        >
+                                            Add/update profile picture
+                                        </Typography>
+                                    </label>
+                                </>
 
-                        {/* Edit profile picture text */}
-                        <Typography
-                            variant="h6"
-                            sx={{
-                                fontFamily: 'Poppins',
-                                fontSize: '1.75vw',
-                                fontWeight: 500,
-                                lineHeight: '1',
-                                textAlign: 'center',
-                                color: '#1A3F7D',
-                                position: 'absolute',
-                                top: '70%',
-                                left: '3%',
-                            }}
-                        >
-                            Add/update profile picture
-                        </Typography>
+                            )}
+                        </Box>
 
                         <Button 
                             sx={{
