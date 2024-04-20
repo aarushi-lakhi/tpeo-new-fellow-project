@@ -28,6 +28,7 @@ function SignupPage() {
 
   const nextStep = () => {
     setCurrentStep(currentStep + 1);
+    handleSubmit(); 
   };
 
   const prevStep = () => {
@@ -110,15 +111,15 @@ function SignupPage() {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <img src={phoneIcon} width="8%" alt="phone icon" style={{ marginRight: '1rem' }} />
-                <TextField id="phone" label="Phone Number" variant="outlined" />
+                <TextField id="phone" label="Phone Number" variant="outlined" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
               </Grid>
               <Grid item xs={12}>
                 <img src={snapchatIcon} width="8%" alt="snapchat icon" style={{ marginRight: '1rem' }} />
-                <TextField id="snapchat" label="Snapchat" variant="outlined" />
+                <TextField id="snapchat" label="Snapchat" variant="outlined" value={snapchat} onChange={(e) => setSnapchat(e.target.value)} />
               </Grid>
               <Grid item xs={12}>
                 <img src={instagramIcon} width="8%" alt="instagram icon" style={{ marginRight: '1rem' }} />
-                <TextField id="instagram" label="Instagram" variant="outlined" />
+                <TextField id="instagram" label="Instagram" variant="outlined" value={instagram} onChange={(e) => setInstagram(e.target.value)} />
               </Grid>
             </Grid>
             {/* No back error on the first slide of sign up */}
@@ -208,15 +209,15 @@ function SignupPage() {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <img src={locationIcon} width="8%" alt="location icon" style={{ marginRight: '1rem' }} />
-                <TextField id="location1" label="Location 1" variant="outlined" />
+                <TextField id="location1" label="Location 1" variant="outlined" value={location1} onChange={(e) => setLocation1(e.target.value)} />
               </Grid>
               <Grid item xs={12}>
                 <img src={locationIcon} width="8%" alt="location icon" style={{ marginRight: '1rem' }} />
-                <TextField id="location2" label="Location 2" variant="outlined" />
+                <TextField id="location2" label="Location 2" variant="outlined" value={location2} onChange={(e) => setLocation2(e.target.value)} />
               </Grid>
               <Grid item xs={12}>
                 <img src={locationIcon} width="8%" alt="location icon" style={{ marginRight: '1rem' }} />
-                <TextField id="location3" label="Location 3" variant="outlined" />
+                <TextField id="location3" label="Location 3" variant="outlined" value={location3} onChange={(e) => setLocation3(e.target.value)} />
               </Grid>
             </Grid>
             <Box position="absolute" top="50%" transform="translateY(-50%)" left="2vw">
