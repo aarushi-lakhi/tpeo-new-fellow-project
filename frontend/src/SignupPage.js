@@ -28,6 +28,15 @@ function SignupPage() {
 
   const nextStep = () => {
     setCurrentStep(currentStep + 1);
+
+    // Check if it's the last step
+    if (currentStep === 3) {
+      navigate('/manage-listings');
+    } 
+    // else {
+    //   navigate('/success');
+    // }
+
     handleSubmit(); 
   };
 
@@ -38,6 +47,13 @@ function SignupPage() {
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
     setProfilePicture(file);
+  };
+
+  const axiosConfig = {
+    headers: {
+      'Authorization': 'Bearer ' + currentUser,
+      'Content-Type': 'application/json'
+    }
   };
 
   const handleSubmit = async () => {
@@ -66,7 +82,6 @@ function SignupPage() {
 
       await axios.post('http://localhost:4000/update_user_information', userData);
 
-      navigate('/success');
     } catch (error) {
       // Handle error
       console.error('Error submitting form:', error);
