@@ -19,7 +19,7 @@ export default function NavBar({ isProfilePage }) {
                     Barter Buddies
                 </Typography>
             </Box>
-            <NavBarButtons />
+            <NavBarButtons isProfilePage={isProfilePage} />
             <IconButton onClick={() => navigate("/profile")}>
                 <AccountCircleIcon sx={{ fontSize: { xs: "50px" }, display: { xs: 'none', md: 'block' } }} />
             </IconButton>

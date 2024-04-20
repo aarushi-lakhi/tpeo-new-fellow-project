@@ -73,6 +73,7 @@ const HomePage = () => {
       <Box
         bgcolor="#A5B9E0"
         display="flex"
+        height="100%"
         justifyContent="center"
         alignItems="center"
         textAlign="center"
