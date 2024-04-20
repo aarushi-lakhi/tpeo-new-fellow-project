@@ -28,16 +28,16 @@ function SignupPage() {
 
   const nextStep = () => {
     setCurrentStep(currentStep + 1);
+    console.log("current step is " + currentStep);
 
     // Check if it's the last step
     if (currentStep === 3) {
+      handleSubmit(); 
       navigate('/manage-listings');
     } 
     // else {
     //   navigate('/success');
     // }
-
-    handleSubmit(); 
   };
 
   const prevStep = () => {
@@ -246,7 +246,7 @@ function SignupPage() {
               <ArrowBackIcon fontSize="large" color="black" onClick={prevStep} />
             </Box>
             <Box position="absolute" top="50%" transform="translateY(-50%)" right="2vw">
-              <ArrowForwardIcon fontSize="large" color="black" onClick={handleSubmit} />
+              <ArrowForwardIcon fontSize="large" color="black" onClick={nextStep} />
             </Box>
           </Box>
         )}
