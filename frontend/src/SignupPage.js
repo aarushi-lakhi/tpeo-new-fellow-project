@@ -64,7 +64,7 @@ function SignupPage() {
         const formData = new FormData();
         formData.append('image', profilePicture);
 
-        const response = await axios.post('http://localhost:4000/upload_image', formData);
+        const response = await axios.post('http://localhost:4000/upload_image', formData, axiosConfig);
         profilePictureUrl = response.data.url;
       }
 
@@ -80,7 +80,7 @@ function SignupPage() {
         userProfilePicture: profilePictureUrl,
       };
 
-      await axios.post('http://localhost:4000/update_user_information', userData);
+      await axios.post('http://localhost:4000/update_user_information', userData, axiosConfig);
 
     } catch (error) {
       // Handle error
