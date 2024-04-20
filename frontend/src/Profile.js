@@ -42,14 +42,14 @@ const Profile = () => {
 
     const fetchProfileInformation = async () => {
         try {
-            const myHeaders = new Headers();
-
             const idToken = await currentUser.getIdToken();
-            myHeaders.append("Authorization", `Bearer ${idToken}`);
 
             const requestOptions = {
                 method: "GET",
-                headers: myHeaders,
+                headers: {
+                    "Authorization": `Bearer ${idToken}`,
+                    "Content-Type": "application/json"
+                },
                 redirect: "follow"
             };
 
@@ -62,8 +62,8 @@ const Profile = () => {
             setLocation1(data.Location1);
             setLocation2(data.Location2);
             setLocation3(data.Location3);
-        } catch (e) {
-            console.log(e);
+        } catch (error) {
+            console.log('Error fetching profile information:', error);
         }
     }
 
@@ -89,6 +89,7 @@ const Profile = () => {
     // Function to update profile information
     const updateProfileInformation = async (profilePictureUrl, idToken) => {
         try {
+            const idToken = await currentUser.getIdToken();
             // Create request body with updated profile picture URL
             const requestBody = JSON.stringify({
                 userEmail: email,
@@ -115,7 +116,7 @@ const Profile = () => {
             const data = await response.json();
             console.log(data);
         } catch (error) {
-            console.error(error);
+            console.error('Error updating profile information:', error);
         }
     };
 
@@ -137,6 +138,15 @@ const Profile = () => {
             fetchProfileInformation();
         }
     }, [currentUser]);
+
+    const handleSave = async () => {
+        try {
+            await updateProfileInformation();
+            navigate('/success');
+        } catch (error) {
+            console.error('Error saving profile:', error);
+        }
+    };
 
     return (
         <div>
@@ -208,9 +218,7 @@ const Profile = () => {
                             Add/update profile picture
                         </Typography>
 
-                        {/* Edit information button */}
-                        <Typography
-                            variant="h6"
+                        <Button 
                             sx={{
                                 fontFamily: 'Poppins',
                                 fontSize: '1.75vw',
@@ -219,12 +227,13 @@ const Profile = () => {
                                 textAlign: 'center',
                                 color: '#1A3F7D',
                                 position: 'absolute',
-                                top: '86%',
-                                left: '6%',
+                                top: '80%',
+                                left: '8%',
                             }}
+                            onClick={handleSave}
                         >
-                            EDIT INFORMATION
-                        </Typography>
+                            Save Changes
+                        </Button>
 
                         {/* Right boxes */}
                         <Box
@@ -314,8 +323,7 @@ const Profile = () => {
                                         id="phone"
                                         label="Phone Number"
                                         variant="outlined"
-                                        value={phoneNumber}
-                                        disabled
+                                        value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)}
                                     />
                                 </Box>
                                 {/* Snapchat box */}
@@ -334,8 +342,7 @@ const Profile = () => {
                                         id="snapchat"
                                         label="Snapchat"
                                         variant="outlined"
-                                        value={snap}
-                                        disabled
+                                        value={snap} onChange={(e) => setSnap(e.target.value)}
                                     />
                                 </Box>
                                 {/* Instagram box */}
@@ -353,8 +360,7 @@ const Profile = () => {
                                         id="instagram"
                                         label="Instagram"
                                         variant="outlined"
-                                        value={instagram}
-                                        disabled
+                                        value={instagram} onChange={(e) => setInstagram(e.target.value)}
                                     />
                                 </Box>
                             </Grid>
@@ -376,8 +382,7 @@ const Profile = () => {
                                         id="location1"
                                         label="Location 1"
                                         variant="outlined"
-                                        value={location1}
-                                        disabled
+                                        value={location1} onChange={(e) => setLocation1(e.target.value)}
                                     />
                                 </Box>
                                 {/* Location 2 box */}
@@ -396,8 +401,7 @@ const Profile = () => {
                                         id="location2"
                                         label="Location 2"
                                         variant="outlined"
-                                        value={location2}
-                                        disabled
+                                        value={location2} onChange={(e) => setLocation2(e.target.value)}
                                     />
                                 </Box>
                                 {/* Location 3 box */}
@@ -415,8 +419,7 @@ const Profile = () => {
                                         id="location3"
                                         label="Location 3"
                                         variant="outlined"
-                                        value={location3}
-                                        disabled
+                                        value={location3} onChange={(e) => setLocation3(e.target.value)}
                                     />
                                 </Box>
                             </Grid>
