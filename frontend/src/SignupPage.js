@@ -153,7 +153,7 @@ function SignupPage() {
             {profilePicture ? (
               <img src={URL.createObjectURL(profilePicture)} alt="profile" style={{ width: '70%', borderRadius: '2vw 2vw 2vw 2vw', margin: '2vw auto' }} />
             ) : (
-              <label htmlFor="image-upload" style={{ cursor: 'pointer' }}>
+              // <label htmlFor="image-upload" style={{ cursor: 'pointer' }}>
                 <Box
                   width="70%"
                   height="30%"
@@ -164,12 +164,16 @@ function SignupPage() {
                   flexDirection="column"
                   alignItems="center"
                   textAlign="center"
+                  onClick={() => document.getElementById('image-upload').click()} // Open file dialog on click
+                  style={{ cursor: 'pointer' }}
                 >
                   {/* Upload image icon */}
                   <img src={uploadImageIcon} width="30%" alt="upload image icon" style={{ marginTop: '2vw' }} />
-                  <Typography variant="h5" sx={{ fontSize: '2vw', fontWeight: 500, marginTop: '1vw', marginBottom: '1vw' }}>Drop your image here or browse</Typography>
+                  <Typography variant="h5" sx={{ fontSize: '2vw', fontWeight: 500, marginTop: '1vw', marginBottom: '1vw' }}>Drop your image here or{' '}
+                    <span style={{ color: 'blue', textDecoration: 'underline', cursor: 'pointer' }}>browse</span>
+                  </Typography>
                 </Box>
-              </label>
+              // </label>
             )}
             
             <input
