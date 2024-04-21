@@ -40,31 +40,33 @@ const Profile = () => {
     }, [currentUser]);
 
     const fetchProfileInformation = async () => {
-        try {
-            const idToken = await currentUser.getIdToken();
-
-            const requestOptions = {
-                method: "GET",
-                headers: {
-                    "Authorization": `Bearer ${idToken}`,
-                    "Content-Type": "application/json"
-                },
-                redirect: "follow"
-            };
-
-            const fetchUrl = `${backendURL}/profile_information/${currentUser.email}`;
-            const response = await fetch(fetchUrl, requestOptions);
-            const data = await response.json();
-            setSnap(data.snapchat);
-            setInstagram(data.instagram);
-            setPhoneNumber(data.phoneNumber)
-            setLocation1(data.location1);
-            setLocation2(data.location2);
-            setLocation3(data.location3);
-        } catch (error) {
-            console.log('Error fetching profile information:', error);
-        }
-    }
+        console.log("fetch pf");
+              if(currentUser) {
+                try {
+                  const idToken = await currentUser.getIdToken();
+                  const myHeaders = new Headers();
+                  myHeaders.append("Content-Type", "application/json");
+                  const token = "Bearer " +  idToken;
+                  myHeaders.append("Authorization", token);
+                  const requestOptions = {
+                    method: "GET",
+                    headers: myHeaders,
+                    redirect: "follow"
+                  };
+                  const url = `${backendURL}/user/profile_information/${currentUser.email}`;
+                  const response = await fetch(url, requestOptions);
+                  const data = await response.json();
+                  setSnap(data.snapchat);
+                  setInstagram(data.instagram);
+                  setPhoneNumber(data.phoneNumber)
+                  setLocation1(data.Location1);
+                  setLocation2(data.Location2);
+                  setLocation3(data.Location3);
+              } catch (error) {
+                  console.log('Error fetching profile information:', error);
+              }
+            }
+          }
 
     const uploadImage = () => {
         if (imageUpload == null) {
@@ -88,36 +90,35 @@ const Profile = () => {
     // Function to update profile information
     const updateProfileInformation = async (profilePictureUrl) => {
         try {
-            const idToken = await currentUser.getIdToken();
-
-            // Create request body with updated profile picture URL
-            const requestBody = JSON.stringify({
-                userEmail: email,
-                userSnapchat: snap,
-                userInstagram: instagram,
-                userPhoneNumber: phoneNumber,
-                userProfilePicture: profilePictureUrl,
-                location1: location1,
-                location2: location2,
-                location3: location3,
-            });
-
-            const requestOptions = {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${idToken}`,
-                },
-                body: requestBody,
-            };
-
-            const fetchUrl = `${backendURL}/update_user_information`;
-            const response = await fetch(fetchUrl, requestOptions);
-            const data = await response.json();
-            console.log(data);
-        } catch (error) {
-            console.error('Error updating profile information:', error);
-        }
+          const idToken = await currentUser.getIdToken();
+          const myHeaders = new Headers();
+          myHeaders.append("Content-Type", "application/json");
+          const token = "Bearer " +  idToken;
+          myHeaders.append("Authorization", token);
+          const raw = JSON.stringify({
+            "userEmail": email,
+            "userSnapchat": snap,
+            "userInstagram": instagram,
+            "userPhoneNumber": phoneNumber,
+            "userProfilePicture": profilePictureUrl,
+            "location1": location1,
+            "location2": location2,
+            "location3": location3,
+        });
+          const requestOptions = {
+              method: "POST",
+              headers: myHeaders,
+              body: raw,
+              redirect: "follow"
+          };
+          const fetchUrl = `${backendURL}/user/update_user_information`;
+          const response = await fetch(fetchUrl, requestOptions);
+          const data = await response.text();
+          console.log(data);
+      } catch(e) {
+          // ERROR
+          console.log(e);
+      }
     };
 
     useEffect(() => {

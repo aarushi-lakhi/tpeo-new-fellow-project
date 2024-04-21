@@ -62,6 +62,7 @@ router.post("/update_user_information", async (req, res) => {
 
 // Fetch profile information endpoint
 router.get('/profile_information/:email', async (req, res) => {
+    console.log("we're here");
     try {
         const email = req.params.email;
 
