@@ -16,6 +16,7 @@ import NavBar from './components/NavBar';
 import { useLocation } from 'react-router-dom';
 
 const Profile = () => {
+    const backendURL = process.env.REACT_APP_BACKEND;
     const { currentUser } = useAuth();
     const [imageUpload, setImageUpload] = useState(null);
     const [imageList, setImageList] = useState([]);
@@ -53,7 +54,7 @@ const Profile = () => {
                 redirect: "follow"
             };
 
-            const fetchUrl = `http://localhost:4000/profile_information/${currentUser.email}`;
+            const fetchUrl = `${backendURL}/profile_information/${currentUser.email}`;
             const response = await fetch(fetchUrl, requestOptions);
             const data = await response.json();
             setSnap(data.Snapchat);
@@ -111,7 +112,7 @@ const Profile = () => {
                 body: requestBody,
             };
 
-            const fetchUrl = "http://localhost:4000/update_user_information";
+            const fetchUrl = `${backendURL}/update_user_information`;
             const response = await fetch(fetchUrl, requestOptions);
             const data = await response.json();
             console.log(data);

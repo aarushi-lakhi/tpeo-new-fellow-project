@@ -55,6 +55,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 const Offers = () => {
+    const backendURL = process.env.REACT_APP_BACKEND;
     const [burgerStatus, setBurgerStatus] = useState(false);
     const [clothingCardStatus, setclothingCardStatus] = useState(false);
     const [modalStatus, setModalStatus] = useState(false); 
@@ -91,7 +92,7 @@ const Offers = () => {
               redirect: "follow"
             };
             
-            const url = "http://localhost:4000/inventory/view_complete_inventory/" + currentUser.email; 
+            const url = `${backendURL}/inventory/view_complete_inventory/` + currentUser.email; 
             const response = await fetch(url, requestOptions); 
             const data = await response.json();
             if (Array.isArray(data)) {
@@ -155,7 +156,7 @@ const Offers = () => {
               redirect: "follow"
             };
             
-            const url = "http://localhost:4000/inventory/successful_trades/" + currentUser.email; 
+            const url = `${backendURL}/inventory/successful_trades/` + currentUser.email; 
             const response = await fetch(url, requestOptions); 
             const data = await response.json();
             if (Array.isArray(data)) {
@@ -206,7 +207,7 @@ const Offers = () => {
             redirect: "follow"
         };
 
-        const repsonse = await fetch("http://localhost:4000/offer/reverse_offer", requestOptions); 
+        const repsonse = await fetch(`${backendURL}/offer/reverse_offer`, requestOptions); 
         const result = await repsonse.json();
         setRemoveOfferStatus(true); 
 

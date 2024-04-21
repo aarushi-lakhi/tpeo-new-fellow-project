@@ -240,6 +240,7 @@ function AddClothingItem() {
         }
 
         try {
+            const backendURL = process.env.REACT_APP_BACKEND;
             const idToken = await currentUser.getIdToken(); 
 
             const myHeaders = new Headers();
@@ -265,7 +266,7 @@ function AddClothingItem() {
                 redirect: "follow"
             };
 
-            const response = await fetch("http://localhost:4000/item/upload_item_test", requestOptions); 
+            const response = await fetch(`${backendURL}/item/upload_item_test`, requestOptions); 
             const result = await response.text(); 
 
             setModalDisplayImage(true); 

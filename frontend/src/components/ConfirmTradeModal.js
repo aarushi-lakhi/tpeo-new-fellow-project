@@ -56,6 +56,8 @@ function ChildModal() {
 }
 
 export default function ConfirmTradeModal({modalValue, theirOffer, yourItem}) {
+  const backendURL = process.env.REACT_APP_BACKEND;
+
   const [open, setOpen] = React.useState(modalValue);
   const [infoDisplay, setInfoDisplay] = useState(false); 
 
@@ -89,7 +91,7 @@ export default function ConfirmTradeModal({modalValue, theirOffer, yourItem}) {
               redirect: "follow"
           };
 
-          const repsonse = await fetch("http://localhost:4000/offer/accept_offer", requestOptions); 
+          const repsonse = await fetch(`${backendURL}/offer/accept_offer`, requestOptions); 
           const result = await repsonse.json(); 
           setInfoDisplay(true); 
       } catch(e) { 

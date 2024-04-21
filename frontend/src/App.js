@@ -19,6 +19,7 @@ import ManageListings from "./ManageListingsPage"
 import PreviewPage from "./PreviewPage"
 
 function App() {
+
   return (
     <Router>
       <AuthProvider>

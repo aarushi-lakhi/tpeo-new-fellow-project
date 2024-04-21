@@ -44,6 +44,7 @@ import {useAuth} from './AuthContext';
 
 
 const MakeTrade = () => {
+    const backendURL = process.env.REACT_APP_BACKEND;
     const location = useLocation();
     const userData = location.state.clothingData;
 
@@ -81,7 +82,7 @@ const MakeTrade = () => {
                 redirect: "follow"
             };
 
-            const repsonse = await fetch("http://localhost:4000/offer/place_offer", requestOptions); 
+            const repsonse = await fetch(`${backendURL}/offer/place_offer`, requestOptions); 
             const result = await repsonse.json(); 
             setModalTruthValue(true); 
         } catch(e) {
@@ -107,7 +108,7 @@ const MakeTrade = () => {
               redirect: "follow"
             };
             
-            const url = "http://localhost:4000/inventory/view_inventory/" + currentUser.email; 
+            const url = `${backendURL}/inventory/view_inventory/` + currentUser.email; 
             const response = await fetch(url, requestOptions); 
             const data = await response.json();
             if (Array.isArray(data)) {

@@ -7,6 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import { Button, TextField, Box, MenuItem, Select, FormControl, InputLabel } from '@mui/material'; 
 
 const NewItemPage = () => {
+  const backendURL = process.env.REACT_APP_BACKEND;
+
   const [description, setDescription] = useState('');
   const [size, setSize] = useState('');
   const [clothingArticle, setClothingArticle] = useState('');
@@ -33,7 +35,7 @@ const NewItemPage = () => {
       };
 
       // Send a POST request to the backend to upload the item
-      const response = await fetch('http://localhost:4000/upload_item', {
+      const response = await fetch(`${backendURL}/upload_item`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

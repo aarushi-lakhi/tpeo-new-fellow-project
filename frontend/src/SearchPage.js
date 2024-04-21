@@ -37,6 +37,7 @@ import Modal from "./components/ChildModal"
 const SearchPage = () => {
   const navigate = useNavigate();
   const {currentUser} = useAuth();
+  const backendURL = process.env.REACT_APP_BACKEND;
 
   const [filterDisplayStatus, setFilterDisplayStatus] = useState(true); 
   const [backgroundColorClothingArticles, setBackgroundColorClothingArticles] = useState(["#D9D9D9", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF"]); 
@@ -121,7 +122,7 @@ const SearchPage = () => {
             redirect: "follow"
           };
 
-          const url = "http://localhost:4000/filter/find_items/" + currentUser.email + "/" + sizes + "/" + userClothingArticle + "/" + genders; 
+          const url = `${backendURL}/filter/find_items/` + currentUser.email + "/" + sizes + "/" + userClothingArticle + "/" + genders; 
           const response = await fetch(url, requestOptions); 
           const data = await response.json();
           if (Array.isArray(data)) {

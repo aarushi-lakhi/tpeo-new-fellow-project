@@ -31,6 +31,7 @@ const TempNavBarPage = () => {
     const getUserListings = async () => {
         if(currentUser) {
           try {
+            const backendURL = process.env.REACT_APP_BACKEND;
             const idToken = await currentUser.getIdToken(); 
             const myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/json");
@@ -43,7 +44,7 @@ const TempNavBarPage = () => {
               redirect: "follow"
             };
             
-            const url = "http://localhost:4000/inventory/view_inventory/" + currentUser.email; 
+            const url = `${backendURL}/inventory/view_inventory/` + currentUser.email; 
             const response = await fetch(url, requestOptions); 
             const data = await response.json();
             if (Array.isArray(data)) {
