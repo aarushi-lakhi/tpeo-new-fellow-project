@@ -6,17 +6,15 @@ import { v4 } from 'uuid';
 import { InputLabel, Button, Box, TextField, Grid, Item } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { useAuth } from './AuthContext';
-import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
 import phoneIcon from './components/SignUp_Icons/phone_icon.png';
 import snapchatIcon from './components/SignUp_Icons/snapchat_icon.png';
 import instagramIcon from './components/SignUp_Icons/instagram_icon.png';
 import locationIcon from './components/SignUp_Icons/location_icon.png';
 import NavBar from './components/NavBar';
-import { useLocation } from 'react-router-dom';
 
 const Profile = () => {
     const backendURL = process.env.REACT_APP_BACKEND;
+
     const { currentUser } = useAuth();
     const [imageUpload, setImageUpload] = useState(null);
     const [imageList, setImageList] = useState([]);
@@ -57,12 +55,12 @@ const Profile = () => {
             const fetchUrl = `${backendURL}/profile_information/${currentUser.email}`;
             const response = await fetch(fetchUrl, requestOptions);
             const data = await response.json();
-            setSnap(data.Snapchat);
-            setInstagram(data.Instagram);
-            setPhoneNumber(data.PhoneNumber)
-            setLocation1(data.Location1);
-            setLocation2(data.Location2);
-            setLocation3(data.Location3);
+            setSnap(data.snapchat);
+            setInstagram(data.instagram);
+            setPhoneNumber(data.phoneNumber)
+            setLocation1(data.location1);
+            setLocation2(data.location2);
+            setLocation3(data.location3);
         } catch (error) {
             console.log('Error fetching profile information:', error);
         }
@@ -97,7 +95,7 @@ const Profile = () => {
                 userSnapchat: snap,
                 userInstagram: instagram,
                 userPhoneNumber: phoneNumber,
-                userProfilePicture: profilePictureUrl, // Updated profile picture URL
+                userProfilePicture: profilePictureUrl,
                 location1: location1,
                 location2: location2,
                 location3: location3,
@@ -131,14 +129,6 @@ const Profile = () => {
             })
         })
     }, [])
-
-    useEffect(() => {
-        if (currentUser) {
-            setName(currentUser.displayName);
-            setEmail(currentUser.email);
-            fetchProfileInformation();
-        }
-    }, [currentUser]);
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
