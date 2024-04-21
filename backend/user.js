@@ -48,10 +48,12 @@ router.post("/update_user_information", async (req, res) => {
             snapchat: userSnapchat,
             phoneNumber: userPhoneNumber,
             profilePicture: userProfilePicture,
-            location1: userLocation1,
-            location2: userLocation2,
-            location3: userLocation3
-        }, { merge: true });
+            Location1: userLocation1,
+            Location2: userLocation2,
+            Location3: userLocation3
+        });
+
+        console.log("userpfp" + userProfilePicture);
 
         res.status(200).send({ success: "User information updated successfully." });
     } catch (error) {

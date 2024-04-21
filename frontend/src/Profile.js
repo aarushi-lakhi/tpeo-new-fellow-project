@@ -19,7 +19,7 @@ const Profile = () => {
     const [imageUpload, setImageUpload] = useState(null);
     const [imageList, setImageList] = useState([]);
     const imageListRef = ref(storage, "images/");
-    const [profilePictureUrl, setProfilePictureUrl] = useState("");
+    // const [profilePictureUrl, setProfilePictureUrl] = useState("");
     const navigate = useNavigate();
 
     const [name, setName] = useState("");
@@ -59,6 +59,7 @@ const Profile = () => {
                   setSnap(data.snapchat);
                   setInstagram(data.instagram);
                   setPhoneNumber(data.phoneNumber)
+                  setImageUpload(data.profilePicture);
                   setLocation1(data.Location1);
                   setLocation2(data.Location2);
                   setLocation3(data.Location3);
@@ -68,27 +69,27 @@ const Profile = () => {
             }
           }
 
-    const uploadImage = () => {
-        if (imageUpload == null) {
-            return;
-        }
+    // const uploadImage = () => {
+    //     if (imageUpload == null) {
+    //         return;
+    //     }
 
-        const imageRef = ref(storage, `images/${imageUpload.name + v4()}`);
-        uploadBytes(imageRef, imageUpload).then((snapshot) => {
-            alert("Image Uploaded");
-            getDownloadURL(snapshot.ref).then((url) => {
-                // Update profile picture URL state
-                setProfilePictureUrl(url);
-                console.log(url);
-            });
-        })
-            .catch((error) => {
-                console.error("Error uploading image:", error);
-            });
-    };
+    //     const imageRef = ref(storage, `images/${imageUpload.name + v4()}`);
+    //     uploadBytes(imageRef, imageUpload).then((snapshot) => {
+    //         alert("Image Uploaded");
+    //         getDownloadURL(snapshot.ref).then((url) => {
+    //             // Update profile picture URL state
+    //             setImageUpload(url);
+    //             console.log(url);
+    //         });
+    //     })
+    //         .catch((error) => {
+    //             console.error("Error uploading image:", error);
+    //         });
+    // };
 
     // Function to update profile information
-    const updateProfileInformation = async (profilePictureUrl) => {
+    const updateProfileInformation = async () => {
         try {
           const idToken = await currentUser.getIdToken();
           const myHeaders = new Headers();
@@ -97,13 +98,13 @@ const Profile = () => {
           myHeaders.append("Authorization", token);
           const raw = JSON.stringify({
             "userEmail": email,
-            "userSnapchat": snap,
             "userInstagram": instagram,
             "userPhoneNumber": phoneNumber,
-            "userProfilePicture": profilePictureUrl,
-            "location1": location1,
-            "location2": location2,
-            "location3": location3,
+            "userSnapchat": snap,
+            "userProfilePicture": imageUpload,
+            "userLocation1": location1,
+            "userLocation2": location2,
+            "userLocation3": location3,
         });
           const requestOptions = {
               method: "POST",
@@ -132,18 +133,35 @@ const Profile = () => {
         })
     }, [])
 
-    const handleImageChange = (e) => {
+    const handleImageChange = async (e) => {
         const file = e.target.files[0];
-        setImageUpload(file);
+        console.log(file)
+
+        const url = await uploadSpecificImage(file);
+        console.log(url);
+        setImageUpload(url);
+    };
+
+    const uploadSpecificImage = async (imageToUpload) => {
+        const imageRef = ref(storage, `images/${imageToUpload.name + v4()}`);
+        try {
+            const imageRef = ref(storage, `images/${imageToUpload.name + v4()}`);
+            const snapshot = await uploadBytes(imageRef, imageToUpload);
+            const url = await getDownloadURL(snapshot.ref);
+            return url; 
+        } catch (error) {
+            console.error("Error uploading image:", error);
+            return null; 
+        }
     };
 
     const handleSave = async () => {
         try {
             // const idToken = await currentUser.getIdToken();
-            if (imageUpload) {
-                await uploadImage();
-            }
-            await updateProfileInformation(profilePictureUrl);
+            // if (imageUpload) {
+            //     await uploadImage();
+            // }
+            await updateProfileInformation();
         } catch (error) {
             console.error('Error saving profile:', error);
         }
@@ -199,9 +217,7 @@ const Profile = () => {
                             left="5%"
                         >
                             {/* Conditionally render the profile picture */}
-                            {profilePictureUrl ? (
-                                <img src={profilePictureUrl} alt="Profile Picture" style={{ width: '100%', height: '100%', borderRadius: '50%' }} />
-                            ) : (
+                                <img src={imageUpload} alt="Profile Picture" style={{ width: '100%', height: '100%', borderRadius: '50%' }} />
                                 <>
                                     <input
                                         type="file"
@@ -216,21 +232,21 @@ const Profile = () => {
                                             variant="h6"
                                             sx={{
                                                 fontFamily: 'Poppins',
-                                                fontSize: '1.75vw',
+                                                fontSize: '1.5vw',
                                                 fontWeight: 500,
                                                 lineHeight: '1',
                                                 textAlign: 'center',
                                                 color: '#1A3F7D',
                                                 position: 'absolute',
-                                                top: '50%',
+                                                top: '110%',
+                                                left: '10%'
                                             }}
                                         >
-                                            Add/update profile picture
+                                            Update profile picture
                                         </Typography>
                                     </label>
                                 </>
 
-                            )}
                         </Box>
 
                         <Button 
