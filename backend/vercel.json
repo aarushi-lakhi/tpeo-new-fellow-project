@@ -2,9 +2,15 @@
     "version": 2,
     "name": "Barter Buddies",
     "builds": [
-        { "src": "index.js", "use": "@vercel/node"}
+      { "src": "index.js", "use": "@vercel/node"}
     ],
     "routes": [
-        { "src": "/(.*)", "dest": "/index.js"}
+      { "src": "/filter", "dest": "/index.js" },
+      { "src": "/inventory", "dest": "/index.js" },
+      { "src": "/item", "dest": "/index.js" },
+      { "src": "/user", "dest": "/index.js" },
+      { "src": "/offer", "dest": "/index.js" },
+      { "src": "/(.*)", "dest": "/index.js" }
     ]
-}
+  }
+  
