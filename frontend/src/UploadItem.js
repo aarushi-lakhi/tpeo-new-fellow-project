@@ -35,7 +35,8 @@ const NewItemPage = () => {
       };
 
       // Send a POST request to the backend to upload the item
-      const response = await fetch(`${backendURL}/upload_item`, {
+      const url = `${backendURL}/upload_item`
+      const response = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

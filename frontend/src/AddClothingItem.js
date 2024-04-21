@@ -265,8 +265,8 @@ function AddClothingItem() {
                 body: raw,
                 redirect: "follow"
             };
-
-            const response = await fetch(`${backendURL}/item/upload_item_test`, requestOptions); 
+            const url = `${backendURL}/item/upload_item_test`
+            const response = await fetch(url, requestOptions);
             const result = await response.text(); 
 
             setModalDisplayImage(true); 

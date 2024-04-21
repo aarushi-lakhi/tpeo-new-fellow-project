@@ -7,6 +7,7 @@ const productCollection = db.collection('Product');
 const userCollection = db.collection('Users'); 
 
 router.post("/upload_item_test", async (req, res) => {
+  console.log("hello im here")
     // Extract Request Body 
     const {title, userEmail, description, size, clothingArticle, estimatedMonetaryValue, images, gender} = req.body; 
 

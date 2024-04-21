@@ -82,7 +82,8 @@ const MakeTrade = () => {
                 redirect: "follow"
             };
 
-            const repsonse = await fetch(`${backendURL}/offer/place_offer`, requestOptions); 
+            const url = `${backendURL}/offer/place_offer`
+            const repsonse = await fetch(url, requestOptions); 
             const result = await repsonse.json(); 
             setModalTruthValue(true); 
         } catch(e) {

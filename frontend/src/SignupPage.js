@@ -66,7 +66,8 @@ function SignupPage() {
         const formData = new FormData();
         formData.append('image', profilePicture);
 
-        const response = await axios.post(`${backendURL}/upload_image`, formData, axiosConfig);
+        const url = `${backendURL}/upload_image`
+        const response = await axios.post(url, formData, axiosConfig);
         profilePictureUrl = response.data.url;
       }
 
@@ -82,7 +83,8 @@ function SignupPage() {
         userProfilePicture: profilePictureUrl,
       };
 
-      await axios.post(`${backendURL}/update_user_information`, userData, axiosConfig);
+      const url = `${backendURL}/update_user_information`
+      await axios.post(url, userData, axiosConfig);
 
     } catch (error) {
       // Handle error

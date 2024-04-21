@@ -91,7 +91,8 @@ export default function ConfirmTradeModal({modalValue, theirOffer, yourItem}) {
               redirect: "follow"
           };
 
-          const repsonse = await fetch(`${backendURL}/offer/accept_offer`, requestOptions); 
+          const url = `${backendURL}/offer/accept_offer`
+          const repsonse = await fetch(url, requestOptions); 
           const result = await repsonse.json(); 
           setInfoDisplay(true); 
       } catch(e) { 
