@@ -1,11 +1,13 @@
 const express = require('express');
 const router = express.Router();
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const db = require('./firebase');
 const admin = require('firebase-admin');
 const productCollection = db.collection('Product');
 const userCollection = db.collection('Users');
 
+router.use(cors());
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: true }));
 
