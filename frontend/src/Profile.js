@@ -86,8 +86,10 @@ const Profile = () => {
     };
 
     // Function to update profile information
-    const updateProfileInformation = async (profilePictureUrl, idToken) => {
+    const updateProfileInformation = async (profilePictureUrl) => {
         try {
+            const idToken = await currentUser.getIdToken();
+
             // Create request body with updated profile picture URL
             const requestBody = JSON.stringify({
                 userEmail: email,
@@ -107,7 +109,6 @@ const Profile = () => {
                     Authorization: `Bearer ${idToken}`,
                 },
                 body: requestBody,
-                redirect: "follow"
             };
 
             const fetchUrl = `${backendURL}/update_user_information`;
@@ -137,11 +138,11 @@ const Profile = () => {
 
     const handleSave = async () => {
         try {
-            const idToken = await currentUser.getIdToken();
+            // const idToken = await currentUser.getIdToken();
             if (imageUpload) {
                 await uploadImage();
             }
-            await updateProfileInformation(profilePictureUrl, idToken);
+            await updateProfileInformation(profilePictureUrl);
         } catch (error) {
             console.error('Error saving profile:', error);
         }
