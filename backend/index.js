@@ -17,11 +17,11 @@ const userCollection = db.collection('Users');
 
 app.use(cors()); 
 app.use(express.json());
-app.use("/filter", filterRouter);
-app.use("/inventory", inventoryRouter); 
-app.use("/item", uploadItemTestRouter); 
-app.use("/user", userRouter); 
-app.use("/offer", offerRouter)
+// app.use("/filter", filterRouter);
+// app.use("/inventory", inventoryRouter); 
+// app.use("/item", uploadItemTestRouter); 
+// app.use("/user", userRouter); 
+// app.use("/offer", offerRouter)
 
 // Authenticaton middleware - Not Curently active because all app.use(router) are above this function
 app.use((req, res, next) => {
