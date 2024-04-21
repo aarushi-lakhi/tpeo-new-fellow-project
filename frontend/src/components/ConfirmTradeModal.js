@@ -134,7 +134,7 @@ export default function ConfirmTradeModal({modalValue, theirOffer, yourItem}) {
                             Trade confirmed! 
                     </Typography>
                     <Typography p={4} variant="h6" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
-                        Reach out to <Link href="/temp-navbar">{theirOffer.userDocumentReference.Name}</Link> to trade your items!
+                        Reach out to <Link href="/profile">{theirOffer.userDocumentReference.Name}</Link> to trade your items!
                         {/* CHANGE ABOVE LINK LATER  */}
                     </Typography>
                 </Stack>

@@ -37,9 +37,6 @@ function SignupPage() {
       handleSubmit(); 
       navigate('/manage-listings');
     } 
-    // else {
-    //   navigate('/success');
-    // }
   };
 
   const prevStep = () => {
@@ -51,13 +48,6 @@ function SignupPage() {
     setProfilePicture(file);
   };
 
-  const axiosConfig = {
-    headers: {
-      'Authorization': 'Bearer ' + currentUser,
-      'Content-Type': 'application/json'
-    }
-  };
-
   const handleSubmit = async () => {
     try {
       // Upload profile picture
@@ -67,7 +57,14 @@ function SignupPage() {
         formData.append('image', profilePicture);
 
         const url = `${backendURL}/upload_image`
-        const response = await axios.post(url, formData, axiosConfig);
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Authorization': 'Bearer ' + currentUser,
+          },
+          body: formData
+        });
+        const data = await response.json();
         profilePictureUrl = response.data.url;
       }
 
@@ -84,7 +81,14 @@ function SignupPage() {
       };
 
       const url = `${backendURL}/update_user_information`
-      await axios.post(url, userData, axiosConfig);
+      await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer ' + currentUser,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(userData)
+      });
 
     } catch (error) {
       // Handle error
