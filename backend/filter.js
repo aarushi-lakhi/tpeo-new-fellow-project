@@ -10,8 +10,8 @@ const userCollection = db.collection('Users');
 
 // app.use(cors({origin: '*'}));
 
-
-router.get("/find_items/:userEmail/:userSizes/:userClothingArticle/:gender", async (req, res) => {
+// add back parameters::   /:userSizes/:userClothingArticle/:gender
+router.get("/find_items/:userEmail", async (req, res) => {
 
     res.header('Access-Control-Allow-Origin', '*');
 

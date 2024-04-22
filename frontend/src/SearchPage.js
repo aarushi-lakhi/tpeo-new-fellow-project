@@ -122,7 +122,8 @@ const SearchPage = () => {
             redirect: "follow"
           };
 
-          const url = `${backendURL}/filter/find_items/` + currentUser.email + "/" + sizes + "/" + userClothingArticle + "/" + genders; 
+          // add back later::     + "/" + sizes + "/" + userClothingArticle + "/" + genders
+          const url = `${backendURL}/filter/find_items/` + currentUser.email ; 
           const response = await fetch(url, requestOptions); 
           const data = await response.json();
           if (Array.isArray(data)) {
