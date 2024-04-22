@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { storage } from './firebaseConfig';
+import { ref, uploadBytes, listAll, getDownloadURL } from 'firebase/storage';
+import { v4 } from 'uuid';
 import Typography from '@mui/material/Typography';
 import { Box, Grid, TextField } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -43,58 +46,128 @@ function SignupPage() {
     setCurrentStep(currentStep - 1);
   };
 
-  const handleImageUpload = (event) => {
+  const handleImageUpload = async (event) => {
     const file = event.target.files[0];
-    setProfilePicture(file);
+    const url = await uploadSpecificImage(file);
+    setProfilePicture(url);
   };
 
   const handleSubmit = async () => {
-    try {
-      // Upload profile picture
-      let profilePictureUrl = '';
-      if (profilePicture) {
-        const formData = new FormData();
-        formData.append('image', profilePicture);
+  //   try {
+  //     // Upload profile picture
+  //     let profilePictureUrl = '';
+  //     if (profilePicture) {
+  //       const formData = new FormData();
+  //       formData.append('image', profilePicture);
 
-        const url = `${backendURL}/upload_image`
-        const response = await fetch(url, {
-          method: 'POST',
-          headers: {
-            'Authorization': 'Bearer ' + currentUser,
-          },
-          body: formData
-        });
-        const data = await response.json();
-        profilePictureUrl = response.data.url;
-      }
+  //       const url = `${backendURL}/user/upload_image`
+  //       const response = await fetch(url, {
+  //         method: 'POST',
+  //         headers: {
+  //           'Authorization': 'Bearer ' + currentUser,
+  //         },
+  //         body: formData
+  //       });
+  //       const data = await response.json();
+  //       profilePictureUrl = response.data.url;
+  //     }
 
-      // Submit form data
-      const userData = {
-        userEmail: currentUser.email,
-        userPhoneNumber: phoneNumber,
-        userSnapchat: snapchat,
-        userInstagram: instagram,
-        userLocation1: location1,
-        userLocation2: location2,
-        userLocation3: location3,
-        userProfilePicture: profilePictureUrl,
-      };
+  //     // Submit form data
+  //     const userData = {
+  //       userEmail: currentUser.email,
+  //       userPhoneNumber: phoneNumber,
+  //       userSnapchat: snapchat,
+  //       userInstagram: instagram,
+  //       userLocation1: location1,
+  //       userLocation2: location2,
+  //       userLocation3: location3,
+  //       userProfilePicture: profilePictureUrl,
+  //     };
 
-      const url = `${backendURL}/update_user_information`
-      await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Authorization': 'Bearer ' + currentUser,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(userData)
-      });
+  //     const url = `${backendURL}/user/create_user`
+  //     await fetch(url, {
+  //       method: 'POST',
+  //       headers: {
+  //         'Authorization': 'Bearer ' + currentUser.idToken,
+  //         'Content-Type': 'application/json'
+  //       },
+  //       body: JSON.stringify(userData)
+  //     });
 
-    } catch (error) {
-      // Handle error
-      console.error('Error submitting form:', error);
+  //   } catch (error) {
+  //     // Handle error
+  //     console.error('Error submitting form:', error);
+  //   }
+  // };
+  try {
+    const backendURL = process.env.REACT_APP_BACKEND;
+    const idToken = await currentUser.getIdToken(); 
+
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    const token = "Bearer " +  idToken; 
+    myHeaders.append("Authorization", token);
+
+    // Upload profile picture
+    // let profilePictureUrl = '';
+    // if (profilePicture) {
+    //   const formData = new FormData();
+    //   formData.append('image', profilePicture);
+
+    //   const url = `${backendURL}/user/upload_image`
+    //     const response = await fetch(url, {
+    //       method: 'POST',
+    //       headers: {
+    //         'Authorization': 'Bearer ' + currentUser,
+    //       },
+    //       body: formData
+    //     });
+    //     const data = await response.json();
+    //     profilePictureUrl = response.data.url;
+    // }
+
+    const raw = JSON.stringify({
+            userEmail: currentUser.email,
+            userPhoneNumber: phoneNumber,
+            userSnapchat: snapchat,
+            userInstagram: instagram,
+            userLocation1: location1,
+            userLocation2: location2,
+            userLocation3: location3,
+            userProfilePicture: profilePicture,
+            userName: currentUser.displayName, 
+    });
+
+    const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow"
+    };
+    const url = `${backendURL}/item/upload_item_test`
+    const response = await fetch(url, requestOptions);
+    const result = await response.text(); 
+    } catch(e) {
+    // ERROR 
+    console.log(e); 
     }
-  };
+  }
+
+  const uploadSpecificImage = async (imageToUpload) => {
+    const imageRef = ref(storage, `images/${imageToUpload.name + v4()}`);
+    try {
+        const imageRef = ref(storage, `images/${imageToUpload.name + v4()}`);
+        const snapshot = await uploadBytes(imageRef, imageToUpload);
+        const url = await getDownloadURL(snapshot.ref);
+        return url; 
+    } catch (error) {
+        console.error("Error uploading image:", error);
+        return null; 
+    }
+};
+
+
+
 
   return (
     <div>

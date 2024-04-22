@@ -14,21 +14,21 @@ router.use(bodyParser.urlencoded({ extended: true }));
 // POST endpoint to create a new user
 router.post("/create_user", async (req, res) => {
     try {
-        const { userEmail, userName } = req.body;
+        const { userEmail, userPhoneNumber, userSnapchat, userInstagram, userLocation1, userLocation2, userLocation3, userProfilePicture, userName} = req.body;
 
         // Create a new user document in the Users collection
         await userCollection.doc(userEmail).set({
             email: userEmail,
             name: userName,
-            instagram: "",
-            snapchat: "",
-            phoneNumber: "",
+            instagram: userInstagram,
+            snapchat: userSnapchat,
+            phoneNumber: userPhoneNumber,
             clothingItems: [],
             successfulTransactions: [],
-            profilePicture: "",
-            location1: "",
-            location2: "",
-            location3: ""
+            profilePicture: userProfilePicture,
+            location1: userLocation1,
+            location2: userLocation2,
+            location3: userLocation3
         });
         res.status(200).send({ success: "User created successfully." });
     } catch (error) {
