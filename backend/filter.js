@@ -40,8 +40,9 @@ router.get("/find_items/:userEmail/:userSizes/:userClothingArticle/:gender", asy
     // Find documents with matching tags and add json to "return_documents"
     for(doc of product_collection_all_documents) {
         // Get relevant fields from each document 
-        const {userDocumentReference, size, clothingArticle, visibilityStatus, gender} = doc.data();  
-
+        const {userDocumentReference, size, clothingArticle, visibilityStatus, gender} = doc.data(); 
+        console.log("fix");  
+        console.log(doc.data()); 
         // Get Corresponding User Document
         const docSnapshot = await (userDocumentReference.get());
         const {Email} = docSnapshot.data(); 
@@ -78,7 +79,7 @@ router.get("/find_items/:userEmail/:userSizes/:userClothingArticle/:gender", asy
             }
         }
     } 
-    res.status(200).json([])
+    res.status(200).json(return_documents)
 })
 
 module.exports = router; 
