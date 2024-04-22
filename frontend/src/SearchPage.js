@@ -123,7 +123,8 @@ const SearchPage = () => {
           };
 
           // add back later::     + "/" + sizes + "/" + userClothingArticle + "/" + genders
-          const url = `${backendURL}/filter/find_items/` + currentUser.email ; 
+          const url = `${backendURL}/filter/find_items/` + currentUser.email + "/" + sizes[0] + "/" + userClothingArticle + "/" + genders[0]; 
+          console.log(url); 
           const response = await fetch(url, requestOptions); 
           const data = await response.json();
           if (Array.isArray(data)) {
