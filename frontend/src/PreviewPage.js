@@ -72,9 +72,11 @@ const PreviewPage = () => {
                     <Typography variant="h3" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'start', color: '#000000'}}>
                         {userData.title}
                     </Typography>
-                    <Typography variant="h5" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'start', color: '#000000'}}>
-                        {"Seller: " + sellerText}
-                    </Typography>
+                    {/* {sellerText !== null && 
+                        <Typography variant="h5" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'start', color: '#000000'}}>
+                            {"Seller: " + sellerText}
+                        </Typography>
+                    } */}
                     <Typography variant="h5" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'start', color: '#000000'}}>
                         {"Size: " + userData.size}
                     </Typography>

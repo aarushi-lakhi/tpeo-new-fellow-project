@@ -155,9 +155,6 @@ const MakeTrade = () => {
                         {userData.title}
                     </Typography>
                     <Typography variant="h5" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'start', color: '#000000'}}>
-                        {"Seller: " + userData.userDocumentReference.Name}
-                    </Typography>
-                    <Typography variant="h5" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'start', color: '#000000'}}>
                         {"Size: " + userData.size}
                     </Typography>
                     <Typography variant="h5" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'start', color: '#000000'}}>
