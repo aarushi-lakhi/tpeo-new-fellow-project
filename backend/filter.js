@@ -6,9 +6,9 @@ const {getDoc} = require('firebase/firestore');
 const db = require('./firebase')
 const productCollection = db.collection('Product');
 const userCollection = db.collection('Users'); 
-const cors = require('cors'); 
+// const cors = require('cors'); 
 
-app.use(cors({origin: '*'}));
+// app.use(cors({origin: '*'}));
 
 
 router.get("/find_items/:userEmail/:userSizes/:userClothingArticle/:gender", async (req, res) => {
