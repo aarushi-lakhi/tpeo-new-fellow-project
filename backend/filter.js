@@ -9,6 +9,9 @@ const userCollection = db.collection('Users');
 
 
 router.get("/find_items/:userEmail/:userSizes/:userClothingArticle/:gender", async (req, res) => {
+
+    res.set('Access-Control-Allow-Origin', '*');
+    
     // Extract Request Body 
     const userEmail = req.params.userEmail;
     const userSizes = ((req.params.userSizes) || "").split(',');
