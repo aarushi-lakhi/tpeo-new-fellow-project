@@ -134,11 +134,11 @@ export default function ConfirmTradeModal({modalValue, theirOffer, yourItem}) {
                             Trade confirmed! 
                     </Typography>
                     <Typography p={4} variant="h6" sx={{fontFamily: 'Poppins', fontWeight: "1000", textAlign: 'center', color: '#000000'}}>
-                        Reach out to 
+                        Reach out to{' '}
                         <span style={{ color: 'blue', textDecoration: 'underline', cursor: 'pointer' }}>
                           shivansh.nikhra@utexas.edu
                         </span>
-                         to trade your items!
+                        {' '}to trade your items!
                         {/* CHANGE ABOVE LINK LATER  */}
                     </Typography>
                 </Stack>
