@@ -247,7 +247,7 @@ function SignupPage() {
 
             {/* Conditionally render the uploaded image */}
             {profilePicture ? (
-              <img src={URL.createObjectURL(profilePicture)} alt="profile" style={{ width: '70%', borderRadius: '2vw 2vw 2vw 2vw', margin: '2vw auto' }} />
+              <img src={profilePicture} alt="profile" style={{ width: '70%', borderRadius: '2vw 2vw 2vw 2vw', margin: '2vw auto' }} />
             ) : (
               // <label htmlFor="image-upload" style={{ cursor: 'pointer' }}>
                 <Box
