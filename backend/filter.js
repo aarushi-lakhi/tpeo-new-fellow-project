@@ -44,7 +44,7 @@ router.get("/find_items/:userEmail/:userSizes/:userClothingArticle/:gender", asy
         // const userReferenceDoc = await userDocumentReference.get(); 
         // const {Email} = userReferenceDoc.data(); 
 
-        if(visibilityStatus) { // userEmail !== Email && CHANGE THIS BACK 
+        if(visibilityStatus && userEmail !== Email) {
             var sizeCheck = false; 
             var genderCheck = false; 
             
