@@ -144,7 +144,7 @@ function SignupPage() {
         body: raw,
         redirect: "follow"
     };
-    const url = `${backendURL}/item/upload_item_test`
+    const url = `${backendURL}/user/create_user`
     const response = await fetch(url, requestOptions);
     const result = await response.text(); 
     } catch(e) {
