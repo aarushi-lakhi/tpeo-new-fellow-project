@@ -4,6 +4,7 @@ const express = require("express");
 const app = express();
 
 app.use(cors({origin: '*'}));
+app.options('*', cors()); // include before other routes
 
 const filterRouter = require("./filter"); 
 const inventoryRouter = require("./inventory")
