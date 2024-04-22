@@ -13,76 +13,76 @@ const userCollection = db.collection('Users');
 // add back parameters::   /:userSizes/:userClothingArticle/:gender
 router.get("/find_items/:userEmail", async (req, res) => {
 
-    res.header('Access-Control-Allow-Origin', '*');
+    // res.header('Access-Control-Allow-Origin', '*');
 
-    // Extract Request Body 
-    const userEmail = req.params.userEmail;
-    const userSizes = ((req.params.userSizes) || "").split(',');
-    if(userSizes.length === 0) {
-        userSizes = ["XS", "S", "M", "L", "XL"]; 
-    }
-    const userClothingArticle = req.params.userClothingArticle; 
-    const userGenders = ((req.params.gender) || "").split(','); 
-    if(userGenders.length === 0) {
-        userGenders = ["Male", "Female", "Unisex"]; 
-    }
+    // // Extract Request Body 
+    // const userEmail = req.params.userEmail;
+    // const userSizes = ((req.params.userSizes) || "").split(',');
+    // if(userSizes.length === 0) {
+    //     userSizes = ["XS", "S", "M", "L", "XL"]; 
+    // }
+    // const userClothingArticle = req.params.userClothingArticle; 
+    // const userGenders = ((req.params.gender) || "").split(','); 
+    // if(userGenders.length === 0) {
+    //     userGenders = ["Male", "Female", "Unisex"]; 
+    // }
 
-    const return_documents = [];
-    const product_collection_all_documents = []; 
+    // const return_documents = [];
+    // const product_collection_all_documents = []; 
 
-    // Get all documents in product collection
-    const product_collection_documents = await productCollection.get(); 
+    // // Get all documents in product collection
+    // const product_collection_documents = await productCollection.get(); 
 
-    // Extract all the documents in product collection and save them in "product_collection_all_documents"
-    product_collection_documents.forEach((doc) => {
-        product_collection_all_documents.push(doc); 
-    })
+    // // Extract all the documents in product collection and save them in "product_collection_all_documents"
+    // product_collection_documents.forEach((doc) => {
+    //     product_collection_all_documents.push(doc); 
+    // })
 
-    // Find documents with matching tags and add json to "return_documents"
-    for(doc of product_collection_all_documents) {
-        // Get relevant fields from each document 
-        const {userDocumentReference, size, clothingArticle, visibilityStatus, gender} = doc.data();  
+    // // Find documents with matching tags and add json to "return_documents"
+    // for(doc of product_collection_all_documents) {
+    //     // Get relevant fields from each document 
+    //     const {userDocumentReference, size, clothingArticle, visibilityStatus, gender} = doc.data();  
 
-        // Get Corresponding User Document
-        const docSnapshot = await (userDocumentReference.get());
-        const {Email} = docSnapshot.data(); 
+    //     // Get Corresponding User Document
+    //     const docSnapshot = await (userDocumentReference.get());
+    //     const {Email} = docSnapshot.data(); 
 
-        // const userReferenceDoc = await userDocumentReference.get(); 
-        // const {Email} = userReferenceDoc.data(); 
+    //     // const userReferenceDoc = await userDocumentReference.get(); 
+    //     // const {Email} = userReferenceDoc.data(); 
 
-        if(visibilityStatus && userEmail !== Email) {
-            var sizeCheck = false; 
-            var genderCheck = false; 
+    //     if(visibilityStatus && userEmail !== Email) {
+    //         var sizeCheck = false; 
+    //         var genderCheck = false; 
             
-            for(let i = 0; i < userSizes.length; i++) {
-                if(userSizes[i] === size) {
-                    sizeCheck = true; 
-                    break; 
-                }
-            }
-            for(let i = 0; i < userGenders.length; i++) {
-                if(userGenders[i] === gender) {
-                    genderCheck = true; 
-                    break; 
-                }
-            }
-            if(sizeCheck && clothingArticle === userClothingArticle && genderCheck) {
-                const docData = doc.data() 
+    //         for(let i = 0; i < userSizes.length; i++) {
+    //             if(userSizes[i] === size) {
+    //                 sizeCheck = true; 
+    //                 break; 
+    //             }
+    //         }
+    //         for(let i = 0; i < userGenders.length; i++) {
+    //             if(userGenders[i] === gender) {
+    //                 genderCheck = true; 
+    //                 break; 
+    //             }
+    //         }
+    //         if(sizeCheck && clothingArticle === userClothingArticle && genderCheck) {
+    //             const docData = doc.data() 
 
-                const userDocument = await docData.userDocumentReference.get(); 
-                const userDocuementData = userDocument.data(); 
+    //             const userDocument = await docData.userDocumentReference.get(); 
+    //             const userDocuementData = userDocument.data(); 
 
-                delete docData["offered"] 
-                delete docData["offering"] 
-                delete docData["visibilityStatus"] 
-                delete docData["userDocumentReference"] 
-                docData["userDocumentReference"] = userDocuementData; 
-                docData["user"] = Email 
-                return_documents.push(docData) 
-            }
-        }
-    } 
-    res.status(200).json(return_documents)
+    //             delete docData["offered"] 
+    //             delete docData["offering"] 
+    //             delete docData["visibilityStatus"] 
+    //             delete docData["userDocumentReference"] 
+    //             docData["userDocumentReference"] = userDocuementData; 
+    //             docData["user"] = Email 
+    //             return_documents.push(docData) 
+    //         }
+    //     }
+    // } 
+    res.status(200).json([])
 })
 
 module.exports = router; 
