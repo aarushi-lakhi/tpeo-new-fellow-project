@@ -6,12 +6,15 @@ const {getDoc} = require('firebase/firestore');
 const db = require('./firebase')
 const productCollection = db.collection('Product');
 const userCollection = db.collection('Users'); 
+const cors = require('cors'); 
+
+app.use(cors({origin: '*'}));
 
 
 router.get("/find_items/:userEmail/:userSizes/:userClothingArticle/:gender", async (req, res) => {
 
     res.set('Access-Control-Allow-Origin', '*');
-    
+
     // Extract Request Body 
     const userEmail = req.params.userEmail;
     const userSizes = ((req.params.userSizes) || "").split(',');

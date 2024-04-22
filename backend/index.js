@@ -1,4 +1,10 @@
+const cors = require('cors'); 
+
 const express = require("express");
+const app = express();
+
+app.use(cors({origin: '*'}));
+
 const filterRouter = require("./filter"); 
 const inventoryRouter = require("./inventory")
 const uploadItemTestRouter = require("./upload_item_test")
@@ -6,22 +12,21 @@ const userRouter = require("./user")
 const offerRouter = require("./offer.js")
 require("dotenv").config();
 
-const app = express();
+
 
 const db = require('./firebase')
 const admin = require('firebase-admin');
-const cors = require('cors'); 
+// const cors = require('cors'); 
 
 const productCollection = db.collection('Product');
 const userCollection = db.collection('Users'); 
 
 // app.use(cors()); 
-app.use(cors({origin: '*'}));
-app.use(function(req, res, next) { 
-  res.header("Access-Control-Allow-Origin", "https://barter-buddies-frontend.vercel.app"); 
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept"); 
-  next(); 
-});
+// app.use(function(req, res, next) { 
+//   res.header("Access-Control-Allow-Origin", "https://barter-buddies-frontend.vercel.app"); 
+//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept"); 
+//   next(); 
+// });
 app.use(express.json());
 app.use("/filter", filterRouter);
 app.use("/inventory", inventoryRouter); 
