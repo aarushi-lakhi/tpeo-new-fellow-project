@@ -16,7 +16,7 @@ const productCollection = db.collection('Product');
 const userCollection = db.collection('Users'); 
 
 // app.use(cors()); 
-app.use(cors({origin: 'https://barter-buddies-frontend.vercel.app'}));
+app.use(cors({origin: '*'}));
 app.use(express.json());
 app.use("/filter", filterRouter);
 app.use("/inventory", inventoryRouter); 
